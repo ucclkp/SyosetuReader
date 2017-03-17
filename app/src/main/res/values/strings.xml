@@ -1,0 +1,92 @@
+<resources>
+    <string name="app_name">SyosetuReader</string>
+
+    <string name="nav_draw_open">Open</string>
+    <string name="nav_draw_close">Close</string>
+
+    <string name="drawer_head_title">点击登陆</string>
+
+    <string name="site_novel">小説を読もう</string>
+    <string name="site_novel18">ノクターンノベルズ</string>
+
+    <string name="type_short">短編</string>
+    <string name="type_series">連載</string>
+
+    <string name="source_cache">Cache ver</string>
+    <string name="source_download">Download ver</string>
+    <string name="source_network">Network ver</string>
+
+    <string name="novel">小説</string>
+    <string name="author">作者</string>
+    <string name="novel_info">小説情报</string>
+    <string name="settings">设定</string>
+    <string name="login">ログイン</string>
+    <string name="about">关于</string>
+
+    <string name="list_footer_error">エラーが発生しました。</string>
+    <string name="list_footer_nomore">NO MORE DATA</string>
+
+    <string name="author_prefix">作者：</string>
+    <string name="genre_prefix">ジャンル：</string>
+    <string name="keyword_prefix">キーワード：</string>
+    <string name="lastupdate_prefix">最終更新日：</string>
+    <string name="readtime_prefix">読了時間：</string>
+    <string name="weekuu_prefix">週別ユニークユーザ：</string>
+    <string name="review_prefix">レビュー数：</string>
+    <string name="ncode_prefix">Nコード：</string>
+    <string name="overall_prefix">総合評価ポイント：</string>
+    <string name="rankuc_prefix">評価人数：</string>
+    <string name="rankpoint_prefix">評価点：</string>
+    <string name="bookmark_prefix">ブックマーク：</string>
+
+    <string name="pc_contribute">PC投稿</string>
+    <string name="mb_contribute">ケータイ投稿</string>
+    <string name="illust_contribute">挿絵あり</string>
+
+    <string name="sort_notorder">おまかせ順</string>
+    <string name="sort_new">新着順</string>
+    <string name="sort_weekly">週間ユニークアクセスが多い順</string>
+    <string name="sort_favnovelcnt">ブックマーク登録の多い順</string>
+    <string name="sort_reviewcnt">レビューの多い順</string>
+    <string name="sort_hyoka">総合評価の高い順</string>
+    <string name="sort_dailypoint">日間ポイントの高い順</string>
+    <string name="sort_weeklypoint">週間ポイントの高い順</string>
+    <string name="sort_monthlypoint">月間ポイントの高い順</string>
+    <string name="sort_quarterpoint">四半期ポイントの高い順</string>
+    <string name="sort_yearlypoint">年間ポイントの高い順</string>
+    <string name="sort_hyokacnt">評価者数の多い順</string>
+    <string name="sort_lengthdesc">文字数の多い順</string>
+    <string name="sort_lengthasc">文字数の少ない順</string>
+    <string name="sort_ncodedesc">Nコードが新しい順</string>
+    <string name="sort_old">古い順</string>
+
+    <string name="type_all">すべての種別</string>
+    <string name="type_short_only">短編のみ</string>
+    <string name="type_end_only">完結済のみ(短編小説含む)</string>
+    <string name="type_serializing_only">連載中小説のみ</string>
+    <string name="type_all_serial">すべての連載小説</string>
+    <string name="type_end_serial_only">完結済連載小説のみ</string>
+
+    <string name="font_default">Default</string>
+
+
+    <string name="age_cert">年齢認証</string>
+    <string name="age_cert_tip">
+        18歳未満（高校生以下）の方の立ち入りを禁じます。 あなたは18歳以上ですか？
+    </string>
+
+    <string name="ssl_tip">
+        このページは、サーバ証明書により実在性が認証されています。
+        SSLページでは通信が暗号化され、プライバシーが守られています。
+    </string>
+
+    <string name="about_title">SyosetuReader</string>
+    <string name="about_intro">
+        小説家になろう 网站的一个简单客户端。\n作者: ucclkp(ucclkp@163.com)
+    </string>
+    <string name="about_opensource_title">开放源代码许可</string>
+    <string name="about_os_android_sdk">Android SDK</string>
+    <string name="about_os_android_support_library">Android Support Library</string>
+    <string name="about_os_disklrucache">DiskLruCache</string>
+
+</resources>

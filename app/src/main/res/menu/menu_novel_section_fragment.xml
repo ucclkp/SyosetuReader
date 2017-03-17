@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_novel_section_fragment_action_prev"
+        android:icon="@drawable/ic_nav_prev"
+        android:title="前の話"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/menu_novel_section_fragment_action_next"
+        android:icon="@drawable/ic_nav_next"
+        android:title="次の話"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/menu_novel_section_fragment_action_format"
+        android:title="格式..."
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_novel_section_fragment_action_copy"
+        android:title="复制NCODE"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_novel_section_fragment_action_copy_url"
+        android:title="复制网页链接"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_novel_section_fragment_action_open_browser"
+        android:title="在浏览器中打开"
+        app:showAsAction="never"/>
+
+</menu>

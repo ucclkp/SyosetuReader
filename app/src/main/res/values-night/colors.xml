@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="color_red">#B71C1C</color>
+    <color name="color_blue">#0D47A1</color>
+    <color name="color_green">#1B5E20</color>
+    <color name="color_yellow">#F57F17</color>
+
+    <color name="color_disable_tint">#33FFFFFF</color>
+
+    <color name="color_except">#E65100</color>
+    <color name="color_cardview">#323232</color>
+    <color name="color_popup_background">#44000000</color>
+    <color name="color_swipe_background">@color/color_cardview</color>
+
+    <color name="textColorPrimaryDark">#9E9E9E</color>
+    <color name="textColorSecondaryDark">#757575</color>
+
+    <color name="text_color_viewed">#88757575</color>
+    <color name="border_color_thumb">#BDBDBD</color>
+    <color name="divider_color">#1FFFFFFF</color>
+    <color name="chip_color">#1FFFFFFF</color>
+    <color name="ac_yes_text_color">#F57F17</color>
+
+    <color name="chip_pc_color">#0D47A1</color>
+    <color name="chip_mb_color">#1B5E20</color>
+    <color name="chip_illust_color">#5D4037</color>
+
+</resources>

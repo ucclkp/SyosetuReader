@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_novel_content_fragment_action_fav"
+        android:icon="@drawable/ic_favorite_border"
+        android:title="收藏"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/menu_novel_content_fragment_action_dl"
+        android:icon="@drawable/ic_download"
+        android:title="下载"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/menu_novel_content_fragment_action_author"
+        android:icon="@drawable/ic_account_circle"
+        android:title="作者"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/menu_novel_content_fragment_action_novelinfo"
+        android:icon="@drawable/ic_info"
+        android:title="小説情報"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/menu_novel_content_fragment_action_feel"
+        android:title="感想"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/menu_novel_content_fragment_action_review"
+        android:title="レビュー"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/menu_novel_content_fragment_action_format"
+        android:title="格式..."
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_novel_content_fragment_action_copy_ncode"
+        android:title="复制NCODE"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_novel_content_fragment_action_copy_url"
+        android:title="复制网页链接"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_novel_content_fragment_action_open_browser"
+        android:title="在浏览器中打开"
+        app:showAsAction="never"/>
+
+</menu>

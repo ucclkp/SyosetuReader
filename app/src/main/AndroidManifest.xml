@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.ucclkp.syosetureader">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application
+        android:name=".UApplication"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTop"
+            android:theme="@style/MainTheme"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".novel.NovelActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/novel"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/NovelTheme">
+        </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/settings"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity
+            android:name=".author.AuthorActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/author"
+            android:theme="@style/NovelTheme">
+        </activity>
+        <activity
+            android:name=".novelinfo.NovelInfoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/novel_info"
+            android:theme="@style/NovelTheme">
+        </activity>
+
+        <service
+            android:name=".NovelDownloadService"
+            android:exported="false">
+        </service>
+
+        <activity
+            android:name=".login.LoginActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/login"
+            android:theme="@style/NovelTheme">
+        </activity>
+
+        <activity
+            android:name=".about.AboutActivity"
+            android:label="@string/about"
+            android:theme="@style/AppTheme">
+        </activity>
+    </application>
+
+</manifest>

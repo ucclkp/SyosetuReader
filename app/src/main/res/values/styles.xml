@@ -1,0 +1,46 @@
+<resources>
+
+    <style name="TextAssistWindowAnimation">
+        <item name="android:windowEnterAnimation">@anim/text_assist_window_show</item>
+        <item name="android:windowExitAnimation">@anim/text_assist_window_hide</item>
+    </style>
+
+
+    <style name="ToolbarTitleAppearance" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="ToolbarSubtitleAppearance" parent="TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+
+    <style name="NovelInfoTitleAppearance">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">?attr/colorAccent</item>
+    </style>
+
+
+    <style name="ToolbarStyle" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+    </style>
+
+    <style name="ToolbarPopupStyle" parent="ThemeOverlay.AppCompat.Light">
+    </style>
+
+
+    <style name="FormatBottomDialog" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:spinnerItemStyle">@style/SpinnerItemStyle</item>
+        <item name="spinnerDropDownItemStyle">@style/SpinnerDropDownItemStyle</item>
+    </style>
+
+
+    <style name="SpinnerItemStyle" parent="Widget.AppCompat.TextView.SpinnerItem">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="SpinnerDropDownItemStyle" parent="Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+</resources>

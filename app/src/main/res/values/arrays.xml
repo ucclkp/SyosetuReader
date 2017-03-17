@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="search_sort_name">
+        <item>@string/sort_notorder</item>
+        <item>@string/sort_new</item>
+        <item>@string/sort_weekly</item>
+        <item>@string/sort_favnovelcnt</item>
+        <item>@string/sort_reviewcnt</item>
+        <item>@string/sort_hyoka</item>
+        <item>@string/sort_dailypoint</item>
+        <item>@string/sort_weeklypoint</item>
+        <item>@string/sort_monthlypoint</item>
+        <item>@string/sort_quarterpoint</item>
+        <item>@string/sort_yearlypoint</item>
+        <item>@string/sort_hyokacnt</item>
+        <item>@string/sort_lengthdesc</item>
+        <item>@string/sort_lengthasc</item>
+        <item>@string/sort_ncodedesc</item>
+        <item>@string/sort_old</item>
+    </string-array>
+
+    <string-array name="search_type_name">
+        <item>@string/type_all</item>
+        <item>@string/type_short_only</item>
+        <item>@string/type_end_only</item>
+        <item>@string/type_serializing_only</item>
+        <item>@string/type_all_serial</item>
+        <item>@string/type_end_serial_only</item>
+    </string-array>
+
+    <string-array name="font_list">
+        <item>@string/font_default</item>
+    </string-array>
+
+</resources>

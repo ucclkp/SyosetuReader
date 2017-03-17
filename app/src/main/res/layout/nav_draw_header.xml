@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="@dimen/navigation_drawer_header_height"
+             android:background="#006064">
+
+    <TextView
+        android:id="@+id/tv_nav_draw_header_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|bottom"
+        android:layout_marginBottom="12dp"
+        android:layout_marginStart="24dp"
+        android:clickable="true"
+        android:text="@string/drawer_head_title"
+        android:textColor="@color/color_white"
+        android:textSize="18sp"/>
+
+</FrameLayout>

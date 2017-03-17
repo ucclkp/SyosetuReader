@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/cv_search_assist"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:theme="@style/ToolbarStyle">
+
+    <ImageButton
+        android:id="@+id/ib_close_search_assist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="14dp"
+        android:layout_marginStart="10dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:padding="2dp"
+        android:src="@drawable/ic_close"
+        android:visibility="gone"/>
+
+    <EditText
+        android:id="@+id/et_exkey_search_assist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="56dp"
+        android:layout_toStartOf="@+id/ib_close_search_assist"
+        android:background="@null"
+        android:hint="排除キーワード"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:padding="16dp"/>
+
+</RelativeLayout>

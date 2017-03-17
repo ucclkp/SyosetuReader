@@ -1,0 +1,18 @@
+<resources>
+
+    <style name="ToolbarStyle" parent="ThemeOverlay.AppCompat.ActionBar">
+    </style>
+
+    <style name="ToolbarPopupStyle" parent="ThemeOverlay.AppCompat.ActionBar">
+    </style>
+
+
+    <style name="FormatBottomDialog" parent="Theme.Design.BottomSheetDialog">
+        <item name="android:textColorPrimary">@color/textColorPrimaryDark</item>
+        <item name="android:textColorSecondary">@color/textColorSecondaryDark</item>
+
+        <item name="android:spinnerItemStyle">@style/SpinnerItemStyle</item>
+        <item name="spinnerDropDownItemStyle">@style/SpinnerDropDownItemStyle</item>
+    </style>
+
+</resources>

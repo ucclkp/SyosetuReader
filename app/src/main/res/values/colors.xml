@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#00695C</color>
+    <color name="colorPrimaryDark">#004D40</color>
+
+    <color name="color_red">#F44336</color>
+    <color name="color_blue">#2196F3</color>
+    <color name="color_green">#4CAF50</color>
+    <color name="color_yellow">#FFEB3B</color>
+
+    <color name="color_white">#FFF</color>
+    <color name="color_black">#000</color>
+    <color name="transparent">#00000000</color>
+
+    <color name="color_disable_tint">#22000000</color>
+
+    <color name="color_except">#E65100</color>
+    <color name="color_cardview">@color/color_white</color>
+    <color name="color_popup_background">#44000000</color>
+
+    <color name="text_color_viewed">#44000000</color>
+    <color name="border_color_thumb">#424242</color>
+    <color name="divider_color">#1F000000</color>
+    <color name="chip_color">#1F000000</color>
+    <color name="ac_yes_text_color">#E65100</color>
+
+    <color name="chip_pc_color">#64B5F6</color>
+    <color name="chip_mb_color">#66BB6A</color>
+    <color name="chip_illust_color">#FFEB3B</color>
+
+    <color name="read_bg_color_white">#FFFFFF</color>
+    <color name="read_bg_color_yellow">#FAF9DE</color>
+    <color name="read_bg_color_brown">#FFF2E2</color>
+    <color name="read_bg_color_red">#FDE6E0</color>
+    <color name="read_bg_color_green">#E3EDCD</color>
+    <color name="read_bg_color_gray">#EAEAEF</color>
+
+    <color name="read_bg_color_night_black">#000000</color>
+</resources>

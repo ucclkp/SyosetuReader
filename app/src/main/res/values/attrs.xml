@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="StaticTextView">
+        <attr name="textSize" format="dimension|reference"/>
+        <attr name="textColor" format="color|reference"/>
+        <attr name="textLinkColor" format="color|reference"/>
+        <attr name="lineSpacingMult" format="float|reference"/>
+        <attr name="lineSpacingAdd" format="float|reference"/>
+        <attr name="typeface" format="string">
+        </attr>
+    </declare-styleable>
+
+</resources>
