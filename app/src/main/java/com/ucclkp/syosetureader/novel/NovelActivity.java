@@ -112,8 +112,9 @@ public class NovelActivity extends AppCompatActivity implements
                     mIsExitByUser = true;
                     mNovelFragment.notifyNovelActivityExit();
 
-                    Intent upIntent = NavUtils.getParentActivityIntent(this);
-                    NavUtils.navigateUpTo(this, upIntent);
+                    finish();
+                    //Intent upIntent = NavUtils.getParentActivityIntent(this);
+                    //NavUtils.navigateUpTo(this, upIntent);
                 }
                 return true;
             }
@@ -153,7 +154,7 @@ public class NovelActivity extends AppCompatActivity implements
     protected void onDestroy()
     {
         super.onDestroy();
-        mCacheManager.close();
+        //mCacheManager.close();
     }
 
     @Override

@@ -213,6 +213,9 @@ public class DownloadFragment extends Fragment
                     break;
             }
 
+            if (name == null || name.isEmpty())
+                name = ncode;
+
             mListAdapter.add(0,
                     ncode, name, url,
                     parseState(state), site,
@@ -258,7 +261,7 @@ public class DownloadFragment extends Fragment
             else
                 novelTitle = block.novelTitle;
 
-            mListAdapter.modify(block.novelCode, novelTitle,
+            mListAdapter.modifyDirectly(block.novelCode, novelTitle,
                     block.novelUrl, parseState(block.state),
                     SyosetuUtility.getNovelSite(getActivity(), block.novelSite),
                     SyosetuUtility.getTypeStr(getActivity(), block.isShortNovel), have, total);

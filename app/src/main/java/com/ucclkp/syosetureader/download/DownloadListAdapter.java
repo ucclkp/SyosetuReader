@@ -70,43 +70,7 @@ class DownloadListAdapter extends RecyclerView.Adapter
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
     {
-        BindData data = mDataList.get(position);
-        String site = data.type + "・" + data.site;
-
-        ItemViewHolder iHolder = (ItemViewHolder) holder;
-        iHolder.stateTextView.setText(data.state);
-        iHolder.titleTextView.setText(data.title);
-        iHolder.siteTextView.setText(site);
-
-        ImageView imageView = iHolder.selectionImageView;
-
-        if (mIsShowCheckBox)
-        {
-            imageView.setVisibility(View.VISIBLE);
-            imageView.setImageResource(data.selected ?
-                    R.drawable.ic_selected : R.drawable.ic_unselect);
-        }
-        else
-            imageView.setVisibility(View.GONE);
-
-        if (data.have >= 0 && data.total >= 0)
-        {
-            iHolder.progressBar.setVisibility(View.VISIBLE);
-            iHolder.controlButton.setVisibility(View.VISIBLE);
-            iHolder.progressBar.setMax(data.total);
-            iHolder.progressBar.setProgress(data.have);
-        }
-        else if (data.have == -2 && data.total == -2)
-        {
-            iHolder.progressBar.setVisibility(View.VISIBLE);
-            iHolder.controlButton.setVisibility(View.GONE);
-            iHolder.progressBar.setIndeterminate(true);
-        }
-        else
-        {
-            iHolder.progressBar.setVisibility(View.GONE);
-            iHolder.controlButton.setVisibility(View.GONE);
-        }
+        putDataToView((ItemViewHolder) holder, mDataList.get(position));
     }
 
     @Override
@@ -226,6 +190,109 @@ class DownloadListAdapter extends RecyclerView.Adapter
         }
     }
 
+    public void modifyDirectly(String ncode, boolean selected)
+    {
+        for (int i = 0; i < mDataList.size(); ++i)
+        {
+            BindData data = mDataList.get(i);
+            if (data.ncode.equals(ncode)
+                    && data.selected != selected)
+            {
+                if (selected)
+                    ++mSelectedCount;
+                else
+                    --mSelectedCount;
+
+                data.selected = selected;
+                ItemViewHolder holder = (ItemViewHolder) mListView.findViewHolderForAdapterPosition(i);
+                if (holder == null)
+                    notifyItemChanged(i);
+                else
+                {
+                    ImageView imageView = holder.selectionImageView;
+
+                    if (mIsShowCheckBox)
+                    {
+                        imageView.setVisibility(View.VISIBLE);
+                        imageView.setImageResource(data.selected ?
+                                R.drawable.ic_selected : R.drawable.ic_unselect);
+                    }
+                    else
+                        imageView.setVisibility(View.GONE);
+                }
+                return;
+            }
+        }
+    }
+
+    public void modifyDirectly(String ncode, int have, int total)
+    {
+        for (int i = 0; i < mDataList.size(); ++i)
+        {
+            BindData data = mDataList.get(i);
+            if (data.ncode.equals(ncode))
+            {
+                data.have = have;
+                data.total = total;
+                ItemViewHolder holder = (ItemViewHolder) mListView.findViewHolderForAdapterPosition(i);
+                if (holder == null)
+                    notifyItemChanged(i);
+                else
+                {
+                    if (data.have >= 0 && data.total >= 0)
+                    {
+                        holder.progressBar.setVisibility(View.VISIBLE);
+                        holder.controlButton.setVisibility(View.VISIBLE);
+                        holder.progressBar.setIndeterminate(false);
+                        holder.progressBar.setMax(data.total);
+                        holder.progressBar.setProgress(data.have);
+                    }
+                    else if (data.have == -2 && data.total == -2)
+                    {
+                        holder.progressBar.setVisibility(View.VISIBLE);
+                        holder.controlButton.setVisibility(View.GONE);
+                        holder.progressBar.setIndeterminate(true);
+                    }
+                    else
+                    {
+                        holder.progressBar.setVisibility(View.GONE);
+                        holder.controlButton.setVisibility(View.GONE);
+                    }
+                }
+                return;
+            }
+        }
+    }
+
+    public void modifyDirectly(
+            String ncode, String title, String url,
+            String state, String site, String type, int have, int total)
+    {
+        for (int i = 0; i < mDataList.size(); ++i)
+        {
+            BindData data = mDataList.get(i);
+            if (data.ncode.equals(ncode))
+            {
+                data.url = url;
+                data.state = state;
+                data.title = title;
+                data.site = site;
+                data.type = type;
+                data.ncode = ncode;
+                data.have = have;
+                data.total = total;
+
+                ItemViewHolder holder = (ItemViewHolder) mListView.findViewHolderForAdapterPosition(i);
+                if (holder == null)
+                    notifyItemChanged(i);
+                else
+                    putDataToView(holder, data);
+                return;
+            }
+        }
+    }
+
+
     public void removeSelectedItem()
     {
         SyosetuBooks books = ((UApplication) ((AppCompatActivity) mListView
@@ -306,6 +373,46 @@ class DownloadListAdapter extends RecyclerView.Adapter
             mDataList.clear();
             mSelectedCount = 0;
             notifyItemRangeRemoved(0, size);
+        }
+    }
+
+    private void putDataToView(ItemViewHolder holder, BindData data)
+    {
+        String site = data.type + "・" + data.site;
+
+        holder.stateTextView.setText(data.state);
+        holder.titleTextView.setText(data.title);
+        holder.siteTextView.setText(site);
+
+        ImageView imageView = holder.selectionImageView;
+
+        if (mIsShowCheckBox)
+        {
+            imageView.setVisibility(View.VISIBLE);
+            imageView.setImageResource(data.selected ?
+                    R.drawable.ic_selected : R.drawable.ic_unselect);
+        }
+        else
+            imageView.setVisibility(View.GONE);
+
+        if (data.have >= 0 && data.total >= 0)
+        {
+            holder.progressBar.setVisibility(View.VISIBLE);
+            holder.controlButton.setVisibility(View.VISIBLE);
+            holder.progressBar.setIndeterminate(false);
+            holder.progressBar.setMax(data.total);
+            holder.progressBar.setProgress(data.have);
+        }
+        else if (data.have == -2 && data.total == -2)
+        {
+            holder.progressBar.setVisibility(View.VISIBLE);
+            holder.controlButton.setVisibility(View.GONE);
+            holder.progressBar.setIndeterminate(true);
+        }
+        else
+        {
+            holder.progressBar.setVisibility(View.GONE);
+            holder.controlButton.setVisibility(View.GONE);
         }
     }
 

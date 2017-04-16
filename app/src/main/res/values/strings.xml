@@ -80,6 +80,8 @@
         SSLページでは通信が暗号化され、プライバシーが守られています。
     </string>
 
+    <string name="default_search_url">https://www.baidu.com/s?word=</string>
+
     <string name="about_title">SyosetuReader</string>
     <string name="about_intro">
         小説家になろう 网站的一个简单客户端。\n作者: ucclkp(ucclkp@163.com)
