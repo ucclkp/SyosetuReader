@@ -1,7 +1,6 @@
 package com.ucclkp.syosetureader.home;
 
 import android.text.Html;
-import android.text.TextUtils;
 
 import com.ucclkp.syosetureader.HtmlDataPipeline;
 import com.ucclkp.syosetureader.HtmlUtility;
@@ -96,8 +95,7 @@ class PickupParser extends HtmlDataPipeline<PickupParser.HomeData>
                     item.novelUrl = matcher.group(1).trim();
                     item.novelTitle = Html.fromHtml(
                             matcher.group(2).trim()).toString();
-                }
-                else if (index == 1)
+                } else if (index == 1)
                 {
                     item.authorUrl = matcher.group(1).trim();
                     item.authorName = Html.fromHtml(
@@ -130,8 +128,7 @@ class PickupParser extends HtmlDataPipeline<PickupParser.HomeData>
                     item.novelInfoUrl = secMatcher.group(1).trim();
                     item.novelInfoTitle = secMatcher.group(2).trim();
                     item.extraMsg = secondSep.substring(secMatcher.end()).trim();
-                }
-                else
+                } else
                     item.summary = Html.fromHtml(secondSep).toString();
 
                 item.summary = HtmlUtility.removeLB(item.summary.trim());

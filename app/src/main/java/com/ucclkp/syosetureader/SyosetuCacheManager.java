@@ -77,8 +77,7 @@ public class SyosetuCacheManager
                     new File(mContext.getCacheDir(), "dataCache"),
                     getApplicationVersion(mContext),
                     1, 64 * 1024 * 1024);
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             e.printStackTrace();
         }
@@ -99,15 +98,13 @@ public class SyosetuCacheManager
 
             editor.commit();
             mDiskCache.flush();
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             try
             {
                 if (editor != null)
                     editor.abort();
-            }
-            catch (IOException e1)
+            } catch (IOException e1)
             {
                 succeed = false;
                 e1.printStackTrace();
@@ -144,15 +141,13 @@ public class SyosetuCacheManager
             out.flush();
             editor.commit();
             mDiskCache.flush();
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             try
             {
                 if (editor != null)
                     editor.abort();
-            }
-            catch (IOException e1)
+            } catch (IOException e1)
             {
                 succeed = false;
                 e1.printStackTrace();
@@ -160,15 +155,13 @@ public class SyosetuCacheManager
 
             succeed = false;
             e.printStackTrace();
-        }
-        finally
+        } finally
         {
             try
             {
                 if (out != null)
                     out.close();
-            }
-            catch (IOException e)
+            } catch (IOException e)
             {
                 e.printStackTrace();
             }
@@ -199,8 +192,7 @@ public class SyosetuCacheManager
                 mTextMemCache.put(keyInternal, data);
                 return data;
             }
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             e.printStackTrace();
         }
@@ -227,8 +219,7 @@ public class SyosetuCacheManager
                 mBmpMemCache.put(keyInternal, data);
                 return data;
             }
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             e.printStackTrace();
         }
@@ -248,8 +239,7 @@ public class SyosetuCacheManager
             try
             {
                 mDiskCache.remove(keyInternal);
-            }
-            catch (IOException e)
+            } catch (IOException e)
             {
                 e.printStackTrace();
                 return false;
@@ -279,8 +269,7 @@ public class SyosetuCacheManager
             try
             {
                 mDiskCache.remove(keyInternal);
-            }
-            catch (IOException e)
+            } catch (IOException e)
             {
                 e.printStackTrace();
                 return false;
@@ -305,8 +294,7 @@ public class SyosetuCacheManager
             mBmpMemCache.evictAll();
             mTextMemCache.evictAll();
             mDiskCache.delete();
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             e.printStackTrace();
             return false;
@@ -320,8 +308,7 @@ public class SyosetuCacheManager
         try
         {
             mDiskCache.flush();
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             e.printStackTrace();
             return false;
@@ -335,8 +322,7 @@ public class SyosetuCacheManager
         try
         {
             mDiskCache.close();
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             e.printStackTrace();
             return false;
@@ -359,8 +345,7 @@ public class SyosetuCacheManager
             PackageInfo info = context.getPackageManager()
                     .getPackageInfo(context.getPackageName(), 0);
             return info.versionCode;
-        }
-        catch (PackageManager.NameNotFoundException e)
+        } catch (PackageManager.NameNotFoundException e)
         {
             e.printStackTrace();
         }
@@ -375,13 +360,11 @@ public class SyosetuCacheManager
         try
         {
             hash = MessageDigest.getInstance("MD5").digest(string.getBytes("UTF-8"));
-        }
-        catch (NoSuchAlgorithmException e)
+        } catch (NoSuchAlgorithmException e)
         {
             e.printStackTrace();
             return null;
-        }
-        catch (UnsupportedEncodingException e)
+        } catch (UnsupportedEncodingException e)
         {
             e.printStackTrace();
             return null;

@@ -56,8 +56,7 @@ public class ReplacementDrawableSpan extends ReplacementSpan
             fm.descent = fm.bottom;
 
             spanHeight = fm.bottom - fm.top;
-        }
-        else
+        } else
         {
             Paint.FontMetricsInt fontMetrics
                     = paint.getFontMetricsInt();

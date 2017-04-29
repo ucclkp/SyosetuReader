@@ -35,7 +35,7 @@ public class AboutFragment extends Fragment
             public void onClick(View v)
             {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.fl_content_about_activity, OSLContentFragment.newInstance(((TextView)v).getText().toString()))
+                        .replace(R.id.fl_content_about_activity, OSLContentFragment.newInstance(((TextView) v).getText().toString()))
                         .addToBackStack(null)
                         .commit();
             }
@@ -47,7 +47,7 @@ public class AboutFragment extends Fragment
             public void onClick(View v)
             {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.fl_content_about_activity, OSLContentFragment.newInstance(((TextView)v).getText().toString()))
+                        .replace(R.id.fl_content_about_activity, OSLContentFragment.newInstance(((TextView) v).getText().toString()))
                         .addToBackStack(null)
                         .commit();
             }
@@ -59,7 +59,7 @@ public class AboutFragment extends Fragment
             public void onClick(View v)
             {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.fl_content_about_activity, OSLContentFragment.newInstance(((TextView)v).getText().toString()))
+                        .replace(R.id.fl_content_about_activity, OSLContentFragment.newInstance(((TextView) v).getText().toString()))
                         .addToBackStack(null)
                         .commit();
             }

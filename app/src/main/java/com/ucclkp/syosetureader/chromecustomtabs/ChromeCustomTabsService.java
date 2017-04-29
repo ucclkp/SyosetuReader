@@ -86,8 +86,7 @@ public abstract class ChromeCustomTabsService extends Service
                 binder.unlinkToDeath(deathRecipient, 0);
                 mDeathRecipientMap.remove(binder);
             }
-        }
-        catch (NoSuchElementException e)
+        } catch (NoSuchElementException e)
         {
             return false;
         }

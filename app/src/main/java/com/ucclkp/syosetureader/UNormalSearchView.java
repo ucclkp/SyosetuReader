@@ -1,9 +1,8 @@
 package com.ucclkp.syosetureader;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.text.Editable;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -56,6 +55,22 @@ public class UNormalSearchView extends LinearLayout
         mCloseButton.setOnClickListener(mCloseListener);
     }
 
+
+    @Override
+    protected void onVisibilityChanged(@NonNull View changedView, int visibility)
+    {
+        super.onVisibilityChanged(changedView, visibility);
+
+        if (visibility == View.GONE || visibility == View.INVISIBLE)
+        {
+            mQueryEditText.setFocusable(false);
+            mQueryEditText.setFocusableInTouchMode(false);
+        } else
+        {
+            mQueryEditText.setFocusable(true);
+            mQueryEditText.setFocusableInTouchMode(true);
+        }
+    }
 
     @Override
     public boolean hasFocus()

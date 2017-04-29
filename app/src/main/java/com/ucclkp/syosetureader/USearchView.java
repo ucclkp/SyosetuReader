@@ -3,8 +3,6 @@ package com.ucclkp.syosetureader;
 import android.content.Context;
 import android.support.v7.view.CollapsibleActionView;
 import android.text.Editable;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -66,6 +64,8 @@ public class USearchView extends LinearLayout implements CollapsibleActionView
     @Override
     public void onActionViewExpanded()
     {
+        mQueryEditText.setFocusable(true);
+        mQueryEditText.setFocusableInTouchMode(true);
         mQueryEditText.requestFocus();
         //setImeVisibility(true);
     }
@@ -76,6 +76,9 @@ public class USearchView extends LinearLayout implements CollapsibleActionView
         mQueryEditText.clearFocus();
         //mQueryEditText.setText("");
         setImeVisibility(false);
+
+        mQueryEditText.setFocusable(false);
+        mQueryEditText.setFocusableInTouchMode(false);
     }
 
     @Override

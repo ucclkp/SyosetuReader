@@ -153,8 +153,7 @@ public class SyosetuBooks
                         state, have, all);
 
             mDataBase.setTransactionSuccessful();
-        }
-        finally
+        } finally
         {
             mDataBase.endTransaction();
         }
@@ -323,8 +322,7 @@ public class SyosetuBooks
                         name, site, number, content, length);
 
             mDataBase.setTransactionSuccessful();
-        }
-        finally
+        } finally
         {
             mDataBase.endTransaction();
         }

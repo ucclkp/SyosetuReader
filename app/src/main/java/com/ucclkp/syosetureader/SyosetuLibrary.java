@@ -103,8 +103,7 @@ public class SyosetuLibrary
                 insertHis(ncode, url, name, time, site, type, viewed, current, offset);
 
             mDataBase.setTransactionSuccessful();
-        }
-        finally
+        } finally
         {
             mDataBase.endTransaction();
         }
@@ -127,24 +126,21 @@ public class SyosetuLibrary
                 {
                     updateHis(ncode, url, name, time, site, type, viewed, current, offset);
                     result = false;
-                }
-                else
+                } else
                 {
                     deleteHis(ncode);
                     insertHis(ncode, url, name, time, site, type, viewed, current, offset);
                     result = true;
 
                 }
-            }
-            else
+            } else
             {
                 insertHis(ncode, url, name, time, site, type, viewed, current, offset);
                 result = true;
             }
 
             mDataBase.setTransactionSuccessful();
-        }
-        finally
+        } finally
         {
             mDataBase.endTransaction();
         }
@@ -271,8 +267,7 @@ public class SyosetuLibrary
                 insertFav(ncode, url, name, time, site, type);
 
             mDataBase.setTransactionSuccessful();
-        }
-        finally
+        } finally
         {
             mDataBase.endTransaction();
         }

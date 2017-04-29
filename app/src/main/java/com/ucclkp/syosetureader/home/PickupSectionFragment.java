@@ -129,8 +129,7 @@ public class PickupSectionFragment extends Fragment implements HomePagerAdapter.
                         "Failed.", Toast.LENGTH_SHORT).show();
                 mPickupListAdapter.setFootProgress(
                         PickupListAdapter.PROGRESS_ERROR);
-            }
-            else
+            } else
             {
                 mIsDisableScrollListener = false;
                 mPickupListAdapter.removeFootProgress();

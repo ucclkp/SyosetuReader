@@ -55,8 +55,7 @@ public class SyosetuImageGetter implements Html.ImageGetter
             urlDrawable.mDrawable = drawable;
             urlDrawable.mState = UrlDrawable.State.STATE_COMPLETED;
             urlDrawable.setBounds(drawable.getBounds());
-        }
-        else
+        } else
         {
             Drawable drawable = new BlankDrawable(1, IMAGE_RECOMMAND_HEIGHT);
             drawable.setBounds(0, 0,

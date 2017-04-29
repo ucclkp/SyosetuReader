@@ -255,8 +255,7 @@ public class SearchFragment extends Fragment
                     mExpConConditionLL.setVisibility(View.GONE);
                     break;
             }
-        }
-        else
+        } else
         {
             if (mSearchFAB != null)
             {
@@ -290,8 +289,7 @@ public class SearchFragment extends Fragment
         try
         {
             keyEncoded = URLEncoder.encode(key, "utf-8");
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             Toast.makeText(getContext(),
                     "Key encode failed.", Toast.LENGTH_SHORT).show();
@@ -302,8 +300,7 @@ public class SearchFragment extends Fragment
         {
             exceptKeyEncoded = URLEncoder.encode(
                     mSearchAssist.getText().toString(), "utf-8");
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             Toast.makeText(getContext(),
                     "Except key encode failed.", Toast.LENGTH_SHORT).show();
@@ -388,8 +385,7 @@ public class SearchFragment extends Fragment
                 }
 
                 showKeywordPanel();
-            }
-            else if (mKeywordPanel.getVisibility() == View.VISIBLE
+            } else if (mKeywordPanel.getVisibility() == View.VISIBLE
                     && !mIsKwPanelHidding)
                 hideKeywordPanel();
         }
@@ -458,8 +454,7 @@ public class SearchFragment extends Fragment
             if (mSearchView.hasFocus())
             {
                 mSearchView.appendTextWithSpace(keyword);
-            }
-            else if (mSearchAssist.hasFocus())
+            } else if (mSearchAssist.hasFocus())
             {
                 mSearchAssist.appendTextWithSpace(keyword);
             }

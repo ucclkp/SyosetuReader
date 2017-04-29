@@ -169,8 +169,7 @@ class NovelListAdapter extends RecyclerView.Adapter
                     if (hHolder.attentionTextView.getVisibility() != View.VISIBLE)
                         hHolder.attentionTextView.setVisibility(View.VISIBLE);
                     hHolder.attentionTextView.setText(data.headAttention);
-                }
-                else
+                } else
                 {
                     if (hHolder.attentionTextView.getVisibility() != View.GONE)
                         hHolder.attentionTextView.setVisibility(View.GONE);
@@ -184,8 +183,7 @@ class NovelListAdapter extends RecyclerView.Adapter
                     hHolder.authorButton.setOnClickListener(data.authorListener);
                     hHolder.authorButton.setVisibility(View.VISIBLE);
                     hHolder.authorTextView.setVisibility(View.GONE);
-                }
-                else
+                } else
                 {
                     hHolder.authorTextView.setText(data.headAuthor);
                     hHolder.authorTextView.setVisibility(View.VISIBLE);
@@ -219,8 +217,7 @@ class NovelListAdapter extends RecyclerView.Adapter
                             ContextCompat.getColor(mContext, R.color.text_color_viewed));
                     iHolder.contentTextView.setTextColor(
                             ContextCompat.getColor(mContext, R.color.text_color_viewed));
-                }
-                else
+                } else
                 {
                     iHolder.timeTextView.setTextColor(
                             mTextSecondaryColor);
@@ -345,8 +342,7 @@ class NovelListAdapter extends RecyclerView.Adapter
 
             mDataList.add(1, data);
             notifyItemInserted(1);
-        }
-        else
+        } else
         {
             data.sectionUrl = url;
             data.sectionName = title;

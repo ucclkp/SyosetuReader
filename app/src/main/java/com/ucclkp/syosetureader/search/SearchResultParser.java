@@ -133,8 +133,7 @@ class SearchResultParser extends HtmlDataPipeline<SearchResultParser.SearchData>
             {
                 item.authorUrl = matcher.group(1).trim();
                 item.authorName = matcher.group(2).trim();
-            }
-            else if (index == 1)
+            } else if (index == 1)
             {
                 item.novelInfoUrl = matcher.group(1).trim();
                 item.novelInfoTitle = matcher.group(2).trim();

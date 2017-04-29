@@ -87,8 +87,7 @@ public class KwPanelParser extends HtmlDataPipeline<KwPanelParser.KeywordData>
                 atom.title = matcher.group(1).trim();
 
                 dataList.add(atom);
-            }
-            else if (hitted.matches("^<\\s*span[\\s\\S]*?"))
+            } else if (hitted.matches("^<\\s*span[\\s\\S]*?"))
             {
                 KwAtom atom = new KwAtom();
                 atom.type = KT_KEYWORD;

@@ -17,7 +17,6 @@
 package com.ucclkp.syosetureader.recipientchip;
 
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 
 /**
  * RecipientChipSpan defines a ReplacementSpan that contains information relevant to a

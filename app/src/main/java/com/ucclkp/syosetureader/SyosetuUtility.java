@@ -2,13 +2,10 @@ package com.ucclkp.syosetureader;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.text.Spannable;
 import android.text.TextPaint;
 import android.text.TextUtils;
-import android.text.style.ImageSpan;
 import android.text.style.URLSpan;
 import android.view.View;
 
@@ -46,7 +43,7 @@ public class SyosetuUtility
     public final static String R18_NOVEL_INFO_URL = "http://novel18.syosetu.com/novelview";
 
 
-    public final static String KeywordSplit="\\s+|[　]";
+    public final static String KeywordSplit = "\\s+|[　]";
 
 
     public enum SyosetuSite
@@ -490,8 +487,7 @@ public class SyosetuUtility
             {
                 lengthStr = new DecimalFormat(".0")
                         .format((float) length / 1000) + "k";
-            }
-            else
+            } else
                 lengthStr = String.valueOf(length);
 
             if (index == null || index.isEmpty())

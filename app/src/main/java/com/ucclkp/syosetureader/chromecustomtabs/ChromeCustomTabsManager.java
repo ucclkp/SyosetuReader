@@ -270,15 +270,13 @@ public class ChromeCustomTabsManager
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
             {
                 bundle.putBinder(key, binder);
-            }
-            else
+            } else
             {
                 Method putBinderMethod =
                         Bundle.class.getMethod("putIBinder", String.class, IBinder.class);
                 putBinderMethod.invoke(bundle, key, binder);
             }
-        }
-        catch (InvocationTargetException | IllegalAccessException
+        } catch (InvocationTargetException | IllegalAccessException
                 | IllegalArgumentException | NoSuchMethodException e)
         {
             return false;

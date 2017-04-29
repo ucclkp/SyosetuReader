@@ -257,20 +257,17 @@ public class NovelSectionFragment extends Fragment
             mSavedSectionData.nextUrl = nextUrl;
             mSavedSectionData.sectionContent = contentSpanned;
             mSavedSectionData.length = length;
-        }
-        else
+        } else
         {
             if (restoreFromDownload())
             {
                 mNovelSource = SyosetuUtility.SyosetuSource.DOWNLOAD;
                 loadDataToView(mSavedSectionData);
-            }
-            else if (restoreContent())
+            } else if (restoreContent())
             {
                 mNovelSource = SyosetuUtility.SyosetuSource.CACHE;
                 loadDataToView(mSavedSectionData);
-            }
-            else
+            } else
             {
                 mToolbar.setTitle("小説章节");
                 mSectionParser.enter(mNovelSectionUrl);
@@ -420,13 +417,11 @@ public class NovelSectionFragment extends Fragment
             {
                 mNovelSource = SyosetuUtility.SyosetuSource.DOWNLOAD;
                 loadDataToView(mSavedSectionData);
-            }
-            else if (restoreContent())
+            } else if (restoreContent())
             {
                 mNovelSource = SyosetuUtility.SyosetuSource.CACHE;
                 loadDataToView(mSavedSectionData);
-            }
-            else
+            } else
             {
                 resetViews();
                 mToolbar.setTitle("小説章节");
@@ -450,13 +445,11 @@ public class NovelSectionFragment extends Fragment
             {
                 mNovelSource = SyosetuUtility.SyosetuSource.DOWNLOAD;
                 loadDataToView(mSavedSectionData);
-            }
-            else if (restoreContent())
+            } else if (restoreContent())
             {
                 mNovelSource = SyosetuUtility.SyosetuSource.CACHE;
                 loadDataToView(mSavedSectionData);
-            }
-            else
+            } else
             {
                 resetViews();
                 mToolbar.setTitle("小説章节");
@@ -532,8 +525,7 @@ public class NovelSectionFragment extends Fragment
                     .getCacheManager().putText(
                     SyosetuUtility.constructSectionId(mNovelCode, mNovelSectionUrl),
                     jsonObject.toString());
-        }
-        catch (JSONException e)
+        } catch (JSONException e)
         {
             e.printStackTrace();
         }
@@ -564,8 +556,7 @@ public class NovelSectionFragment extends Fragment
                 mNovelSite = SyosetuUtility.SyosetuSite.valueOf(jsonObject.getString("cache_site"));
 
                 return true;
-            }
-            catch (JSONException e)
+            } catch (JSONException e)
             {
                 e.printStackTrace();
             }
@@ -661,8 +652,7 @@ public class NovelSectionFragment extends Fragment
                 mSavedSectionData = data;
                 loadDataToView(data);
                 cacheContent();
-            }
-            else
+            } else
             {
                 mTitle = "";
                 mPrevUrl = "";

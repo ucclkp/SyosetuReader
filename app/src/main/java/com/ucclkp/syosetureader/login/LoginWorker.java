@@ -87,26 +87,22 @@ class LoginWorker
 
                 in = connection.getInputStream();
                 htmlCode = readInputStream(in, "utf-8");
-            }
-            catch (MalformedURLException me)
+            } catch (MalformedURLException me)
             {
                 me.printStackTrace();
                 mErrorMessage = me.toString();
                 succeed = false;
-            }
-            catch (IOException ioe)
+            } catch (IOException ioe)
             {
                 ioe.printStackTrace();
                 mErrorMessage = ioe.toString();
                 succeed = false;
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 e.printStackTrace();
                 mErrorMessage = e.toString();
                 succeed = false;
-            }
-            finally
+            } finally
             {
                 if (connection != null)
                     connection.disconnect();
@@ -116,8 +112,7 @@ class LoginWorker
                     try
                     {
                         in.close();
-                    }
-                    catch (IOException e1)
+                    } catch (IOException e1)
                     {
                         e1.printStackTrace();
                     }
@@ -128,8 +123,7 @@ class LoginWorker
                     try
                     {
                         out.close();
-                    }
-                    catch (IOException e1)
+                    } catch (IOException e1)
                     {
                         e1.printStackTrace();
                     }
@@ -161,7 +155,7 @@ class LoginWorker
                 return false;
             }
 
-            mErrorMessage="Unknown";
+            mErrorMessage = "Unknown";
             return UApplication.cookieManager.isLogined();
         }
 
@@ -173,8 +167,7 @@ class LoginWorker
             {
                 if (mListener != null)
                     mListener.onLoginSucceed();
-            }
-            else
+            } else
             {
                 if (mListener != null)
                     mListener.onLoginFailed(mErrorMessage);

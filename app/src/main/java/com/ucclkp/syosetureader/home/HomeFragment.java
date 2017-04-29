@@ -111,8 +111,7 @@ public class HomeFragment extends Fragment
                     getActivity().setTitle(getString(R.string.site_novel18));
                     break;
             }
-        }
-        else
+        } else
         {
             if (mTabLayout != null)
             {

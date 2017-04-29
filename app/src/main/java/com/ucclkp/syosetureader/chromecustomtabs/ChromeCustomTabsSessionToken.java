@@ -17,7 +17,9 @@ public class ChromeCustomTabsSessionToken
     private final ChromeCustomTabsCallback mCallback;
 
 
-    /** {}@hide */
+    /**
+     * {}@hide
+     */
     ChromeCustomTabsSessionToken(ICustomTabsCallback callbackBinder)
     {
         mCallbackBinder = callbackBinder;
@@ -30,8 +32,7 @@ public class ChromeCustomTabsSessionToken
                 try
                 {
                     mCallbackBinder.onNavigationEvent(navigationEvent, extras);
-                }
-                catch (RemoteException e)
+                } catch (RemoteException e)
                 {
                     Log.e(TAG, "RemoteException during ICustomTabsCallback transaction");
                 }
@@ -39,7 +40,9 @@ public class ChromeCustomTabsSessionToken
         };
     }
 
-    /** {}@hide */
+    /**
+     * {}@hide
+     */
     IBinder getCallbackBinder()
     {
         return mCallbackBinder.asBinder();

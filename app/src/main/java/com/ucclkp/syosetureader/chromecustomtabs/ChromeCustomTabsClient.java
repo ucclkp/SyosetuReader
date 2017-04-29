@@ -23,7 +23,9 @@ public class ChromeCustomTabsClient
     private final ICustomTabsService mService;
     private final ComponentName mServiceComponentName;
 
-    /** {}@hide */
+    /**
+     * {}@hide
+     */
     ChromeCustomTabsClient(ICustomTabsService service, ComponentName componentName)
     {
         mService = service;
@@ -54,7 +56,7 @@ public class ChromeCustomTabsClient
                 Context.BIND_AUTO_CREATE | Context.BIND_WAIVE_PRIORITY);
     }
 
-    public static void unbindCustomTabsService(Context context,ChromeCustomTabsServiceConnection connection)
+    public static void unbindCustomTabsService(Context context, ChromeCustomTabsServiceConnection connection)
     {
         context.unbindService(connection);
     }
@@ -70,8 +72,7 @@ public class ChromeCustomTabsClient
         try
         {
             return mService.warmup(flags);
-        }
-        catch (RemoteException e)
+        } catch (RemoteException e)
         {
             return false;
         }
@@ -109,8 +110,7 @@ public class ChromeCustomTabsClient
         try
         {
             if (!mService.newSession(wrapper)) return null;
-        }
-        catch (RemoteException e)
+        } catch (RemoteException e)
         {
             return null;
         }
@@ -122,8 +122,7 @@ public class ChromeCustomTabsClient
         try
         {
             return mService.extraCommand(commandName, args);
-        }
-        catch (RemoteException e)
+        } catch (RemoteException e)
         {
             return null;
         }

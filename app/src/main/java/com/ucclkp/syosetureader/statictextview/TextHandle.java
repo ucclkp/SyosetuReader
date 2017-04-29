@@ -2,7 +2,6 @@ package com.ucclkp.syosetureader.statictextview;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.RippleDrawable;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -122,8 +121,7 @@ class TextHandle
                 mWindow.update(x, y, -1, -1);
             else
                 mWindow.showAtLocation(parent, Gravity.NO_GRAVITY, x, y);
-        }
-        else
+        } else
         {
             if (mWindow.isShowing())
                 mWindow.dismiss();

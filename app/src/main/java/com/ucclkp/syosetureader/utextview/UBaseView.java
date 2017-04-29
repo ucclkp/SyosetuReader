@@ -179,8 +179,7 @@ public abstract class UBaseView extends View implements NestedScrollingChild
                     else
                         realDeltaY = getScrollY();
                 }
-            }
-            else if (deltaY < 0)
+            } else if (deltaY < 0)
             {
                 if (textManagerHeight - getScrollY() == displayHeight)
                     realDeltaY = 0;
@@ -230,8 +229,7 @@ public abstract class UBaseView extends View implements NestedScrollingChild
                     if (currY <= 0 && prevY >= 0)
                     {
                         mEdgeGlowTop.onAbsorb((int) mScroller.getCurrVelocity());
-                    }
-                    else if (currY + getHeight() >= range && prevY + getHeight() <= range)
+                    } else if (currY + getHeight() >= range && prevY + getHeight() <= range)
                     {
                         mEdgeGlowBottom.onAbsorb((int) mScroller.getCurrVelocity());
                     }
@@ -262,8 +260,7 @@ public abstract class UBaseView extends View implements NestedScrollingChild
                 mEdgeGlowTop.setColor(edgeEffectColor);
                 mEdgeGlowBottom.setColor(edgeEffectColor);
             }
-        }
-        else
+        } else
         {
             mEdgeGlowTop = null;
             mEdgeGlowBottom = null;
@@ -391,8 +388,7 @@ public abstract class UBaseView extends View implements NestedScrollingChild
                                 mEdgeGlowTop.onPull(deltaY / getHeight(), 0.5f + (curX - mStartTouchedX) / (getWidth() * 2));
                                 if (!mEdgeGlowBottom.isFinished())
                                     mEdgeGlowBottom.onRelease();
-                            }
-                            else if (-deltaY + getScrollY() + getHeight() > range)
+                            } else if (-deltaY + getScrollY() + getHeight() > range)
                             {
                                 mEdgeGlowBottom.onPull(deltaY / getHeight(), 0.5f - (curX - mStartTouchedX) / (getWidth() * 2));
                                 if (!mEdgeGlowTop.isFinished())
@@ -545,8 +541,7 @@ public abstract class UBaseView extends View implements NestedScrollingChild
             {
                 removeCallbacks(mScrollMonitorRunnable);
                 postDelayed(mScrollMonitorRunnable, 100);
-            }
-            else
+            } else
             {
                 UBaseView.this.onEndScroll();
                 mIsScrolling = false;

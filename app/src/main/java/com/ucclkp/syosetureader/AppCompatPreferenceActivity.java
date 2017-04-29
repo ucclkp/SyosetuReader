@@ -1,7 +1,6 @@
 package com.ucclkp.syosetureader;
 
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.support.annotation.LayoutRes;

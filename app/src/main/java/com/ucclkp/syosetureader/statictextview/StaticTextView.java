@@ -21,7 +21,6 @@ import android.support.v4.view.NestedScrollingChild;
 import android.support.v4.view.NestedScrollingChildHelper;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.EdgeEffectCompat;
-import android.support.v7.widget.CardView;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -45,7 +44,8 @@ import com.ucclkp.syosetureader.UApplication;
 import java.text.BreakIterator;
 import java.util.List;
 
-public class StaticTextView extends View implements NestedScrollingChild {
+public class StaticTextView extends View implements NestedScrollingChild
+{
     private int mTextColor;
     private int mTextLinkColor;
     private float mTextSize;
@@ -93,15 +93,18 @@ public class StaticTextView extends View implements NestedScrollingChild {
     private final static int MENU_ITEM_ORDER_TEXT_PROCESS = 6;
 
 
-    public StaticTextView(Context context) {
+    public StaticTextView(Context context)
+    {
         this(context, null);
     }
 
-    public StaticTextView(Context context, AttributeSet attrs) {
+    public StaticTextView(Context context, AttributeSet attrs)
+    {
         this(context, attrs, 0);
     }
 
-    public StaticTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public StaticTextView(Context context, AttributeSet attrs, int defStyleAttr)
+    {
         super(context, attrs, defStyleAttr);
 
         int textColor, textLinkColor;
@@ -164,8 +167,10 @@ public class StaticTextView extends View implements NestedScrollingChild {
     }
 
 
-    private void makeNewTextLayout() {
-        if (mTextLayout != null) {
+    private void makeNewTextLayout()
+    {
+        if (mTextLayout != null)
+        {
             int prevWidth = mTextLayout.getWidth();
             mTextLayout = new StaticLayout(
                     mText, mTextPaint, prevWidth, mTextAlignment,
@@ -173,9 +178,11 @@ public class StaticTextView extends View implements NestedScrollingChild {
         }
     }
 
-    private void makeNewTextLayout(int width) {
+    private void makeNewTextLayout(int width)
+    {
         if (mTextLayout == null
-                || mTextLayout.getWidth() != width) {
+                || mTextLayout.getWidth() != width)
+        {
             mTextLayout = new StaticLayout(
                     mText, mTextPaint, width, mTextAlignment,
                     mLineSpacingMult, mLineSpacingAdd, false);
@@ -183,25 +190,31 @@ public class StaticTextView extends View implements NestedScrollingChild {
     }
 
 
-    private int processVerticalMove(int deltaY) {
+    private int processVerticalMove(int deltaY)
+    {
         int realDeltaY = 0;
         int displayHeight = getHeight() - getPaddingTop() - getPaddingBottom();
         int textHeight = mTextLayout.getHeight();
 
-        if (textHeight > displayHeight) {
-            if (deltaY > 0) {
+        if (textHeight > displayHeight)
+        {
+            if (deltaY > 0)
+            {
                 if (getScrollY() == 0)
                     realDeltaY = 0;
-                else if (getScrollY() > 0) {
+                else if (getScrollY() > 0)
+                {
                     if (getScrollY() >= deltaY)
                         realDeltaY = deltaY;
                     else
                         realDeltaY = getScrollY();
                 }
-            } else if (deltaY < 0) {
+            } else if (deltaY < 0)
+            {
                 if (textHeight - getScrollY() == displayHeight)
                     realDeltaY = 0;
-                else {
+                else
+                {
                     if (displayHeight - (textHeight - getScrollY()) <= deltaY)
                         realDeltaY = deltaY;
                     else
@@ -216,23 +229,29 @@ public class StaticTextView extends View implements NestedScrollingChild {
         return realDeltaY;
     }
 
-    private int getTextHeightWithPadding() {
+    private int getTextHeightWithPadding()
+    {
         return mTextLayout.getHeight() + getPaddingTop() + getPaddingBottom();
     }
 
-    private int getVerticalScrollRange() {
+    private int getVerticalScrollRange()
+    {
         int scrollRange = 0;
-        if (mTextLayout != null) {
+        if (mTextLayout != null)
+        {
             scrollRange = Math.max(0,
                     mTextLayout.getHeight() - (getHeight() - getPaddingBottom() - getPaddingTop()));
         }
         return scrollRange;
     }
 
-    private void drawVerticalEdgeEffect(Canvas canvas) {
-        if (mEdgeGlowTop != null) {
+    private void drawVerticalEdgeEffect(Canvas canvas)
+    {
+        if (mEdgeGlowTop != null)
+        {
             final int scrollY = getScrollY();
-            if (!mEdgeGlowTop.isFinished()) {
+            if (!mEdgeGlowTop.isFinished())
+            {
                 final int restoreCount = canvas.save();
                 canvas.translate(0, 0);
 
@@ -242,7 +261,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
 
                 canvas.restoreToCount(restoreCount);
             }
-            if (!mEdgeGlowBottom.isFinished()) {
+            if (!mEdgeGlowBottom.isFinished())
+            {
                 final int restoreCount = canvas.save();
                 final int width = getWidth();
                 final int height = getHeight();
@@ -260,7 +280,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
     }
 
 
-    private float convertToTextX(float vx) {
+    private float convertToTextX(float vx)
+    {
         vx -= getPaddingLeft();
         vx = Math.max(0f, vx);
         vx = Math.min(getWidth()
@@ -270,7 +291,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
         return vx;
     }
 
-    private float convertToTextY(float vy) {
+    private float convertToTextY(float vy)
+    {
         vy -= getPaddingTop();
         vy = Math.max(0f, vy);
         vy = Math.min(getHeight()
@@ -281,21 +303,26 @@ public class StaticTextView extends View implements NestedScrollingChild {
     }
 
 
-    private long packRange(int start, int end) {
+    private long packRange(int start, int end)
+    {
         return (((long) start) << 32) | end;
     }
 
-    private int unpackRangeStart(long range) {
+    private int unpackRangeStart(long range)
+    {
         return (int) (range >>> 32);
     }
 
-    private int unpackRangeEnd(long range) {
+    private int unpackRangeEnd(long range)
+    {
         return (int) (range & 0x00000000FFFFFFFFL);
     }
 
 
-    private void startTextActionMode() {
-        if (mTextActionMode == null) {
+    private void startTextActionMode()
+    {
+        if (mTextActionMode == null)
+        {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
                 mTextActionMode = startActionMode(
                         mTextActionModeCallback, ActionMode.TYPE_FLOATING);
@@ -304,13 +331,15 @@ public class StaticTextView extends View implements NestedScrollingChild {
         }
     }
 
-    private void stopTextActionMode() {
+    private void stopTextActionMode()
+    {
         if (mTextActionMode != null)
             mTextActionMode.finish();
     }
 
 
-    private int computeBeyondOffset() {
+    private int computeBeyondOffset()
+    {
         int finalOffset = 0;
         StaticLayout layout = mTextLayout;
 
@@ -325,19 +354,22 @@ public class StaticTextView extends View implements NestedScrollingChild {
         int endLineBottom = layout.getLineBottom(endLine);
 
         //当选择的区域高度大于该View高度。
-        if (endLineBottom - startLineTop >= getHeight()) {
+        if (endLineBottom - startLineTop >= getHeight())
+        {
             //直接移动至选择区域底部。
             finalOffset = endLineBottom + getPaddingTop() - getHeight() - getScrollY();
 
             //在以上条件下，当选择区域只有一行时，即意味着此时的View高度连一行文本都放不下，
             //这时最终的移动偏移即为finalOffset，否则将继续加一些偏移，留出空间用以显示Handle。
-            if (startLine != endLine) {
+            if (startLine != endLine)
+            {
                 int handleHeight = mHandleMgr.mRightHandle.getHeight();
 
                 //以下表达式中的getPaddingBottom()用于当选择区域包括最后一行时留出空间显示Handle。
                 finalOffset += Math.min(handleHeight, layout.getHeight() - endLineBottom + getPaddingBottom());
             }
-        } else {
+        } else
+        {
             int prevHeight;
             int nextHeight;
 
@@ -367,13 +399,16 @@ public class StaticTextView extends View implements NestedScrollingChild {
         return finalOffset;
     }
 
-    public boolean scrollToFit(boolean smooth) {
+    public boolean scrollToFit(boolean smooth)
+    {
         boolean scrolled = false;
 
         if (mTextLayout == null) return scrolled;
 
-        if (getTextHeightWithPadding() <= getHeight()) {
-            if (0 - getScrollY() != 0) {
+        if (getTextHeightWithPadding() <= getHeight())
+        {
+            if (0 - getScrollY() != 0)
+            {
                 if (smooth)
                     mScroller.startScroll(
                             getScrollX(), getScrollY(),
@@ -383,13 +418,15 @@ public class StaticTextView extends View implements NestedScrollingChild {
 
                 scrolled = true;
             }
-        } else {
+        } else
+        {
             int scrollOffset = 0;
 
             //Handle为第一优先，尽量使其处于屏幕中央。
             if (hasSelection())
                 scrollOffset = computeBeyondOffset();
-            else {
+            else
+            {
                 //置于大小变化前的位置。
                 int prevTextOffset = getTextOffsetAtViewTop();
                 int prevOffset = getOffsetFromCurTextOffset();
@@ -397,7 +434,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
                 computeTextOffsetAtViewTop();
 
                 int curTextOffset = getTextOffsetAtViewTop();
-                if (curTextOffset != prevTextOffset) {
+                if (curTextOffset != prevTextOffset)
+                {
                     setTextOffsetAtViewTop(prevTextOffset, prevOffset);
                     scrollOffset = getScrollOffsetFromTextOffset(prevTextOffset) + prevOffset;
                 }
@@ -408,7 +446,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
                     + getPaddingTop() + getPaddingBottom()
                     - (getHeight() + getScrollY());
             int offsetY = Math.min(maxScrollOffset, scrollOffset);
-            if (offsetY != 0) {
+            if (offsetY != 0)
+            {
                 if (smooth)
                     mScroller.startScroll(
                             getScrollX(), getScrollY(),
@@ -424,11 +463,13 @@ public class StaticTextView extends View implements NestedScrollingChild {
     }
 
 
-    private void relocateSelectionPath(Path sp) {
+    private void relocateSelectionPath(Path sp)
+    {
         sp.offset(0, -mTextSize * (mLineSpacingMult - 1) / 2.f);
     }
 
-    private void computeSelectionPath(int start, int end, Path p) {
+    private void computeSelectionPath(int start, int end, Path p)
+    {
         if (p == null) return;
         p.reset();
         if (start == end) return;
@@ -440,11 +481,13 @@ public class StaticTextView extends View implements NestedScrollingChild {
         float startHori = mTextLayout.getPrimaryHorizontal(start);
         float endHori = mTextLayout.getPrimaryHorizontal(end);
 
-        if (startLine == endLine) {
+        if (startLine == endLine)
+        {
             float lineHeight = ((endLineBottom - startLineTop) - mTextLayout.getSpacingAdd())
                     / mTextLayout.getSpacingMultiplier();
             p.addRect(startHori, startLineTop, endHori, startLineTop + lineHeight, Path.Direction.CW);
-        } else {
+        } else
+        {
             float startLineRight = mTextLayout.getLineRight(startLine);
             int startLineBottom = mTextLayout.getLineBottom(startLine);
             float endLineLeft = mTextLayout.getLineLeft(endLine);
@@ -452,7 +495,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
             p.addRect(startHori, startLineTop, startLineRight, startLineBottom, Path.Direction.CW);
             p.addRect(endLineLeft, endLineTop, endHori, endLineBottom, Path.Direction.CW);
 
-            for (int i = startLine + 1; i < endLine; ++i) {
+            for (int i = startLine + 1; i < endLine; ++i)
+            {
                 p.addRect(mTextLayout.getLineLeft(i),
                         mTextLayout.getLineTop(i),
                         mTextLayout.getLineRight(i),
@@ -464,13 +508,15 @@ public class StaticTextView extends View implements NestedScrollingChild {
 
 
     @Override
-    protected void onAttachedToWindow() {
+    protected void onAttachedToWindow()
+    {
         super.onAttachedToWindow();
         getViewTreeObserver().addOnScrollChangedListener(mScrollChangedListener);
     }
 
     @Override
-    protected void onDetachedFromWindow() {
+    protected void onDetachedFromWindow()
+    {
         super.onDetachedFromWindow();
 
         stopTextActionMode();
@@ -479,13 +525,15 @@ public class StaticTextView extends View implements NestedScrollingChild {
     }
 
     @Override
-    protected void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect) {
+    protected void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect)
+    {
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
 
         //在view第一次显示时，onFocusChanged(true)先调用，
         //然后调用onWindowFocusChanged(true)。此时我们希望
         //只在onWindowFocusChanged()中处理对获得焦点的响应。
-        if (!gainFocus && hasWindowFocus()) {
+        if (!gainFocus && hasWindowFocus())
+        {
             mSelectionMgr.eraseSelectionHighlight();
             mSelectionMgr.setSelection(0);
 
@@ -495,7 +543,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
     }
 
     @Override
-    public void onWindowFocusChanged(boolean hasWindowFocus) {
+    public void onWindowFocusChanged(boolean hasWindowFocus)
+    {
         super.onWindowFocusChanged(hasWindowFocus);
 
         //在view第一次显示时，onFocusChanged(true)先调用，
@@ -504,41 +553,50 @@ public class StaticTextView extends View implements NestedScrollingChild {
         //某些fragment设定为不可见(GONE)，这些fragment中的
         //view也会接受到此方法的调用。由于这些view不可见，此时
         //我们不希望此处的代码被执行，因此设立此条件。
-        if (hasWindowFocus && hasFocus()) {
+        if (hasWindowFocus && hasFocus())
+        {
             //在失去焦点时，我们关闭了所有显示的Assistant(除了Selection背景)，
             //那么当再次获得焦点时，理应重新显示滑动之前显示的Assistant(除了两种情况：
             //1.Beyond 2.在失去焦点期间触发其他的代码段使得Assistant被关闭)。那么我们
             //应该在失去焦点时标记已显示的Assistant，并在此处检查标记，显示这些
             //窗口，这需要额外的变量。
-            if (hasSelection()) {
+            if (hasSelection())
+            {
                 mHandleMgr.showLeftHandle();
                 mHandleMgr.showRightHandle();
             }
-        } else if (!hasWindowFocus && hasFocus()) {
+        } else if (!hasWindowFocus && hasFocus())
+        {
             mHandleMgr.closeAllHandle();
         }
     }
 
     @Override
-    public void computeScroll() {
+    public void computeScroll()
+    {
         super.computeScroll();
 
-        if (mScroller.computeScrollOffset()) {
+        if (mScroller.computeScrollOffset())
+        {
             int prevX = getScrollX();
             int prevY = getScrollY();
             int currX = mScroller.getCurrX();
             int currY = mScroller.getCurrY();
 
-            if (prevX != currX || prevY != currY) {
+            if (prevX != currX || prevY != currY)
+            {
                 final int range = getTextHeightWithPadding();
                 final int overscrollMode = getOverScrollMode();
                 final boolean canOverscroll = overscrollMode == OVER_SCROLL_ALWAYS ||
                         (overscrollMode == OVER_SCROLL_IF_CONTENT_SCROLLS && range > getHeight());
 
-                if (canOverscroll && mEdgeGlowTop != null) {
-                    if (currY <= 0 && prevY >= 0) {
+                if (canOverscroll && mEdgeGlowTop != null)
+                {
+                    if (currY <= 0 && prevY >= 0)
+                    {
                         mEdgeGlowTop.onAbsorb((int) mScroller.getCurrVelocity());
-                    } else if (currY + getHeight() >= range && prevY + getHeight() <= range) {
+                    } else if (currY + getHeight() >= range && prevY + getHeight() <= range)
+                    {
                         mEdgeGlowBottom.onAbsorb((int) mScroller.getCurrVelocity());
                     }
                 }
@@ -550,29 +608,36 @@ public class StaticTextView extends View implements NestedScrollingChild {
     }
 
     @Override
-    protected int computeVerticalScrollRange() {
+    protected int computeVerticalScrollRange()
+    {
         return getTextHeightWithPadding();
     }
 
     @Override
-    protected int computeVerticalScrollOffset() {
+    protected int computeVerticalScrollOffset()
+    {
         return super.computeVerticalScrollOffset();
     }
 
     @Override
-    protected int computeVerticalScrollExtent() {
+    protected int computeVerticalScrollExtent()
+    {
         return super.computeVerticalScrollExtent();
     }
 
     @Override
-    public void setOverScrollMode(int mode) {
-        if (mode != OVER_SCROLL_NEVER) {
-            if (mEdgeGlowTop == null) {
+    public void setOverScrollMode(int mode)
+    {
+        if (mode != OVER_SCROLL_NEVER)
+        {
+            if (mEdgeGlowTop == null)
+            {
                 Context context = getContext();
                 mEdgeGlowTop = new EdgeEffectCompat(context);
                 mEdgeGlowBottom = new EdgeEffectCompat(context);
             }
-        } else {
+        } else
+        {
             mEdgeGlowTop = null;
             mEdgeGlowBottom = null;
         }
@@ -580,55 +645,65 @@ public class StaticTextView extends View implements NestedScrollingChild {
     }
 
     @Override
-    public void setNestedScrollingEnabled(boolean enabled) {
+    public void setNestedScrollingEnabled(boolean enabled)
+    {
         mChildHelper.setNestedScrollingEnabled(enabled);
     }
 
     @Override
-    public boolean isNestedScrollingEnabled() {
+    public boolean isNestedScrollingEnabled()
+    {
         return mChildHelper.isNestedScrollingEnabled();
     }
 
     @Override
-    public boolean startNestedScroll(int axes) {
+    public boolean startNestedScroll(int axes)
+    {
         return mChildHelper.startNestedScroll(axes);
     }
 
     @Override
-    public void stopNestedScroll() {
+    public void stopNestedScroll()
+    {
         mChildHelper.stopNestedScroll();
     }
 
     @Override
-    public boolean hasNestedScrollingParent() {
+    public boolean hasNestedScrollingParent()
+    {
         return mChildHelper.hasNestedScrollingParent();
     }
 
     @Override
     public boolean dispatchNestedScroll(int dxConsumed, int dyConsumed, int dxUnconsumed,
-                                        int dyUnconsumed, int[] offsetInWindow) {
+                                        int dyUnconsumed, int[] offsetInWindow)
+    {
         return mChildHelper.dispatchNestedScroll(dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed,
                 offsetInWindow);
     }
 
     @Override
-    public boolean dispatchNestedPreScroll(int dx, int dy, int[] consumed, int[] offsetInWindow) {
+    public boolean dispatchNestedPreScroll(int dx, int dy, int[] consumed, int[] offsetInWindow)
+    {
         return mChildHelper.dispatchNestedPreScroll(dx, dy, consumed, offsetInWindow);
     }
 
     @Override
-    public boolean dispatchNestedFling(float velocityX, float velocityY, boolean consumed) {
+    public boolean dispatchNestedFling(float velocityX, float velocityY, boolean consumed)
+    {
         return mChildHelper.dispatchNestedFling(velocityX, velocityY, consumed);
     }
 
     @Override
-    public boolean dispatchNestedPreFling(float velocityX, float velocityY) {
+    public boolean dispatchNestedPreFling(float velocityX, float velocityY)
+    {
         return mChildHelper.dispatchNestedPreFling(velocityX, velocityY);
     }
 
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
+    {
         int finalWidth = 0;
         int finalHeight = 0;
 
@@ -640,7 +715,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
         int widthMode = View.MeasureSpec.getMode(widthMeasureSpec);
         int heightMode = View.MeasureSpec.getMode(heightMeasureSpec);
 
-        switch (widthMode) {
+        switch (widthMode)
+        {
             case View.MeasureSpec.AT_MOST:
                 finalWidth = Math.max(getSuggestedMinimumWidth(),
                         (int) Math.ceil(Layout.getDesiredWidth(mText, mTextPaint)) + horizontalPadding);
@@ -660,7 +736,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
                 break;
         }
 
-        switch (heightMode) {
+        switch (heightMode)
+        {
             case View.MeasureSpec.AT_MOST:
                 finalHeight = Math.max(getSuggestedMinimumHeight(),
                         mTextLayout.getHeight() + verticalPadding);
@@ -681,7 +758,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+    protected void onSizeChanged(int w, int h, int oldw, int oldh)
+    {
         super.onSizeChanged(w, h, oldw, oldh);
 
         if (!mScroller.isFinished())
@@ -690,12 +768,14 @@ public class StaticTextView extends View implements NestedScrollingChild {
         if (mTextLayout == null)
             return;
 
-        if (hasSelection()) {
+        if (hasSelection())
+        {
             mHandleMgr.showLeftHandle();
             mHandleMgr.showRightHandle();
             mSelectionMgr.drawSelectionHighlight();
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            {
                 stopTextActionMode();
                 startTextActionMode();
             }
@@ -705,7 +785,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas)
+    {
         super.onDraw(canvas);
 
         canvas.save();
@@ -718,7 +799,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
+    public boolean onTouchEvent(MotionEvent event)
+    {
         boolean superResult = super.onTouchEvent(event);
         boolean gestureResult = mGestureDetector.onTouchEvent(event);
 
@@ -726,7 +808,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
     }
 
 
-    public void setText(CharSequence text) {
+    public void setText(CharSequence text)
+    {
         if (TextUtils.isEmpty(text))
             text = "";
 
@@ -747,7 +830,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
         invalidate();
     }
 
-    public void setTextColor(int color) {
+    public void setTextColor(int color)
+    {
         if (mTextColor == color) return;
 
         mTextColor = color;
@@ -756,7 +840,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
         invalidate();
     }
 
-    public void setTextSize(float size) {
+    public void setTextSize(float size)
+    {
         float textSizeDip = TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_SP, size,
                 getContext().getResources().getDisplayMetrics());
@@ -768,12 +853,14 @@ public class StaticTextView extends View implements NestedScrollingChild {
 
         makeNewTextLayout();
 
-        if (hasSelection()) {
+        if (hasSelection())
+        {
             mHandleMgr.showLeftHandle();
             mHandleMgr.showRightHandle();
             mSelectionMgr.drawSelectionHighlight();
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            {
                 stopTextActionMode();
                 startTextActionMode();
             }
@@ -785,7 +872,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
         invalidate();
     }
 
-    public void setLineSpacing(float mult, float add) {
+    public void setLineSpacing(float mult, float add)
+    {
         float addDip = TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_SP, add,
                 getContext().getResources().getDisplayMetrics());
@@ -798,12 +886,14 @@ public class StaticTextView extends View implements NestedScrollingChild {
 
         makeNewTextLayout();
 
-        if (hasSelection()) {
+        if (hasSelection())
+        {
             mHandleMgr.showLeftHandle();
             mHandleMgr.showRightHandle();
             mSelectionMgr.drawSelectionHighlight();
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            {
                 stopTextActionMode();
                 startTextActionMode();
             }
@@ -815,7 +905,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
         invalidate();
     }
 
-    public void setTypeface(Typeface typeface) {
+    public void setTypeface(Typeface typeface)
+    {
         mTextPaint.setTypeface(typeface);
 
         scrollToFit(false);
@@ -824,7 +915,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
         invalidate();
     }
 
-    public void setOnSelectionChangedListener(OnSelectionChangedListener l) {
+    public void setOnSelectionChangedListener(OnSelectionChangedListener l)
+    {
         mSelectionListener = l;
     }
 
@@ -834,12 +926,14 @@ public class StaticTextView extends View implements NestedScrollingChild {
      * {@link #computeTextOffsetAtViewTop()} 方法，此方法设置的值将被刷新。
      * 默认值为0。
      */
-    public void setTextOffsetAtViewTop(int textOffset) {
+    public void setTextOffsetAtViewTop(int textOffset)
+    {
         mTextOffsetAtViewTop = textOffset;
         mOffsetFromTextOffset = 0;
     }
 
-    public void setTextOffsetAtViewTop(int textOffset, int offset) {
+    public void setTextOffsetAtViewTop(int textOffset, int offset)
+    {
         mTextOffsetAtViewTop = textOffset;
         mOffsetFromTextOffset = offset;
     }
@@ -850,14 +944,16 @@ public class StaticTextView extends View implements NestedScrollingChild {
      * 使用 {@link #getTextOffsetAtViewTop()} 可获得该值。
      * 该方法在 {@link #mScrollChangedListener} 中被调用以实现实时记录。
      */
-    public void computeTextOffsetAtViewTop() {
+    public void computeTextOffsetAtViewTop()
+    {
         int curLine = mTextLayout.getLineForVertical(getScrollY() - getPaddingTop());
         int lineTop = mTextLayout.getLineTop(curLine);
         mTextOffsetAtViewTop = mTextLayout.getOffsetForHorizontal(curLine, 0f);
         mOffsetFromTextOffset = getScrollY() - getPaddingTop() - lineTop;
     }
 
-    public void scrollToTextOffset(int textOffset, int offset, boolean smoothScroll) {
+    public void scrollToTextOffset(int textOffset, int offset, boolean smoothScroll)
+    {
         mTextOffsetAtViewTop = textOffset;
         mOffsetFromTextOffset = offset;
 
@@ -865,8 +961,10 @@ public class StaticTextView extends View implements NestedScrollingChild {
             return;
 
         int yOffset = getScrollOffsetFromTextOffset(textOffset);
-        if (yOffset != 0) {
-            if (smoothScroll) {
+        if (yOffset != 0)
+        {
+            if (smoothScroll)
+            {
                 mScroller.startScroll(getScrollX(), getScrollY(), 0, yOffset + offset);
                 invalidate();
             } else
@@ -879,21 +977,25 @@ public class StaticTextView extends View implements NestedScrollingChild {
      * 使用 {@link #computeTextOffsetAtViewTop()} 可刷新此值。
      * 默认值为0。
      */
-    public int getTextOffsetAtViewTop() {
+    public int getTextOffsetAtViewTop()
+    {
         return mTextOffsetAtViewTop;
     }
 
-    public int getOffsetFromCurTextOffset() {
+    public int getOffsetFromCurTextOffset()
+    {
         return mOffsetFromTextOffset;
     }
 
-    public int getScrollOffsetFromTextOffset(int textOffset) {
+    public int getScrollOffsetFromTextOffset(int textOffset)
+    {
         int finalOffsetY;
 
         int line = mTextLayout.getLineForOffset(textOffset);
         if (line == 0)
             finalOffsetY = -getScrollY();
-        else {
+        else
+        {
             int lineTop = mTextLayout.getLineTop(line);
             finalOffsetY = lineTop + getPaddingTop() - getScrollY();
         }
@@ -902,37 +1004,45 @@ public class StaticTextView extends View implements NestedScrollingChild {
     }
 
 
-    public int getSelectionStart() {
+    public int getSelectionStart()
+    {
         return mSelectionMgr.getSelectionStart();
     }
 
-    public int getSelectionEnd() {
+    public int getSelectionEnd()
+    {
         return mSelectionMgr.getSelectionEnd();
     }
 
-    public String getSelectedText() {
+    public String getSelectedText()
+    {
         if (!hasSelection())
             return null;
 
         return String.valueOf(mText.subSequence(getSelectionStart(), getSelectionEnd()));
     }
 
-    public CharSequence getText() {
+    public CharSequence getText()
+    {
         return mText;
     }
 
-    public float getTextSize() {
+    public float getTextSize()
+    {
         return mTextSize;
     }
 
-    public boolean hasSelection() {
+    public boolean hasSelection()
+    {
         return mSelectionMgr.getSelectionEnd()
                 != mSelectionMgr.getSelectionStart();
     }
 
 
-    private void onStartScroll() {
-        if (hasSelection()) {
+    private void onStartScroll()
+    {
+        if (hasSelection())
+        {
             mHandleMgr.closeAllHandle();
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
@@ -940,13 +1050,16 @@ public class StaticTextView extends View implements NestedScrollingChild {
         }
     }
 
-    private void onScrolling() {
+    private void onScrolling()
+    {
         if (mTextLayout != null)
             computeTextOffsetAtViewTop();
     }
 
-    private void onEndScroll() {
-        if (hasSelection() && !mGestureDetector.isLongPressed()) {
+    private void onEndScroll()
+    {
+        if (hasSelection() && !mGestureDetector.isLongPressed())
+        {
             mHandleMgr.showLeftHandle(true);
             mHandleMgr.showRightHandle(true);
 
@@ -956,13 +1069,17 @@ public class StaticTextView extends View implements NestedScrollingChild {
     }
 
 
-    private Runnable mScrollMonitorRunnable = new Runnable() {
+    private Runnable mScrollMonitorRunnable = new Runnable()
+    {
         @Override
-        public void run() {
-            if (mIsFingerOnScreen) {
+        public void run()
+        {
+            if (mIsFingerOnScreen)
+            {
                 removeCallbacks(mScrollMonitorRunnable);
                 postDelayed(mScrollMonitorRunnable, 100);
-            } else {
+            } else
+            {
                 onEndScroll();
                 mIsScrolling = false;
             }
@@ -970,10 +1087,13 @@ public class StaticTextView extends View implements NestedScrollingChild {
     };
 
     private ViewTreeObserver.OnScrollChangedListener mScrollChangedListener
-            = new ViewTreeObserver.OnScrollChangedListener() {
+            = new ViewTreeObserver.OnScrollChangedListener()
+    {
         @Override
-        public void onScrollChanged() {
-            if (!mIsScrolling) {
+        public void onScrollChanged()
+        {
+            if (!mIsScrolling)
+            {
                 onStartScroll();
                 mIsScrolling = true;
             }
@@ -985,7 +1105,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
         }
     };
 
-    private TextGestureDetector.Callback mTextGDCallback = new TextGestureDetector.Callback() {
+    private TextGestureDetector.Callback mTextGDCallback = new TextGestureDetector.Callback()
+    {
         private int mNestedYOffset;
         private MotionEvent mVtev;
 
@@ -994,7 +1115,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
 
 
         @Override
-        public void onStartEvent(MotionEvent e) {
+        public void onStartEvent(MotionEvent e)
+        {
             mVtev = MotionEvent.obtain(e);
             if (e.getAction() == MotionEvent.ACTION_DOWN)
                 mNestedYOffset = 0;
@@ -1002,7 +1124,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
         }
 
         @Override
-        public void onEndEvent(MotionEvent e, VelocityTracker velocityTracker, boolean result) {
+        public void onEndEvent(MotionEvent e, VelocityTracker velocityTracker, boolean result)
+        {
             if (velocityTracker != null)
                 velocityTracker.addMovement(mVtev);
 
@@ -1010,7 +1133,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
         }
 
         @Override
-        public boolean onDown(MotionEvent e) {
+        public boolean onDown(MotionEvent e)
+        {
             if (!mScroller.isFinished())
                 mScroller.abortAnimation();
 
@@ -1020,31 +1144,36 @@ public class StaticTextView extends View implements NestedScrollingChild {
         }
 
         @Override
-        public void onStartUp(MotionEvent e, VelocityTracker velocityTracker) {
+        public void onStartUp(MotionEvent e, VelocityTracker velocityTracker)
+        {
             if (velocityTracker != null)
                 velocityTracker.addMovement(mVtev);
         }
 
         @Override
-        public boolean onUp(MotionEvent e) {
+        public boolean onUp(MotionEvent e)
+        {
             stopNestedScroll();
             mIsFingerOnScreen = false;
             return true;
         }
 
         @Override
-        public void onCancel(MotionEvent e) {
+        public void onCancel(MotionEvent e)
+        {
             stopNestedScroll();
             mIsFingerOnScreen = false;
         }
 
         @Override
-        public boolean onDetermineCanScroll(float xDiff, float yDiff, int touchSlop) {
+        public boolean onDetermineCanScroll(float xDiff, float yDiff, int touchSlop)
+        {
             return yDiff > touchSlop && yDiff > xDiff;
         }
 
         @Override
-        public boolean onSingleTap(MotionEvent e) {
+        public boolean onSingleTap(MotionEvent e)
+        {
             mHandleMgr.closeAllHandle();
             mSelectionMgr.eraseSelectionHighlight();
             mSelectionMgr.setSelection(0);
@@ -1053,7 +1182,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
         }
 
         @Override
-        public void onDoubleTap(MotionEvent e) {
+        public void onDoubleTap(MotionEvent e)
+        {
             float textX = convertToTextX(e.getX());
             float textY = convertToTextY(e.getY());
             int touchedLine = mTextLayout.getLineForVertical((int) textY);
@@ -1064,7 +1194,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
                     && (textY >= mTextLayout.getLineTop(touchedLine))
                     && (textY <= mTextLayout.getLineBottom(touchedLine));
 
-            if (isHitText) {
+            if (isHitText)
+            {
                 long range = mTextIterator.selectWord(touchedOffset);
                 int startSelection = unpackRangeStart(range);
                 int endSelection = unpackRangeEnd(range);
@@ -1074,7 +1205,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
                 mSelectionMgr.setSelection(startSelection, endSelection);
                 mSelectionMgr.drawSelectionHighlight();
 
-                if (!scrollToFit(true)) {
+                if (!scrollToFit(true))
+                {
                     mHandleMgr.showLeftHandle();
                     mHandleMgr.showRightHandle();
                     startTextActionMode();
@@ -1083,7 +1215,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
         }
 
         @Override
-        public boolean onLongTapping(boolean first, float prevTouchedX, float prevTouchedY) {
+        public boolean onLongTapping(boolean first, float prevTouchedX, float prevTouchedY)
+        {
             float textX = convertToTextX(prevTouchedX);
             float textY = convertToTextY(prevTouchedY);
             int touchedLine = mTextLayout.getLineForVertical((int) textY);
@@ -1094,14 +1227,16 @@ public class StaticTextView extends View implements NestedScrollingChild {
                     && (textY >= mTextLayout.getLineTop(touchedLine))
                     && (textY <= mTextLayout.getLineBottom(touchedLine));
 
-            if (isHitText) {
+            if (isHitText)
+            {
                 long range = mTextIterator.selectWord(touchedOffset);
                 int startSelection = unpackRangeStart(range);
                 int endSelection = unpackRangeEnd(range);
                 if (startSelection < 0 || endSelection < 0)
                     return false;
 
-                if (first) {
+                if (first)
+                {
                     stopTextActionMode();
                     mHandleMgr.closeAllHandle();
 
@@ -1110,11 +1245,14 @@ public class StaticTextView extends View implements NestedScrollingChild {
 
                     mLongTapSelectionInitEnd = endSelection;
                     mLongTapSelectionInitStart = startSelection;
-                } else {
-                    if (touchedOffset > mLongTapSelectionInitEnd) {
+                } else
+                {
+                    if (touchedOffset > mLongTapSelectionInitEnd)
+                    {
                         mSelectionMgr.setSelection(mLongTapSelectionInitStart, endSelection);
                         mSelectionMgr.drawSelectionHighlight();
-                    } else if (touchedOffset < mLongTapSelectionInitStart) {
+                    } else if (touchedOffset < mLongTapSelectionInitStart)
+                    {
                         mSelectionMgr.setSelection(startSelection, mLongTapSelectionInitEnd);
                         mSelectionMgr.drawSelectionHighlight();
                     }
@@ -1129,14 +1267,16 @@ public class StaticTextView extends View implements NestedScrollingChild {
         }
 
         @Override
-        public void onLongTap(MotionEvent e) {
+        public void onLongTap(MotionEvent e)
+        {
             mHandleMgr.showLeftHandle(true);
             mHandleMgr.showRightHandle(true);
             startTextActionMode();
         }
 
         @Override
-        public void onStartScroll(MotionEvent e) {
+        public void onStartScroll(MotionEvent e)
+        {
             final ViewParent parent = getParent();
             if (parent != null)
                 parent.requestDisallowInterceptTouchEvent(true);
@@ -1146,11 +1286,13 @@ public class StaticTextView extends View implements NestedScrollingChild {
         public void onScroll(MotionEvent e,
                              float startX, float startY,
                              float curX, float curY,
-                             float dx, float dy) {
+                             float dx, float dy)
+        {
             int dxInt = (int) -dx;
             int dyInt = (int) -dy;
 
-            if (dispatchNestedPreScroll(dxInt, dyInt, mScrollConsumed, mScrollOffset)) {
+            if (dispatchNestedPreScroll(dxInt, dyInt, mScrollConsumed, mScrollOffset))
+            {
                 dxInt -= mScrollConsumed[0];
                 dyInt -= mScrollConsumed[1];
 
@@ -1162,18 +1304,22 @@ public class StaticTextView extends View implements NestedScrollingChild {
 
             int actuallyDy = -processVerticalMove(-dyInt);
 
-            if (actuallyDy != 0) {
+            if (actuallyDy != 0)
+            {
                 final int range = getTextHeightWithPadding();
                 final int overscrollMode = getOverScrollMode();
                 final boolean canOverscroll = overscrollMode == OVER_SCROLL_ALWAYS ||
                         (overscrollMode == OVER_SCROLL_IF_CONTENT_SCROLLS && range > getHeight());
 
-                if (canOverscroll) {
-                    if (-dyInt + getScrollY() < 0) {
+                if (canOverscroll)
+                {
+                    if (-dyInt + getScrollY() < 0)
+                    {
                         mEdgeGlowTop.onPull(dy / getHeight(), 0.5f + (curX - startX) / (getWidth() * 2));
                         if (!mEdgeGlowBottom.isFinished())
                             mEdgeGlowBottom.onRelease();
-                    } else if (-dyInt + getScrollY() + getHeight() > range) {
+                    } else if (-dyInt + getScrollY() + getHeight() > range)
+                    {
                         mEdgeGlowBottom.onPull(dy / getHeight(), 0.5f - (curX - startY) / (getWidth() * 2));
                         if (!mEdgeGlowTop.isFinished())
                             mEdgeGlowTop.onRelease();
@@ -1184,7 +1330,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
                     postInvalidateOnAnimation();
             }
 
-            if (dispatchNestedScroll(0, actuallyDy, dxInt, dyInt - actuallyDy, mScrollOffset)) {
+            if (dispatchNestedScroll(0, actuallyDy, dxInt, dyInt - actuallyDy, mScrollOffset))
+            {
                 mGestureDetector.setPrevY(
                         mGestureDetector.getPrevY() - mScrollOffset[1]);
                 mVtev.offsetLocation(0, mScrollOffset[1]);
@@ -1193,7 +1340,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
         }
 
         @Override
-        public void onFling(float velocityX, float velocityY) {
+        public void onFling(float velocityX, float velocityY)
+        {
             int maxY = getTextHeightWithPadding() - getHeight();
 
             final int scrollY = getScrollY();
@@ -1202,11 +1350,13 @@ public class StaticTextView extends View implements NestedScrollingChild {
 
             Log.d("onFling", "velocityY:" + velocityY + " canFling:" + canFling);
 
-            if (!dispatchNestedPreFling(0, velocityY)) {
+            if (!dispatchNestedPreFling(0, velocityY))
+            {
                 Log.d("onFling", "dispatchNestedPreFling():false");
 
                 dispatchNestedFling(0, velocityY, canFling);
-                if (canFling) {
+                if (canFling)
+                {
                     mScroller.fling(getScrollX(), getScrollY(),
                             (int) velocityX, (int) velocityY,
                             0, 0, 0, Math.max(0, maxY));
@@ -1217,14 +1367,17 @@ public class StaticTextView extends View implements NestedScrollingChild {
     };
 
 
-    private class TextIterator {
+    private class TextIterator
+    {
         private BreakIterator mWordIterator;
 
-        public TextIterator() {
+        public TextIterator()
+        {
             mWordIterator = BreakIterator.getWordInstance();
         }
 
-        public long selectWord(int position) {
+        public long selectWord(int position)
+        {
             mWordIterator.setText(mText.toString());
             int end = mWordIterator.following(position);
             int start = mWordIterator.previous();
@@ -1233,21 +1386,25 @@ public class StaticTextView extends View implements NestedScrollingChild {
         }
     }
 
-    private class TextIntentProcessor {
+    private class TextIntentProcessor
+    {
         private PackageManager mPackageManager;
 
-        TextIntentProcessor() {
+        TextIntentProcessor()
+        {
             mPackageManager = getContext().getPackageManager();
         }
 
-        private Intent createProcessTextIntent() {
+        private Intent createProcessTextIntent()
+        {
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_PROCESS_TEXT);
             intent.setType("text/plain");
             return intent;
         }
 
-        private Intent createProcessTextIntentForResolveInfo(ResolveInfo resolveInfo) {
+        private Intent createProcessTextIntentForResolveInfo(ResolveInfo resolveInfo)
+        {
             Intent intent = createProcessTextIntent();
             intent.putExtra(Intent.EXTRA_PROCESS_TEXT_READONLY, true);
             intent.putExtra(Intent.EXTRA_PROCESS_TEXT, getSelectedText());
@@ -1256,16 +1413,20 @@ public class StaticTextView extends View implements NestedScrollingChild {
             return intent;
         }
 
-        private List<ResolveInfo> getSupportedActivities() {
+        private List<ResolveInfo> getSupportedActivities()
+        {
             return mPackageManager.queryIntentActivities(createProcessTextIntent(), 0);
         }
 
-        private CharSequence getLabel(ResolveInfo resolveInfo) {
+        private CharSequence getLabel(ResolveInfo resolveInfo)
+        {
             return resolveInfo.loadLabel(mPackageManager);
         }
 
-        void fetchTextProcessMenu(Menu menu) {
-            for (ResolveInfo resolveInfo : getSupportedActivities()) {
+        void fetchTextProcessMenu(Menu menu)
+        {
+            for (ResolveInfo resolveInfo : getSupportedActivities())
+            {
                 menu.add(Menu.NONE, Menu.NONE, MENU_ITEM_ORDER_TEXT_PROCESS, getLabel(resolveInfo))
                         .setIntent(createProcessTextIntentForResolveInfo(resolveInfo))
                         .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
@@ -1273,7 +1434,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
         }
     }
 
-    private class SelectionManager {
+    private class SelectionManager
+    {
         private int mSelStart;
         private int mSelEnd;
 
@@ -1284,7 +1446,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
         private RectF mSelectionBounds;
 
 
-        SelectionManager() {
+        SelectionManager()
+        {
             mSelStart = -1;
             mSelEnd = -1;
 
@@ -1304,11 +1467,13 @@ public class StaticTextView extends View implements NestedScrollingChild {
             mSelectionPathPaint.setColor(highlightColor);
         }
 
-        void setSelection(int selection) {
+        void setSelection(int selection)
+        {
             setSelection(selection, selection);
         }
 
-        void setSelection(int start, int end) {
+        void setSelection(int start, int end)
+        {
             int oldStart = mSelStart;
             int oldEnd = mSelEnd;
 
@@ -1320,19 +1485,23 @@ public class StaticTextView extends View implements NestedScrollingChild {
                 mSelectionListener.onSelectionChanged(start, end, oldStart, oldEnd);
         }
 
-        int getSelectionStart() {
+        int getSelectionStart()
+        {
             return mSelStart;
         }
 
-        int getSelectionEnd() {
+        int getSelectionEnd()
+        {
             return mSelEnd;
         }
 
-        void drawSelectionHighlight() {
+        void drawSelectionHighlight()
+        {
             drawSelectionHighlight(mSelStart, mSelEnd);
         }
 
-        void drawSelectionHighlight(int start, int end) {
+        void drawSelectionHighlight(int start, int end)
+        {
             if (start < 0 || end < 0 || start == end)
                 return;
 
@@ -1350,11 +1519,13 @@ public class StaticTextView extends View implements NestedScrollingChild {
             invalidate(mRedrawBounds);
         }
 
-        void eraseSelectionHighlight() {
+        void eraseSelectionHighlight()
+        {
             eraseSelectionHighlight(mSelStart, mSelEnd);
         }
 
-        void eraseSelectionHighlight(int start, int end) {
+        void eraseSelectionHighlight(int start, int end)
+        {
             if (start < 0 || end < 0 || start == end)
                 return;
 
@@ -1374,7 +1545,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
         }
     }
 
-    private class HandleManager {
+    private class HandleManager
+    {
         private TextHandle mLeftHandle;
         private TextHandle mRightHandle;
         private HandleEventListener mListener;
@@ -1383,7 +1555,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
         private final int[] mWindowLocationOnScreen = new int[2];
 
 
-        HandleManager() {
+        HandleManager()
+        {
             mListener = new HandleEventListener();
 
             mLeftHandle = new TextHandle(
@@ -1395,7 +1568,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
             mRightHandle.setHandleEventListener(mListener);
         }
 
-        private void calLeftHandleLocation(int[] outLocation) {
+        private void calLeftHandleLocation(int[] outLocation)
+        {
             int selectionStart = mSelectionMgr.getSelectionStart();
 
             getLocationOnScreen(mViewLocationOnScreen);
@@ -1416,7 +1590,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
             outLocation[1] = y;
         }
 
-        private void calRightHandleLocation(int[] outLocation) {
+        private void calRightHandleLocation(int[] outLocation)
+        {
             int selectionEnd = mSelectionMgr.getSelectionEnd();
 
             getLocationOnScreen(mViewLocationOnScreen);
@@ -1437,12 +1612,15 @@ public class StaticTextView extends View implements NestedScrollingChild {
             outLocation[1] = y;
         }
 
-        boolean showLeftHandle() {
+        boolean showLeftHandle()
+        {
             return showLeftHandle(false);
         }
 
-        boolean showLeftHandle(boolean forceUpdate) {
-            if (!isLeftHandleBeyond()) {
+        boolean showLeftHandle(boolean forceUpdate)
+        {
+            if (!isLeftHandleBeyond())
+            {
                 calLeftHandleLocation(mWindowLocationOnScreen);
 
                 int x = mWindowLocationOnScreen[0];
@@ -1450,18 +1628,22 @@ public class StaticTextView extends View implements NestedScrollingChild {
                 mLeftHandle.show(StaticTextView.this, x, y, forceUpdate);
 
                 return true;
-            } else {
+            } else
+            {
                 mLeftHandle.close();
                 return false;
             }
         }
 
-        boolean showRightHandle() {
+        boolean showRightHandle()
+        {
             return showRightHandle(false);
         }
 
-        boolean showRightHandle(boolean forceUpdate) {
-            if (!isRightHandleBeyond()) {
+        boolean showRightHandle(boolean forceUpdate)
+        {
+            if (!isRightHandleBeyond())
+            {
                 calRightHandleLocation(mWindowLocationOnScreen);
 
                 int x = mWindowLocationOnScreen[0];
@@ -1469,34 +1651,41 @@ public class StaticTextView extends View implements NestedScrollingChild {
                 mRightHandle.show(StaticTextView.this, x, y, forceUpdate);
 
                 return true;
-            } else {
+            } else
+            {
                 mRightHandle.close();
                 return false;
             }
         }
 
-        void closeAllHandle() {
+        void closeAllHandle()
+        {
             closeLeftHandle();
             closeRightHandle();
         }
 
-        void closeLeftHandle() {
+        void closeLeftHandle()
+        {
             mLeftHandle.close();
         }
 
-        void closeRightHandle() {
+        void closeRightHandle()
+        {
             mRightHandle.close();
         }
 
-        boolean isLHShowing() {
+        boolean isLHShowing()
+        {
             return mLeftHandle.isShowing();
         }
 
-        boolean isRHShowing() {
+        boolean isRHShowing()
+        {
             return mRightHandle.isShowing();
         }
 
-        boolean isLeftHandleBeyond() {
+        boolean isLeftHandleBeyond()
+        {
             int selectionStart = mSelectionMgr.getSelectionStart();
 
             int offsetLine = mTextLayout.getLineForOffset(selectionStart);
@@ -1510,7 +1699,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
                     || (y < -getPaddingTop() || y > getHeight() - getPaddingBottom()));
         }
 
-        boolean isRightHandleBeyond() {
+        boolean isRightHandleBeyond()
+        {
             int selectionEnd = mSelectionMgr.getSelectionEnd();
 
             int offsetLine = mTextLayout.getLineForOffset(selectionEnd);
@@ -1525,7 +1715,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
         }
 
 
-        private class HandleEventListener implements TextHandle.HandleListener {
+        private class HandleEventListener implements TextHandle.HandleListener
+        {
             private float mStartLineY;
             private float mStartScreenY;
             private float mEndLineY;
@@ -1534,7 +1725,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
             private final int[] mViewLocationOnScreen = new int[2];
 
 
-            private boolean determineLeftHandle(float textLayoutX, float textLayoutY) {
+            private boolean determineLeftHandle(float textLayoutX, float textLayoutY)
+            {
                 int curLine = mTextLayout.getLineForVertical((int) textLayoutY);
                 int curOffset = mTextLayout.getOffsetForHorizontal(curLine, textLayoutX);
 
@@ -1543,10 +1735,12 @@ public class StaticTextView extends View implements NestedScrollingChild {
                 int prevStartOffset = mSelectionMgr.getSelectionStart();
                 int prevEndOffset = mSelectionMgr.getSelectionEnd();
 
-                if (curOffset >= prevEndOffset) {
+                if (curOffset >= prevEndOffset)
+                {
                     newStartOffset = prevEndOffset - 1;
                     newEndOffset = prevEndOffset;
-                } else {
+                } else
+                {
                     newStartOffset = curOffset;
                     newEndOffset = prevEndOffset;
                 }
@@ -1561,7 +1755,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
             }
 
 
-            private boolean determineRightHandle(float textLayoutX, float textLayoutY) {
+            private boolean determineRightHandle(float textLayoutX, float textLayoutY)
+            {
                 int curLine = mTextLayout.getLineForVertical((int) textLayoutY);
                 int curOffset = mTextLayout.getOffsetForHorizontal(curLine, textLayoutX);
 
@@ -1570,10 +1765,12 @@ public class StaticTextView extends View implements NestedScrollingChild {
                 int prevStartOffset = mSelectionMgr.getSelectionStart();
                 int prevEndOffset = mSelectionMgr.getSelectionEnd();
 
-                if (curOffset <= prevStartOffset) {
+                if (curOffset <= prevStartOffset)
+                {
                     newStartOffset = prevStartOffset;
                     newEndOffset = prevStartOffset + 1;
-                } else {
+                } else
+                {
                     newStartOffset = prevStartOffset;
                     newEndOffset = curOffset;
                 }
@@ -1589,7 +1786,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
 
 
             @Override
-            public void onCapture(TextHandle view, MotionEvent e) {
+            public void onCapture(TextHandle view, MotionEvent e)
+            {
                 int curStartLine = mTextLayout.getLineForOffset(mSelectionMgr.getSelectionStart());
                 mStartLineY = (mTextLayout.getLineBottom(curStartLine) + mTextLayout.getLineTop(curStartLine)) / 2f;
 
@@ -1601,7 +1799,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
             }
 
             @Override
-            public void onDrag(TextHandle view, MotionEvent e) {
+            public void onDrag(TextHandle view, MotionEvent e)
+            {
                 getLocationOnScreen(mViewLocationOnScreen);
 
                 float viewX = e.getRawX() - mViewLocationOnScreen[0];
@@ -1609,14 +1808,17 @@ public class StaticTextView extends View implements NestedScrollingChild {
                 float textLayoutX = viewX - getPaddingLeft() + getScrollX();
                 float textLayoutY = viewY - getPaddingTop() + getScrollY();
 
-                switch (view.getType()) {
-                    case LEFT: {
+                switch (view.getType())
+                {
+                    case LEFT:
+                    {
                         stopTextActionMode();
                         determineLeftHandle(textLayoutX, mStartLineY + (e.getRawY() - mStartScreenY));
                         break;
                     }
 
-                    case RIGHT: {
+                    case RIGHT:
+                    {
                         stopTextActionMode();
                         determineRightHandle(textLayoutX, mEndLineY + (e.getRawY() - mEndScreenY));
                         break;
@@ -1625,12 +1827,15 @@ public class StaticTextView extends View implements NestedScrollingChild {
             }
 
             @Override
-            public void onClick(TextHandle view, MotionEvent e) {
+            public void onClick(TextHandle view, MotionEvent e)
+            {
             }
 
             @Override
-            public void onRelease(TextHandle view, MotionEvent e) {
-                switch (view.getType()) {
+            public void onRelease(TextHandle view, MotionEvent e)
+            {
+                switch (view.getType())
+                {
                     case LEFT:
                         startTextActionMode();
                         break;
@@ -1644,14 +1849,17 @@ public class StaticTextView extends View implements NestedScrollingChild {
     }
 
 
-    private boolean canCopy() {
+    private boolean canCopy()
+    {
         return hasSelection();
     }
 
-    private boolean canSelectAll() {
+    private boolean canSelectAll()
+    {
         int selectionStart = getSelectionStart();
         int selectionEnd = getSelectionEnd();
-        if (selectionEnd < selectionStart) {
+        if (selectionEnd < selectionStart)
+        {
             int temp = selectionEnd;
             selectionEnd = selectionStart;
             selectionStart = temp;
@@ -1660,11 +1868,13 @@ public class StaticTextView extends View implements NestedScrollingChild {
         return !(selectionStart == 0 && selectionEnd == mText.length());
     }
 
-    private boolean canWebSearch() {
+    private boolean canWebSearch()
+    {
         return hasSelection();
     }
 
-    private void performCopy() {
+    private void performCopy()
+    {
         int selectionStart = getSelectionStart();
         int selectionEnd = getSelectionEnd();
 
@@ -1678,20 +1888,23 @@ public class StaticTextView extends View implements NestedScrollingChild {
         mSelectionMgr.setSelection(0);
     }
 
-    private void performSelectAll() {
+    private void performSelectAll()
+    {
         mSelectionMgr.setSelection(0, mText.length());
         mSelectionMgr.drawSelectionHighlight();
 
         mHandleMgr.showLeftHandle();
         mHandleMgr.showRightHandle();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
             if (mTextActionMode != null)
                 mTextActionMode.invalidateContentRect();
         }
     }
 
-    private void performWebSearch() {
+    private void performWebSearch()
+    {
         SharedPreferences preferences
                 = PreferenceManager.getDefaultSharedPreferences(getContext());
         String wsKey = preferences.getString("search_url", getContext().getString(R.string.default_search_url));
@@ -1704,15 +1917,20 @@ public class StaticTextView extends View implements NestedScrollingChild {
                 .startChromeTab(getContext(), wsKey);
     }
 
-    private ActionMode.Callback getActionModeCallback() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return new ActionMode.Callback2() {
+    private ActionMode.Callback getActionModeCallback()
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            return new ActionMode.Callback2()
+            {
                 private RectF mContentBounds = new RectF();
 
-                private boolean updateSelectAllMenuItem(Menu menu) {
+                private boolean updateSelectAllMenuItem(Menu menu)
+                {
                     boolean canSelectAll = canSelectAll();
                     boolean selectAllItemExistes = menu.findItem(MENU_ITEM_ID_SELECT_ALL) != null;
-                    if (canSelectAll && !selectAllItemExistes) {
+                    if (canSelectAll && !selectAllItemExistes)
+                    {
                         menu.add(Menu.NONE, MENU_ITEM_ID_SELECT_ALL, MENU_ITEM_ORDER_SELECT_ALL, "全选").
                                 setAlphabeticShortcut('a').
                                 setIcon(R.drawable.ic_action_select_all).
@@ -1726,14 +1944,16 @@ public class StaticTextView extends View implements NestedScrollingChild {
                 }
 
                 @Override
-                public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                public boolean onCreateActionMode(ActionMode mode, Menu menu)
+                {
                     mode.setTitle("选择文本");
                     mode.setSubtitle(null);
                     mode.setTitleOptionalHint(true);
 
                     boolean canCreate = false;
 
-                    if (canCopy()) {
+                    if (canCopy())
+                    {
                         menu.add(Menu.NONE, MENU_ITEM_ID_COPY, MENU_ITEM_ORDER_COPY, "复制").
                                 setAlphabeticShortcut('c').
                                 setIcon(R.drawable.ic_action_copy).
@@ -1747,7 +1967,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
                     if (canSelectAll())
                         canCreate = true;
 
-                    if (canWebSearch()) {
+                    if (canWebSearch())
+                    {
                         menu.add(Menu.NONE, MENU_ITEM_ID_WEB_SEARCH, MENU_ITEM_ORDER_WEB_SEARCH, "网页搜索").
                                 setAlphabeticShortcut('s').
                                 setIcon(R.drawable.ic_search).
@@ -1762,13 +1983,16 @@ public class StaticTextView extends View implements NestedScrollingChild {
                 }
 
                 @Override
-                public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                public boolean onPrepareActionMode(ActionMode mode, Menu menu)
+                {
                     return updateSelectAllMenuItem(menu);
                 }
 
                 @Override
-                public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-                    switch (item.getItemId()) {
+                public boolean onActionItemClicked(ActionMode mode, MenuItem item)
+                {
+                    switch (item.getItemId())
+                    {
                         case MENU_ITEM_ID_COPY:
                             performCopy();
                             return true;
@@ -1786,13 +2010,16 @@ public class StaticTextView extends View implements NestedScrollingChild {
                 }
 
                 @Override
-                public void onDestroyActionMode(ActionMode mode) {
+                public void onDestroyActionMode(ActionMode mode)
+                {
                     mTextActionMode = null;
                 }
 
                 @Override
-                public void onGetContentRect(ActionMode mode, View view, Rect outRect) {
-                    if (hasSelection()) {
+                public void onGetContentRect(ActionMode mode, View view, Rect outRect)
+                {
+                    if (hasSelection())
+                    {
                         mContentBounds.set(mSelectionMgr.mSelectionBounds);
                         if (mHandleMgr.isRHShowing())
                             mContentBounds.bottom += mHandleMgr.mRightHandle.getHeight();
@@ -1808,12 +2035,16 @@ public class StaticTextView extends View implements NestedScrollingChild {
                             (int) Math.ceil(mContentBounds.bottom + textVerticalOffset));
                 }
             };
-        } else {
-            return new ActionMode.Callback() {
-                private boolean updateSelectAllMenuItem(Menu menu) {
+        } else
+        {
+            return new ActionMode.Callback()
+            {
+                private boolean updateSelectAllMenuItem(Menu menu)
+                {
                     boolean canSelectAll = canSelectAll();
                     boolean selectAllItemExistes = menu.findItem(MENU_ITEM_ID_SELECT_ALL) != null;
-                    if (canSelectAll && !selectAllItemExistes) {
+                    if (canSelectAll && !selectAllItemExistes)
+                    {
                         menu.add(Menu.NONE, MENU_ITEM_ID_SELECT_ALL, MENU_ITEM_ORDER_SELECT_ALL, "全选").
                                 setAlphabeticShortcut('a').
                                 setIcon(R.drawable.ic_action_select_all).
@@ -1827,14 +2058,16 @@ public class StaticTextView extends View implements NestedScrollingChild {
                 }
 
                 @Override
-                public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                public boolean onCreateActionMode(ActionMode mode, Menu menu)
+                {
                     mode.setTitle("选择文本");
                     mode.setSubtitle(null);
                     mode.setTitleOptionalHint(true);
 
                     boolean canCreate = false;
 
-                    if (canCopy()) {
+                    if (canCopy())
+                    {
                         menu.add(Menu.NONE, MENU_ITEM_ID_COPY, MENU_ITEM_ORDER_COPY, "复制").
                                 setAlphabeticShortcut('c').
                                 setIcon(R.drawable.ic_action_copy).
@@ -1848,7 +2081,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
                     if (canSelectAll())
                         canCreate = true;
 
-                    if (canWebSearch()) {
+                    if (canWebSearch())
+                    {
                         menu.add(Menu.NONE, MENU_ITEM_ID_WEB_SEARCH, MENU_ITEM_ORDER_WEB_SEARCH, "网页搜索").
                                 setAlphabeticShortcut('s').
                                 setIcon(R.drawable.ic_search).
@@ -1863,13 +2097,16 @@ public class StaticTextView extends View implements NestedScrollingChild {
                 }
 
                 @Override
-                public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                public boolean onPrepareActionMode(ActionMode mode, Menu menu)
+                {
                     return updateSelectAllMenuItem(menu);
                 }
 
                 @Override
-                public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-                    switch (item.getItemId()) {
+                public boolean onActionItemClicked(ActionMode mode, MenuItem item)
+                {
+                    switch (item.getItemId())
+                    {
                         case MENU_ITEM_ID_COPY:
                             performCopy();
                             return true;
@@ -1887,7 +2124,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
                 }
 
                 @Override
-                public void onDestroyActionMode(ActionMode mode) {
+                public void onDestroyActionMode(ActionMode mode)
+                {
                     mTextActionMode = null;
                 }
             };
@@ -1895,7 +2133,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
     }
 
 
-    public interface OnSelectionChangedListener {
+    public interface OnSelectionChangedListener
+    {
         void onSelectionChanged(int newStart, int newEnd, int oldStart, int oldEnd);
     }
 }

@@ -139,8 +139,7 @@ public class FormatDialogFragment extends BottomSheetDialogFragment
         {
             mBackgroundBar.addThumb(BACKGROUND_ID_NIGHT_DEFAULT, true);
             mBackgroundBar.addThumb(BACKGROUND_ID_NIGHT_BLACK);
-        }
-        else
+        } else
         {
             mBackgroundBar.addThumb(BACKGROUND_ID_DEFAULT, true);
             mBackgroundBar.addThumb(BACKGROUND_ID_YELLOW);
@@ -209,8 +208,7 @@ public class FormatDialogFragment extends BottomSheetDialogFragment
                     .putString(UApplication.LINE_SPACING_ADD, mCurLSA.get())
                     .putString(UApplication.LINE_SPACING_MULT, mCurLSM.get())
                     .putString(UApplication.BACKGROUND_NIGHT_ID, mCurBackgroundId).apply();
-        }
-        else
+        } else
         {
             preferences.edit()
                     .putInt(UApplication.FONT_SIZE, mCurFontSize)
@@ -357,8 +355,7 @@ public class FormatDialogFragment extends BottomSheetDialogFragment
         {
             button.setEnabled(true);
             button.getDrawable().setTint(mAccentColor);
-        }
-        else
+        } else
         {
             button.setEnabled(false);
             button.getDrawable().setTint(

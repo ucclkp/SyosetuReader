@@ -1,5 +1,9 @@
 package com.ucclkp.syosetureader;
 
+/**
+ * 使用字符串实现的精确至小数点后一位的浮点数。
+ * 该浮点数只能进行+0.1或-0.1的运算，分别由 {@link #inc()} 和 {@link #dec()} 进行。
+ */
 public class PrFloat
 {
     private String mFloat;
@@ -76,8 +80,7 @@ public class PrFloat
                 {
                     builder.insert(0, '0');
                     carry = true;
-                }
-                else
+                } else
                 {
                     carry = false;
                     builder.insert(0, (char) ((int) current + 1));
@@ -89,8 +92,7 @@ public class PrFloat
 
             if (carry)
                 builder.insert(0, '1');
-        }
-        else
+        } else
         {
             builder.append(mFloat.substring(0, mFloat.length() - 1))
                     .append((char) ((int) num + 1));
@@ -123,8 +125,7 @@ public class PrFloat
                 {
                     builder.insert(0, '9');
                     carry = true;
-                }
-                else
+                } else
                 {
                     carry = false;
                     builder.insert(0, (char) ((int) current - 1));
@@ -136,8 +137,7 @@ public class PrFloat
 
             if (builder.charAt(0) == '0' && builder.charAt(1) != '.')
                 builder.delete(0, 1);
-        }
-        else
+        } else
         {
             builder.append(mFloat.substring(0, mFloat.length() - 1))
                     .append((char) ((int) num - 1));

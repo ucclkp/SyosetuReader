@@ -53,12 +53,10 @@ public class OSLContentFragment extends Fragment
         if (mTitle.equals(getContext().getString(R.string.about_os_android_sdk)))
         {
             mContentTextView.setText(readLicenseFile("android_sdk_license"));
-        }
-        else if (mTitle.equals(getContext().getString(R.string.about_os_android_support_library)))
+        } else if (mTitle.equals(getContext().getString(R.string.about_os_android_support_library)))
         {
             mContentTextView.setText(readLicenseFile("android_support_library_license"));
-        }
-        else if (mTitle.equals(getContext().getString(R.string.about_os_disklrucache)))
+        } else if (mTitle.equals(getContext().getString(R.string.about_os_disklrucache)))
         {
             mContentTextView.setText(readLicenseFile("disklrucache_license"));
         }
@@ -84,20 +82,17 @@ public class OSLContentFragment extends Fragment
                 content += line + "\n";
 
             return content;
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             e.printStackTrace();
             return null;
-        }
-        finally
+        } finally
         {
             try
             {
                 if (reader != null)
                     reader.close();
-            }
-            catch (IOException e)
+            } catch (IOException e)
             {
                 e.printStackTrace();
             }

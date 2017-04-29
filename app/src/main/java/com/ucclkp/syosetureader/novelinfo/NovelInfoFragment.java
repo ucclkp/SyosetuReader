@@ -4,7 +4,6 @@ package com.ucclkp.syosetureader.novelinfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.SpannableString;
@@ -15,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +33,7 @@ public class NovelInfoFragment extends Fragment
     private Button mAuthorButton;
     private TextView mListTextView;
     private Button mReadButton;
-    private ConstraintLayout mForumLayout;
+    private LinearLayout mForumLayout;
     private SwipeRefreshLayout mRefreshSRL;
 
 
@@ -94,7 +94,7 @@ public class NovelInfoFragment extends Fragment
         mListTextView = (TextView) parent.findViewById(R.id.tv_novelinfo_list);
         mAuthorButton = (Button) parent.findViewById(R.id.bt_novelinfo_author);
         mReadButton = (Button) parent.findViewById(R.id.bt_novelinfo_read);
-        mForumLayout = (ConstraintLayout) parent.findViewById(R.id.cl_novelinfo_forum);
+        mForumLayout = (LinearLayout) parent.findViewById(R.id.cl_novelinfo_forum);
 
         return parent;
     }
@@ -137,8 +137,7 @@ public class NovelInfoFragment extends Fragment
             {
                 Toast.makeText(getActivity(),
                         "Failed", Toast.LENGTH_SHORT).show();
-            }
-            else
+            } else
             {
                 String type = data.ncode + "  " + data.type;
 

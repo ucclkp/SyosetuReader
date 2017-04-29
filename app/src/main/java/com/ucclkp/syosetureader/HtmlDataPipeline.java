@@ -15,6 +15,11 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * 获取HTML数据的流水线。
+ *
+ * @param <Parsed> 由 {@link #onStartParse(RetrieveHtmlData)} 返回的数据类型。
+ */
 public abstract class HtmlDataPipeline<Parsed>
 {
     private int mExitCode;
@@ -178,23 +183,19 @@ public abstract class HtmlDataPipeline<Parsed>
                 data.redirection = true;
                 data.location = redirectUrl;
             }
-        }
-        catch (MalformedURLException me)
+        } catch (MalformedURLException me)
         {
             data.code = HTTP_ERROR_ILLEGAL_URL;
             data.htmlErrorMsg = me.getMessage();
-        }
-        catch (IOException ioe)
+        } catch (IOException ioe)
         {
             data.code = HTTP_ERROR_IO;
             data.htmlErrorMsg = ioe.getMessage();
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             data.code = HTTP_ERROR_OTHER;
             data.htmlErrorMsg = e.getMessage();
-        }
-        finally
+        } finally
         {
             if (connection != null)
                 connection.disconnect();
@@ -204,8 +205,7 @@ public abstract class HtmlDataPipeline<Parsed>
                 try
                 {
                     in.close();
-                }
-                catch (IOException e1)
+                } catch (IOException e1)
                 {
                     data.code = HTTP_ERROR_IO;
                     data.htmlErrorMsg = e1.getMessage();
@@ -220,8 +220,7 @@ public abstract class HtmlDataPipeline<Parsed>
         {
             mExitCode = CODE_FETCH_FAILED;
             pData = null;
-        }
-        else
+        } else
         {
             pData = HtmlDataPipeline.this.onStartParse(data);
             if (pData == null)
@@ -298,23 +297,19 @@ public abstract class HtmlDataPipeline<Parsed>
                     data.redirection = true;
                     data.location = redirectUrl;
                 }
-            }
-            catch (MalformedURLException me)
+            } catch (MalformedURLException me)
             {
                 data.code = HTTP_ERROR_ILLEGAL_URL;
                 data.htmlErrorMsg = me.getMessage();
-            }
-            catch (IOException ioe)
+            } catch (IOException ioe)
             {
                 data.code = HTTP_ERROR_IO;
                 data.htmlErrorMsg = ioe.getMessage();
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 data.code = HTTP_ERROR_OTHER;
                 data.htmlErrorMsg = e.getMessage();
-            }
-            finally
+            } finally
             {
                 if (connection != null)
                     connection.disconnect();
@@ -324,8 +319,7 @@ public abstract class HtmlDataPipeline<Parsed>
                     try
                     {
                         in.close();
-                    }
-                    catch (IOException e1)
+                    } catch (IOException e1)
                     {
                         data.code = HTTP_ERROR_IO;
                         data.htmlErrorMsg = e1.getMessage();
@@ -425,8 +419,7 @@ public abstract class HtmlDataPipeline<Parsed>
             try
             {
                 result = mMatcher.group(group);
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 return "";
             }
@@ -444,8 +437,7 @@ public abstract class HtmlDataPipeline<Parsed>
                     start = mMatcher.start();
                 else
                     start = mMatcher.end();
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 return "";
             }

@@ -129,8 +129,7 @@ class SearchResultListAdapter extends RecyclerView.Adapter
                     iHolder.authorButton.setOnClickListener(data.authorListener);
                     iHolder.authorButton.setVisibility(View.VISIBLE);
                     iHolder.authorTextView.setVisibility(View.GONE);
-                }
-                else
+                } else
                 {
                     iHolder.authorTextView.setText(data.authorName);
                     iHolder.authorTextView.setVisibility(View.VISIBLE);
@@ -141,8 +140,7 @@ class SearchResultListAdapter extends RecyclerView.Adapter
                 {
                     iHolder.contriTextView.setText(data.contriChips);
                     iHolder.contriTextView.setVisibility(View.VISIBLE);
-                }
-                else
+                } else
                     iHolder.contriTextView.setVisibility(View.GONE);
 
                 iHolder.novelInfoButton.setText(data.novelInfoTitle);
@@ -154,8 +152,7 @@ class SearchResultListAdapter extends RecyclerView.Adapter
                 {
                     iHolder.chipsTextView.setText(data.chips);
                     iHolder.chipsTextView.setVisibility(View.VISIBLE);
-                }
-                else
+                } else
                     iHolder.chipsTextView.setVisibility(View.GONE);
 
                 iHolder.othersTextView.setText(data.others);

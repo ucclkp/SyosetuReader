@@ -140,8 +140,7 @@ class AuthorParser extends HtmlDataPipeline<Object>
                                 0, titleSpaned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
                         data.data.append(titleSpaned).append("\n");
-                    }
-                    else if (matcher.group().matches("^<\\s*dd[\\s\\S]*?"))
+                    } else if (matcher.group().matches("^<\\s*dd[\\s\\S]*?"))
                     {
                         int end = HtmlUtility.getTagEndIndex(
                                 profileSource, "dd", matcher.end(), false);

@@ -13,13 +13,9 @@ import android.widget.CheckBox;
 
 public class AgeCertificationDialogFragment extends AppCompatDialogFragment
 {
-    private int mReqCode;
-    private boolean mNomoreHint;
-    private OnAgeCertListener mListener;
-
-
     public static final String ARG_REQUEST_CODE = "arg_request_code";
-
+    private int mReqCode;
+    private OnAgeCertListener mListener;
 
     public static AgeCertificationDialogFragment newInstance(int requestCode)
     {

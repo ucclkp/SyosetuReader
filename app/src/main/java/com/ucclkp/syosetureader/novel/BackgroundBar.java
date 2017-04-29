@@ -134,8 +134,7 @@ public class BackgroundBar extends LinearLayout
             {
                 mThumbList.remove(i);
                 removeView(getChildAt(i));
-            }
-            else
+            } else
                 ++i;
         }
     }

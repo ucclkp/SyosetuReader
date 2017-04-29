@@ -43,8 +43,7 @@ public class HtmlUtility
             if (mt.equals("<" + tagName))
             {
                 ++acc;
-            }
-            else if (mt.equals("</" + tagName + ">"))
+            } else if (mt.equals("</" + tagName + ">"))
             {
                 --acc;
                 if (acc == 0)
@@ -105,8 +104,7 @@ public class HtmlUtility
         {
             int startIndex = url.lastIndexOf("/", url.length() - 2);
             rear = url.substring(startIndex + 1, url.length() - 1);
-        }
-        else
+        } else
         {
             int startIndex = url.lastIndexOf("/");
             rear = url.substring(startIndex + 1);
@@ -150,15 +148,13 @@ public class HtmlUtility
                         retBuf.append((char) Integer.parseInt(
                                 unicodeStr.substring(i + 2, i + 6), 16));
                         i += 5;
-                    }
-                    catch (NumberFormatException localNumberFormatException)
+                    } catch (NumberFormatException localNumberFormatException)
                     {
                         retBuf.append(unicodeStr.charAt(i));
                     }
                 else
                     retBuf.append(unicodeStr.charAt(i));
-            }
-            else
+            } else
             {
                 retBuf.append(unicodeStr.charAt(i));
             }
@@ -172,8 +168,7 @@ public class HtmlUtility
         try
         {
             decodedUrl = URLDecoder.decode(url, "utf-8");
-        }
-        catch (UnsupportedEncodingException e)
+        } catch (UnsupportedEncodingException e)
         {
             e.printStackTrace();
         }
@@ -187,8 +182,7 @@ public class HtmlUtility
         try
         {
             encodedUrl = URLEncoder.encode(url, "utf-8");
-        }
-        catch (UnsupportedEncodingException e)
+        } catch (UnsupportedEncodingException e)
         {
             e.printStackTrace();
         }
@@ -215,13 +209,11 @@ public class HtmlUtility
 
             in = connection.getInputStream();
             return BitmapFactory.decodeStream(in);
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             e.printStackTrace();
             return null;
-        }
-        finally
+        } finally
         {
             if (connection != null)
                 connection.disconnect();
@@ -230,8 +222,7 @@ public class HtmlUtility
             {
                 if (in != null)
                     in.close();
-            }
-            catch (IOException e1)
+            } catch (IOException e1)
             {
                 e1.printStackTrace();
             }
@@ -246,8 +237,7 @@ public class HtmlUtility
         try
         {
             result = Integer.valueOf(intStr);
-        }
-        catch (NumberFormatException e)
+        } catch (NumberFormatException e)
         {
             result = def;
         }

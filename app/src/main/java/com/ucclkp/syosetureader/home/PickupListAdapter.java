@@ -121,8 +121,7 @@ class PickupListAdapter extends RecyclerView.Adapter
                 if (novelInfo.isEmpty())
                 {
                     iHolder.novelInfoButton.setVisibility(View.GONE);
-                }
-                else
+                } else
                 {
                     iHolder.novelInfoButton.setVisibility(View.VISIBLE);
                     iHolder.novelInfoButton.setText(novelInfo);

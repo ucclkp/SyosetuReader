@@ -74,8 +74,7 @@ public class UTextView extends UBaseView
                 //以下表达式中的getPaddingBottom()用于当选择区域包括最后一行时留出空间显示Handle。
                 finalOffset += Math.min(handleHeight, mTextManager.getHeight() - endLineBottom + getPaddingBottom());
             }
-        }
-        else
+        } else
         {
             int prevHeight;
             int nextHeight;
@@ -367,8 +366,7 @@ public class UTextView extends UBaseView
             {
                 mScroller.startScroll(getScrollX(), getScrollY(), 0, yOffset);
                 invalidate();
-            }
-            else
+            } else
                 scrollBy(0, yOffset);
         }
     }

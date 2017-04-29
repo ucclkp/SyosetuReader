@@ -51,8 +51,7 @@ public class ChromeCustomTabsSession
         try
         {
             return mService.mayLaunchUrl(mCallback, url, extras, otherLikelyBundles);
-        }
-        catch (RemoteException e)
+        } catch (RemoteException e)
         {
             return false;
         }

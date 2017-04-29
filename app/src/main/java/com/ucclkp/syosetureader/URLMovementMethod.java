@@ -231,8 +231,7 @@ public class URLMovementMethod extends BaseMovementMethod implements MovementMet
                 }
 
                 return true;
-            }
-            else
+            } else
             {
                 Selection.removeSelection(buffer);
             }
@@ -256,8 +255,7 @@ public class URLMovementMethod extends BaseMovementMethod implements MovementMet
         if ((dir & View.FOCUS_BACKWARD) != 0)
         {
             text.setSpan(FROM_BELOW, 0, 0, Spannable.SPAN_POINT_POINT);
-        }
-        else
+        } else
         {
             text.removeSpan(FROM_BELOW);
         }

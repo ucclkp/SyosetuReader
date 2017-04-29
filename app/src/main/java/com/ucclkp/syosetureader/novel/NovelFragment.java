@@ -191,8 +191,7 @@ public class NovelFragment extends Fragment
             mIsFavoriteInit = savedInstanceState.getBoolean(SAVED_IS_FAVORITE_INIT);
 
             getActivity().setTitle(mNovelCode);
-        }
-        else
+        } else
         {
             if (getArguments() != null)
             {
@@ -348,8 +347,7 @@ public class NovelFragment extends Fragment
             mSavedNovelData.novelReviewUrl = savedInstanceState.getString(SAVED_NOVEL_REVIEW_URL);
 
             loadDataToView(mSavedNovelData);
-        }
-        else
+        } else
         {
             if (restoreFromDownload())
             {
@@ -366,11 +364,9 @@ public class NovelFragment extends Fragment
                         if (result[1])
                             loadDataToView(mSavedNovelData);
                     }
-                }
-                else
+                } else
                     loadDataToView(mSavedNovelData);
-            }
-            else if (restoreContent())
+            } else if (restoreContent())
             {
                 mNovelSource = SyosetuUtility.SyosetuSource.CACHE;
 
@@ -385,11 +381,9 @@ public class NovelFragment extends Fragment
                         if (result[1])
                             loadDataToView(mSavedNovelData);
                     }
-                }
-                else
+                } else
                     loadDataToView(mSavedNovelData);
-            }
-            else
+            } else
             {
                 mNovelSource = SyosetuUtility.SyosetuSource.NETWORK;
                 mNovelParser.enter(mNovelUrl);
@@ -487,8 +481,7 @@ public class NovelFragment extends Fragment
                             getActivity().getApplicationContext(), NovelDownloadService.class);
                     getActivity().getApplicationContext()
                             .bindService(intent, mDLServiceConnection, Context.BIND_AUTO_CREATE);
-                }
-                else
+                } else
                 {
                     if (UApplication.dlServiceController.startDownload(mNovelUrl, mIsShortNovel))
                         Toast.makeText(getActivity(), "准备下载...", Toast.LENGTH_SHORT).show();
@@ -512,6 +505,18 @@ public class NovelFragment extends Fragment
                 Intent intent = new Intent(getActivity(), NovelInfoActivity.class);
                 intent.putExtra(NovelInfoActivity.ARG_NOVEL_INFO_URL, mSavedNovelData.novelInfoUrl);
                 startActivity(intent);
+                return true;
+            }
+
+            case R.id.menu_novel_content_fragment_action_feel:
+            {
+                Toast.makeText(getContext(), "功能开发中", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+
+            case R.id.menu_novel_content_fragment_action_review:
+            {
+                Toast.makeText(getContext(), "功能开发中", Toast.LENGTH_SHORT).show();
                 return true;
             }
 
@@ -612,14 +617,12 @@ public class NovelFragment extends Fragment
                 Toast.makeText(getActivity(), "您已选择：非18",
                         Toast.LENGTH_SHORT).show();
                 result[0] = true;
-            }
-            else
+            } else
             {
                 result[0] = false;
                 result[1] = true;
             }
-        }
-        else
+        } else
         {
             AgeCertificationDialogFragment acDialogFragment
                     = AgeCertificationDialogFragment.newInstance(reqCode);
@@ -691,8 +694,7 @@ public class NovelFragment extends Fragment
             ((UApplication) getActivity().getApplication())
                     .getSyosetuLibrary().deleteFav(mNovelCode);
             getActivity().invalidateOptionsMenu();
-        }
-        else
+        } else
         {
             mIsFavorite = true;
 
@@ -715,8 +717,7 @@ public class NovelFragment extends Fragment
         {
             mResultCode |= MainActivity.RC_REFRESH_FAV;
             getActivity().setResult(mResultCode);
-        }
-        else
+        } else
         {
             mResultCode &= ~MainActivity.RC_REFRESH_FAV;
             getActivity().setResult(mResultCode);
@@ -798,8 +799,7 @@ public class NovelFragment extends Fragment
                 jsonObject.put("section_title", data.sectionTitle);
 
                 jsonArray.put(jsonObject);
-            }
-            catch (JSONException e)
+            } catch (JSONException e)
             {
                 e.printStackTrace();
             }
@@ -830,8 +830,7 @@ public class NovelFragment extends Fragment
 
                 dataList.add(data);
             }
-        }
-        catch (JSONException e)
+        } catch (JSONException e)
         {
             e.printStackTrace();
         }
@@ -861,8 +860,7 @@ public class NovelFragment extends Fragment
 
             ((UApplication) getActivity().getApplication())
                     .getCacheManager().putText(mNovelUrl, jsonObject.toString());
-        }
-        catch (JSONException e)
+        } catch (JSONException e)
         {
             e.printStackTrace();
         }
@@ -896,8 +894,7 @@ public class NovelFragment extends Fragment
                 mNovelSite = SyosetuUtility.SyosetuSite.valueOf(jsonObject.getString("cache_site"));
 
                 return true;
-            }
-            catch (JSONException e)
+            } catch (JSONException e)
             {
                 e.printStackTrace();
             }
@@ -969,8 +966,7 @@ public class NovelFragment extends Fragment
                 text.insert(0, "\n\n").insert(0, data.headAttention);
 
             mShortNovelSTV.setText(text);
-        }
-        else
+        } else
         {
             mNovelSRL.setVisibility(View.VISIBLE);
             mShortNovelSTV.setVisibility(View.GONE);
@@ -1029,8 +1025,7 @@ public class NovelFragment extends Fragment
             {
                 loadDataToView(mSavedNovelData);
                 cacheContent();
-            }
-            else if (reqCode == AC_RC_NO_NEED_CACHE)
+            } else if (reqCode == AC_RC_NO_NEED_CACHE)
             {
                 loadDataToView(mSavedNovelData);
             }
@@ -1091,14 +1086,12 @@ public class NovelFragment extends Fragment
                             cacheContent();
                         }
                     }
-                }
-                else
+                } else
                 {
                     loadDataToView(mSavedNovelData);
                     cacheContent();
                 }
-            }
-            else
+            } else
             {
                 Toast.makeText(
                         getContext(), "Failed.", Toast.LENGTH_SHORT).show();

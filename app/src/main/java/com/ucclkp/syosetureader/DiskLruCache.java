@@ -207,8 +207,7 @@ public final class DiskLruCache implements Closeable
                 writer.write(buffer, 0, count);
             }
             return writer.toString();
-        }
-        finally
+        } finally
         {
             reader.close();
         }
@@ -232,8 +231,7 @@ public final class DiskLruCache implements Closeable
             if (c == -1)
             {
                 throw new EOFException();
-            }
-            else if (c == '\n')
+            } else if (c == '\n')
             {
                 break;
             }
@@ -258,12 +256,10 @@ public final class DiskLruCache implements Closeable
             try
             {
                 closeable.close();
-            }
-            catch (RuntimeException rethrown)
+            } catch (RuntimeException rethrown)
             {
                 throw rethrown;
-            }
-            catch (Exception ignored)
+            } catch (Exception ignored)
             {
             }
         }
@@ -363,8 +359,7 @@ public final class DiskLruCache implements Closeable
                 cache.journalWriter = new BufferedWriter(new FileWriter(cache.journalFile, true),
                         IO_BUFFER_SIZE);
                 return cache;
-            }
-            catch (IOException journalIsCorrupt)
+            } catch (IOException journalIsCorrupt)
             {
 //                System.logW("DiskLruCache " + directory + " is corrupt: "
 //                        + journalIsCorrupt.getMessage() + ", removing");
@@ -404,14 +399,12 @@ public final class DiskLruCache implements Closeable
                 try
                 {
                     readJournalLine(readAsciiLine(in));
-                }
-                catch (EOFException endOfJournal)
+                } catch (EOFException endOfJournal)
                 {
                     break;
                 }
             }
-        }
-        finally
+        } finally
         {
             closeQuietly(in);
         }
@@ -444,16 +437,13 @@ public final class DiskLruCache implements Closeable
             entry.readable = true;
             entry.currentEditor = null;
             entry.setLengths(copyOfRange(parts, 2, parts.length));
-        }
-        else if (parts[0].equals(DIRTY) && parts.length == 2)
+        } else if (parts[0].equals(DIRTY) && parts.length == 2)
         {
             entry.currentEditor = new Editor(entry);
-        }
-        else if (parts[0].equals(READ) && parts.length == 2)
+        } else if (parts[0].equals(READ) && parts.length == 2)
         {
             // this work was already done by calling lruEntries.get()
-        }
-        else
+        } else
         {
             throw new IOException("unexpected journal line: " + line);
         }
@@ -475,8 +465,7 @@ public final class DiskLruCache implements Closeable
                 {
                     size += entry.lengths[t];
                 }
-            }
-            else
+            } else
             {
                 entry.currentEditor = null;
                 for (int t = 0; t < valueCount; t++)
@@ -516,8 +505,7 @@ public final class DiskLruCache implements Closeable
             if (entry.currentEditor != null)
             {
                 writer.write(DIRTY + ' ' + entry.key + '\n');
-            }
-            else
+            } else
             {
                 writer.write(CLEAN + ' ' + entry.key + entry.getLengths() + '\n');
             }
@@ -575,8 +563,7 @@ public final class DiskLruCache implements Closeable
             {
                 ins[i] = new FileInputStream(entry.getCleanFile(i));
             }
-        }
-        catch (FileNotFoundException e)
+        } catch (FileNotFoundException e)
         {
             // a file must have been deleted manually!
             return null;
@@ -615,8 +602,7 @@ public final class DiskLruCache implements Closeable
         {
             entry = new Entry(key);
             lruEntries.put(key, entry);
-        }
-        else if (entry.currentEditor != null)
+        } else if (entry.currentEditor != null)
         {
             return null; // another edit is in progress
         }
@@ -692,8 +678,7 @@ public final class DiskLruCache implements Closeable
                     entry.lengths[i] = newLength;
                     size = size - oldLength + newLength;
                 }
-            }
-            else
+            } else
             {
                 deleteIfExists(dirty);
             }
@@ -709,8 +694,7 @@ public final class DiskLruCache implements Closeable
             {
                 entry.sequenceNumber = nextSequenceNumber++;
             }
-        }
-        else
+        } else
         {
             lruEntries.remove(entry.key);
             journalWriter.write(REMOVE + ' ' + entry.key + '\n');
@@ -978,8 +962,7 @@ public final class DiskLruCache implements Closeable
             {
                 writer = new OutputStreamWriter(newOutputStream(index), UTF_8);
                 writer.write(value);
-            }
-            finally
+            } finally
             {
                 closeQuietly(writer);
             }
@@ -995,8 +978,7 @@ public final class DiskLruCache implements Closeable
             {
                 completeEdit(this, false);
                 remove(entry.key); // the previous entry is stale
-            }
-            else
+            } else
             {
                 completeEdit(this, true);
             }
@@ -1024,8 +1006,7 @@ public final class DiskLruCache implements Closeable
                 try
                 {
                     out.write(oneByte);
-                }
-                catch (IOException e)
+                } catch (IOException e)
                 {
                     hasErrors = true;
                 }
@@ -1037,8 +1018,7 @@ public final class DiskLruCache implements Closeable
                 try
                 {
                     out.write(buffer, offset, length);
-                }
-                catch (IOException e)
+                } catch (IOException e)
                 {
                     hasErrors = true;
                 }
@@ -1050,8 +1030,7 @@ public final class DiskLruCache implements Closeable
                 try
                 {
                     out.close();
-                }
-                catch (IOException e)
+                } catch (IOException e)
                 {
                     hasErrors = true;
                 }
@@ -1063,8 +1042,7 @@ public final class DiskLruCache implements Closeable
                 try
                 {
                     out.flush();
-                }
-                catch (IOException e)
+                } catch (IOException e)
                 {
                     hasErrors = true;
                 }
@@ -1128,8 +1106,7 @@ public final class DiskLruCache implements Closeable
                 {
                     lengths[i] = Long.parseLong(strings[i]);
                 }
-            }
-            catch (NumberFormatException e)
+            } catch (NumberFormatException e)
             {
                 throw invalidLengths(strings);
             }

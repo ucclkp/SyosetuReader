@@ -441,8 +441,7 @@ public class UTextManager
 
             if (mActionStyle == FLOAT)
                 stopTextActionMode();
-        }
-        else
+        } else
         {
             long range = determineWordRange(touchedOffset);
             int startSelection = unpackRangeStartFromLong(range);
@@ -454,8 +453,7 @@ public class UTextManager
             {
                 mLongClickingSelectionEnd = endSelection;
                 mLongClickingSelectionStart = mLongClickingSelectionInitStart;
-            }
-            else if (touchedOffset < mLongClickingSelectionInitStart)
+            } else if (touchedOffset < mLongClickingSelectionInitStart)
             {
                 mLongClickingSelectionStart = startSelection;
                 mLongClickingSelectionEnd = mLongClickingSelectionInitEnd;
@@ -473,8 +471,7 @@ public class UTextManager
             mLongClickingSelectionStart = startSelection;
             mLongClickingSelectionEnd = endSelection;
             mAssistMgr.drawSelectionHighlight(startSelection, endSelection);
-        }
-        else
+        } else
         {
             mLongClickingSelectionStart = -1;
             mLongClickingSelectionEnd = -1;
@@ -557,8 +554,7 @@ public class UTextManager
                 mAssistMgr.showLeftHandle();
                 mAssistMgr.showRightHandle();
             }
-        }
-        else if (!gainFocus && mTargetView.hasFocus())
+        } else if (!gainFocus && mTargetView.hasFocus())
         {
             mAssistMgr.closeAllHandle();
         }
@@ -1049,8 +1045,7 @@ public class UTextManager
                         setAlphabeticShortcut('a').
                         setIcon(R.drawable.ic_action_select_all).
                         setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-            }
-            else if (!canSelectAll && selectAllItemExistes)
+            } else if (!canSelectAll && selectAllItemExistes)
                 menu.removeItem(MENU_ITEM_ID_SELECT_ALL);
             else
                 return false;
@@ -1136,8 +1131,7 @@ public class UTextManager
                     {
                         mTextIntentProcessor.onFetchTextProcessActivity();
                         mTextIntentProcessor.performTextProcess();
-                    }
-                    else
+                    } else
                     {
                         performTranslate(wsKey);
                     }
@@ -1297,8 +1291,7 @@ public class UTextManager
             {
                 newStartOffset = prevEndOffset - 1;
                 newEndOffset = prevEndOffset;
-            }
-            else
+            } else
             {
                 newStartOffset = curOffset;
                 newEndOffset = prevEndOffset;
@@ -1327,8 +1320,7 @@ public class UTextManager
             {
                 newStartOffset = prevStartOffset;
                 newEndOffset = prevStartOffset + 1;
-            }
-            else
+            } else
             {
                 newStartOffset = prevStartOffset;
                 newEndOffset = curOffset;

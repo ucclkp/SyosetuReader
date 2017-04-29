@@ -199,8 +199,7 @@ public class SyosetuCookieManager
 
                 mCookieManager.getCookieStore().add(uri, cookie);
             }
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             e.printStackTrace();
             Toast.makeText(context, "loadCookiesFromLocal() error", Toast.LENGTH_SHORT).show();
@@ -276,8 +275,7 @@ public class SyosetuCookieManager
             object.put(COOKIE_SECURE, cookie.getSecure());
             object.put(COOKIE_VERSION, cookie.getVersion());
             object.put(COOKIE_ASSO_URI, uri != null ? uri.toString() : null);
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             e.printStackTrace();
             return null;

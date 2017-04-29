@@ -1,7 +1,5 @@
 package com.ucclkp.syosetureader.statictextview;
 
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
@@ -201,15 +199,13 @@ class TextGestureDetector
                         mIsFirstTap = false;
                         mTextView.postDelayed(mDoubleTapRunnable,
                                 ViewConfiguration.getDoubleTapTimeout());
-                    }
-                    else
+                    } else
                     {
                         mCallback.onDoubleTap(e);
                         mTextView.removeCallbacks(mDoubleTapRunnable);
                         mIsFirstTap = true;
                     }
-                }
-                else if (mIsLongPressed && mLongTappingResult)
+                } else if (mIsLongPressed && mLongTappingResult)
                     mCallback.onLongTap(e);
                 else
                 {

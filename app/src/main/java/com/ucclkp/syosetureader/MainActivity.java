@@ -264,11 +264,9 @@ public class MainActivity extends AppCompatActivity
                             && entry.getName().equals(BACK_STACK_BORING))
                     {
                         getSupportFragmentManager().popBackStackImmediate();
-                    }
-                    else
+                    } else
                         break;
-                }
-                else
+                } else
                     break;
             }
 
@@ -541,8 +539,7 @@ public class MainActivity extends AppCompatActivity
                                 Toast.LENGTH_SHORT).show();
                         return false;
                     }
-                }
-                else
+                } else
                 {
                     AgeCertificationDialogFragment acDialogFragment
                             = AgeCertificationDialogFragment.newInstance(0);

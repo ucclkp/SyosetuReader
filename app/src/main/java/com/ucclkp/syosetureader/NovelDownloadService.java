@@ -20,7 +20,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class NovelDownloadService extends Service {
+public class NovelDownloadService extends Service
+{
     private int mNotificationId;
     private Handler mWorkHandler;
     private List<DownloadBlock> mDownloadQueue;
@@ -51,7 +52,8 @@ public class NovelDownloadService extends Service {
     private final static int MSG_TASK_STATE_CHANGED = 1;
 
 
-    public static class DownloadBlock {
+    public static class DownloadBlock
+    {
         public int state;
         public String novelUrl = "";
         public String novelCode = "";
@@ -64,12 +66,14 @@ public class NovelDownloadService extends Service {
 
 
     @Override
-    public IBinder onBind(Intent intent) {
+    public IBinder onBind(Intent intent)
+    {
         return mController;
     }
 
     @Override
-    public void onCreate() {
+    public void onCreate()
+    {
         super.onCreate();
 
         mNotificationId = 1;
@@ -94,7 +98,8 @@ public class NovelDownloadService extends Service {
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroy()
+    {
         super.onDestroy();
 
         mListenerList.clear();
@@ -106,7 +111,8 @@ public class NovelDownloadService extends Service {
     }
 
 
-    private void sendMessage(int what, Object obj) {
+    private void sendMessage(int what, Object obj)
+    {
         Message msg = Message.obtain();
         msg.what = what;
         msg.obj = obj;
@@ -115,7 +121,8 @@ public class NovelDownloadService extends Service {
         mWorkHandler.sendMessage(msg);
     }
 
-    private void sendMessage(int what, Object obj, int have, int total) {
+    private void sendMessage(int what, Object obj, int have, int total)
+    {
         Message msg = Message.obtain();
         msg.what = what;
         msg.obj = obj;
@@ -124,9 +131,12 @@ public class NovelDownloadService extends Service {
         mWorkHandler.sendMessage(msg);
     }
 
-    public void processNovelPage(NovelParser.NovelData data, DownloadBlock block) {
-        if (data != null) {
-            if (block.isShortNovel) {
+    public void processNovelPage(NovelParser.NovelData data, DownloadBlock block)
+    {
+        if (data != null)
+        {
+            if (block.isShortNovel)
+            {
                 mSyosetuBooks.updateBook(
                         block.novelCode, block.novelUrl,
                         data.headTitle, data.headAuthor, data.headAuthorUrl,
@@ -144,9 +154,11 @@ public class NovelDownloadService extends Service {
                         .setContentText(block.novelCode);
                 mNotifitionMgr.notify(mNotificationId, mMsgNotifyBuilder.build());
                 stopForeground(false);
-            } else {
+            } else
+            {
                 int sectionCount = 0;
-                for (int i = 0; i < data.chOrSeList.size(); ++i) {
+                for (int i = 0; i < data.chOrSeList.size(); ++i)
+                {
                     if (data.chOrSeList.get(i).type == NovelParser.NT_SECTION)
                         ++sectionCount;
                 }
@@ -166,16 +178,20 @@ public class NovelDownloadService extends Service {
 
                 int counter = 0;
                 boolean failed = false;
-                for (int i = 0; i < data.chOrSeList.size(); ++i) {
-                    try {
+                for (int i = 0; i < data.chOrSeList.size(); ++i)
+                {
+                    try
+                    {
                         Thread.sleep(100);
-                    } catch (InterruptedException e) {
+                    } catch (InterruptedException e)
+                    {
                         e.printStackTrace();
                         break;
                     }
 
                     NovelParser.NovelChOrSeData chOrSeData = data.chOrSeList.get(i);
-                    if (chOrSeData.type == NovelParser.NT_SECTION) {
+                    if (chOrSeData.type == NovelParser.NT_SECTION)
+                    {
                         mProNotifyBuilder.setProgress(data.chOrSeList.size(), i, false)
                                 .setContentTitle("正在下载: " + data.headTitle)
                                 .setContentText(counter + "/" + sectionCount);
@@ -185,7 +201,8 @@ public class NovelDownloadService extends Service {
                                 mNovelSectionParser.enterSync(chOrSeData.sectionUrl);
                         if (sectionData != null)
                             processSectionPage(sectionData, block);
-                        else {
+                        else
+                        {
                             failed = true;
                             break;
                         }
@@ -197,7 +214,8 @@ public class NovelDownloadService extends Service {
                     }
                 }
 
-                if (!failed) {
+                if (!failed)
+                {
                     mSyosetuBooks.updateBookState(block.novelCode, STATE_COMPLETED);
 
                     block.state = STATE_COMPLETED;
@@ -206,7 +224,8 @@ public class NovelDownloadService extends Service {
                     mMsgNotifyBuilder.setWhen(System.currentTimeMillis())
                             .setContentTitle("下载完成: " + data.headTitle)
                             .setContentText(block.novelCode);
-                } else {
+                } else
+                {
                     mSyosetuBooks.updateBookState(block.novelCode, STATE_FAILED);
 
                     block.state = STATE_FAILED;
@@ -219,7 +238,8 @@ public class NovelDownloadService extends Service {
                 mNotifitionMgr.notify(mNotificationId, mMsgNotifyBuilder.build());
                 stopForeground(false);
             }
-        } else {
+        } else
+        {
             mSyosetuBooks.updateBookState(block.novelCode, STATE_FAILED);
 
             block.state = STATE_FAILED;
@@ -233,8 +253,10 @@ public class NovelDownloadService extends Service {
         }
     }
 
-    public boolean processSectionPage(NovelSectionParser.SectionData data, DownloadBlock block) {
-        if (data != null) {
+    public boolean processSectionPage(NovelSectionParser.SectionData data, DownloadBlock block)
+    {
+        if (data != null)
+        {
             String sectionUrl;
             if (mNovelSectionParser.getHtmlData().redirection)
                 sectionUrl = mNovelSectionParser.getHtmlData().location;
@@ -252,7 +274,8 @@ public class NovelDownloadService extends Service {
         return false;
     }
 
-    public boolean initialDownload(DownloadBlock block) {
+    public boolean initialDownload(DownloadBlock block)
+    {
         mProNotifyBuilder.setWhen(System.currentTimeMillis())
                 .setProgress(100, 1, true)
                 .setContentTitle("正在准备");
@@ -260,15 +283,18 @@ public class NovelDownloadService extends Service {
                 mNotificationId,
                 mProNotifyBuilder.build());
 
-        if (block.isShortNovel) {
+        if (block.isShortNovel)
+        {
             Cursor cursor = ((UApplication) getApplication())
                     .getSyosetuBooks().getBook(block.novelCode);
-            if (cursor != null) {
+            if (cursor != null)
+            {
                 int state = cursor.getInt(cursor.getColumnIndex(
                         SyosetuBooks.COLUMN_STATE));
                 cursor.close();
 
-                if (state != STATE_FAILED) {
+                if (state != STATE_FAILED)
+                {
                     mMsgNotifyBuilder.setWhen(System.currentTimeMillis())
                             .setContentTitle("该小说已下载")
                             .setContentText(block.novelCode);
@@ -296,15 +322,18 @@ public class NovelDownloadService extends Service {
                     null, null, null, null, null, null, null, null,
                     block.novelSite.name(), getApplicationContext().getString(R.string.type_short),
                     null, -1, STATE_DOWNLOADING, -2, -2);
-        } else {
+        } else
+        {
             Cursor cursor = ((UApplication) getApplication())
                     .getSyosetuBooks().getBook(block.novelCode);
-            if (cursor != null) {
+            if (cursor != null)
+            {
                 int state = cursor.getInt(cursor.getColumnIndex(
                         SyosetuBooks.COLUMN_STATE));
                 cursor.close();
 
-                if (state != STATE_FAILED) {
+                if (state != STATE_FAILED)
+                {
                     mMsgNotifyBuilder.setWhen(System.currentTimeMillis())
                             .setContentTitle("该小说已下载")
                             .setContentText(block.novelCode);
@@ -338,10 +367,13 @@ public class NovelDownloadService extends Service {
     }
 
 
-    public class ControlBridge extends Binder {
-        public boolean startDownload(String novelUrl, boolean isShort) {
+    public class ControlBridge extends Binder
+    {
+        public boolean startDownload(String novelUrl, boolean isShort)
+        {
             //已经在下载队列中。
-            for (int i = 0; i < mDownloadQueue.size(); ++i) {
+            for (int i = 0; i < mDownloadQueue.size(); ++i)
+            {
                 if (mDownloadQueue.get(i).novelCode
                         .equals(HtmlUtility.getUrlRear(novelUrl)))
                     return false;
@@ -357,12 +389,14 @@ public class NovelDownloadService extends Service {
             block.state = STATE_WAITING;
             sendMessage(MSG_TASK_ADDED, block);
 
-            synchronized (mWorkSync) {
+            synchronized (mWorkSync)
+            {
                 mDownloadQueue.add(block);
                 mWorkSync.notify();
             }
 
-            if (mDownloadTask == null) {
+            if (mDownloadTask == null)
+            {
                 mDownloadTask = new DownloadTask();
                 mDownloadTask.start();
             }
@@ -370,15 +404,18 @@ public class NovelDownloadService extends Service {
             return true;
         }
 
-        public boolean pauseDownload(String ncode) {
+        public boolean pauseDownload(String ncode)
+        {
             return true;
         }
 
-        public boolean resumeDownload(String ncode) {
+        public boolean resumeDownload(String ncode)
+        {
             return true;
         }
 
-        public void addDownloadEventListener(OnDownloadEventListener l) {
+        public void addDownloadEventListener(OnDownloadEventListener l)
+        {
             mListenerList.add(l);
 
             int taskCount = mDownloadQueue.size();
@@ -386,30 +423,39 @@ public class NovelDownloadService extends Service {
                 l.onTaskAdded(mDownloadQueue.get(i));
         }
 
-        public void removeDownloadEventListener(OnDownloadEventListener l) {
+        public void removeDownloadEventListener(OnDownloadEventListener l)
+        {
             mListenerList.remove(l);
         }
 
-        public void removeAllDownloadEventListener() {
+        public void removeAllDownloadEventListener()
+        {
             mListenerList.clear();
         }
     }
 
 
-    private class DownloadTask extends Thread {
+    private class DownloadTask extends Thread
+    {
         private final AtomicBoolean mCancelled
                 = new AtomicBoolean();
 
         @Override
-        public void run() {
+        public void run()
+        {
             super.run();
 
-            while (!mCancelled.get()) {
-                synchronized (mWorkSync) {
-                    if (mDownloadQueue.isEmpty()) {
-                        try {
+            while (!mCancelled.get())
+            {
+                synchronized (mWorkSync)
+                {
+                    if (mDownloadQueue.isEmpty())
+                    {
+                        try
+                        {
                             mWorkSync.wait();
-                        } catch (Exception e) {
+                        } catch (Exception e)
+                        {
                             e.printStackTrace();
                             break;
                         }
@@ -418,10 +464,12 @@ public class NovelDownloadService extends Service {
 
                 if (mCancelled.get()) break;
 
-                if (!mDownloadQueue.isEmpty()) {
+                if (!mDownloadQueue.isEmpty())
+                {
                     DownloadBlock block = mDownloadQueue.get(0);
 
-                    if (initialDownload(block)) {
+                    if (initialDownload(block))
+                    {
                         NovelParser.NovelData novelData
                                 = mNovelParser.enterSync(block.novelUrl);
                         if (mNovelParser.getHtmlData().redirection)
@@ -436,17 +484,21 @@ public class NovelDownloadService extends Service {
             }
         }
 
-        public void cancel() {
+        public void cancel()
+        {
             mCancelled.set(true);
             interrupt();
         }
     }
 
 
-    private Handler.Callback mWorkCallback = new Handler.Callback() {
+    private Handler.Callback mWorkCallback = new Handler.Callback()
+    {
         @Override
-        public boolean handleMessage(Message msg) {
-            switch (msg.what) {
+        public boolean handleMessage(Message msg)
+        {
+            switch (msg.what)
+            {
                 case MSG_TASK_ADDED:
                     for (int i = 0; i < mListenerList.size(); ++i)
                         mListenerList.get(i).onTaskAdded((DownloadBlock) msg.obj);
@@ -463,7 +515,8 @@ public class NovelDownloadService extends Service {
     };
 
 
-    public interface OnDownloadEventListener {
+    public interface OnDownloadEventListener
+    {
         void onTaskAdded(DownloadBlock block);
 
         void onTaskStateChanged(DownloadBlock block, int have, int total);

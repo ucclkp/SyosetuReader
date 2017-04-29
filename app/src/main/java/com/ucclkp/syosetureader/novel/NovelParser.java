@@ -132,8 +132,7 @@ public class NovelParser extends HtmlDataPipeline<NovelParser.NovelData>
                     cosData.type = NT_CHAPTER;
                     cosData.chapterTitle = chapterTitle;
                     data.chOrSeList.add(cosData);
-                }
-                else if (group.matches("^<\\s*dl[\\s\\S]*"))
+                } else if (group.matches("^<\\s*dl[\\s\\S]*"))
                 {
                     int end = HtmlUtility.getTagEndIndex(
                             content, "dl", matcher.end(0), false);
@@ -161,8 +160,7 @@ public class NovelParser extends HtmlDataPipeline<NovelParser.NovelData>
                     {
                         time = timeContent.substring(0, timeMatcher.start(0)).trim();
                         editTime = timeMatcher.group(1).trim() + "(改)";
-                    }
-                    else
+                    } else
                         time = timeContent;
 
                     NovelChOrSeData cosData = new NovelChOrSeData();
@@ -173,8 +171,7 @@ public class NovelParser extends HtmlDataPipeline<NovelParser.NovelData>
                     data.chOrSeList.add(cosData);
                 }
             }
-        }
-        else
+        } else
         {
             SpannableStringBuilder headSpan = new SpannableStringBuilder("");
             String headText = HtmlUtility.getTagContent(

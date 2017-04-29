@@ -133,8 +133,7 @@ public class UAssistantManager
             mLeftHandleView.show(x, y, forceUpdate);
 
             return true;
-        }
-        else
+        } else
         {
             mLeftHandleView.close();
             return false;
@@ -157,8 +156,7 @@ public class UAssistantManager
             mRightHandleView.show(x, y, forceUpdate);
 
             return true;
-        }
-        else
+        } else
         {
             mRightHandleView.close();
             return false;
@@ -505,8 +503,7 @@ public class UAssistantManager
                     mContainerWindow.update(x, y, -1, -1);
                 else
                     mContainerWindow.showAtLocation(mTextManager.getView(), Gravity.NO_GRAVITY, x, y);
-            }
-            else
+            } else
             {
                 if (mContainerWindow.isShowing())
                     mContainerWindow.dismiss();

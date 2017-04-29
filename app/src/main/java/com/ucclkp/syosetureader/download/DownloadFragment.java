@@ -103,8 +103,7 @@ public class DownloadFragment extends Fragment
         {
             mListView.setVisibility(View.VISIBLE);
             mTipTextView.setVisibility(View.GONE);
-        }
-        else
+        } else
         {
             mListView.setVisibility(View.GONE);
             mTipTextView.setVisibility(View.VISIBLE);
@@ -290,8 +289,7 @@ public class DownloadFragment extends Fragment
                         Intent intent = new Intent(getActivity(), NovelActivity.class);
                         intent.putExtras(bundle);
                         startActivity(intent);
-                    }
-                    else
+                    } else
                     {
                         mListAdapter.toggleSelect(data.ncode);
                         mSelectionActionMode.invalidate();
@@ -317,8 +315,7 @@ public class DownloadFragment extends Fragment
                         mSelectionActionMode = ((AppCompatActivity) getActivity())
                                 .startSupportActionMode(mSelectionCallback);
                         return true;
-                    }
-                    else
+                    } else
                     {
                         mListAdapter.toggleSelect(data.ncode);
                         mSelectionActionMode.invalidate();
@@ -358,8 +355,7 @@ public class DownloadFragment extends Fragment
                         setAlphabeticShortcut('a').
                         setIcon(R.drawable.ic_action_select_all).
                         setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-            }
-            else if (!canSelectAll && selectAllItemExistes)
+            } else if (!canSelectAll && selectAllItemExistes)
                 menu.removeItem(MENU_ITEM_ID_SELECT_ALL);
             else
                 return false;
@@ -377,8 +373,7 @@ public class DownloadFragment extends Fragment
                         setAlphabeticShortcut('a').
                         setIcon(R.drawable.ic_action_delete).
                         setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-            }
-            else if (!canDelete && deleteItemExistes)
+            } else if (!canDelete && deleteItemExistes)
                 menu.removeItem(MENU_ITEM_ID_DELETE);
             else
                 return false;

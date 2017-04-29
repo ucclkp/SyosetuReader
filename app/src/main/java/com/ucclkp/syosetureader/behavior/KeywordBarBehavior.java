@@ -1,7 +1,6 @@
 package com.ucclkp.syosetureader.behavior;
 
 import android.content.Context;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.util.AttributeSet;

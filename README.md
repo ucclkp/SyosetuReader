@@ -2,5 +2,9 @@
 小説家になろう 的一个简单客户端。
 
 * 支持Android 6.0 及以上系统。
-* 登录功能目前无作用，请勿登陆。
+* 目前无登录功能。
 * 下载功能不完整，仍在开发中。
+
+## Licenses
+* GPL v2.0
+* DiskLruCache: Apache License v2.0

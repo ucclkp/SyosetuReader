@@ -169,8 +169,7 @@ public class SearchResultFragment extends Fragment
                         "Failed.", Toast.LENGTH_SHORT).show();
                 mSearchResultListAdapter.setFootProgress(
                         SearchResultListAdapter.PROGRESS_ERROR);
-            }
-            else
+            } else
             {
                 mIsDisableScrollListener = false;
                 mSearchResultListAdapter.removeFootProgress();

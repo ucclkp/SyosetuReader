@@ -80,8 +80,7 @@ class HistoryListAdapter extends RecyclerView.Adapter
             imageView.setVisibility(View.VISIBLE);
             imageView.setImageResource(data.selected ?
                     R.drawable.ic_selected : R.drawable.ic_unselect);
-        }
-        else
+        } else
             imageView.setVisibility(View.GONE);
     }
 
@@ -174,8 +173,7 @@ class HistoryListAdapter extends RecyclerView.Adapter
                 library.deleteHis(data.ncode);
                 mDataList.remove(i);
                 notifyItemRemoved(i);
-            }
-            else
+            } else
                 ++i;
         }
 

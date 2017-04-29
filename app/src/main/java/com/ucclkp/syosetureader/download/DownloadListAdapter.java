@@ -216,8 +216,7 @@ class DownloadListAdapter extends RecyclerView.Adapter
                         imageView.setVisibility(View.VISIBLE);
                         imageView.setImageResource(data.selected ?
                                 R.drawable.ic_selected : R.drawable.ic_unselect);
-                    }
-                    else
+                    } else
                         imageView.setVisibility(View.GONE);
                 }
                 return;
@@ -246,14 +245,12 @@ class DownloadListAdapter extends RecyclerView.Adapter
                         holder.progressBar.setIndeterminate(false);
                         holder.progressBar.setMax(data.total);
                         holder.progressBar.setProgress(data.have);
-                    }
-                    else if (data.have == -2 && data.total == -2)
+                    } else if (data.have == -2 && data.total == -2)
                     {
                         holder.progressBar.setVisibility(View.VISIBLE);
                         holder.controlButton.setVisibility(View.GONE);
                         holder.progressBar.setIndeterminate(true);
-                    }
-                    else
+                    } else
                     {
                         holder.progressBar.setVisibility(View.GONE);
                         holder.controlButton.setVisibility(View.GONE);
@@ -309,8 +306,7 @@ class DownloadListAdapter extends RecyclerView.Adapter
 
                 mDataList.remove(i);
                 notifyItemRemoved(i);
-            }
-            else
+            } else
                 ++i;
         }
 
@@ -391,8 +387,7 @@ class DownloadListAdapter extends RecyclerView.Adapter
             imageView.setVisibility(View.VISIBLE);
             imageView.setImageResource(data.selected ?
                     R.drawable.ic_selected : R.drawable.ic_unselect);
-        }
-        else
+        } else
             imageView.setVisibility(View.GONE);
 
         if (data.have >= 0 && data.total >= 0)
@@ -402,14 +397,12 @@ class DownloadListAdapter extends RecyclerView.Adapter
             holder.progressBar.setIndeterminate(false);
             holder.progressBar.setMax(data.total);
             holder.progressBar.setProgress(data.have);
-        }
-        else if (data.have == -2 && data.total == -2)
+        } else if (data.have == -2 && data.total == -2)
         {
             holder.progressBar.setVisibility(View.VISIBLE);
             holder.controlButton.setVisibility(View.GONE);
             holder.progressBar.setIndeterminate(true);
-        }
-        else
+        } else
         {
             holder.progressBar.setVisibility(View.GONE);
             holder.controlButton.setVisibility(View.GONE);
