@@ -6,5 +6,5 @@
 * 下载功能不完整，仍在开发中。
 
 ## Licenses
-* GPL v2.0
+* GPL v3.0
 * DiskLruCache: Apache License v2.0
