@@ -116,9 +116,9 @@ public class NovelSectionParser extends HtmlDataPipeline<NovelSectionParser.Sect
             = "<\\s*p\\s+class\\s*=\\s*\"\\s*novel_subtitle\\s*\"\\s*>";
 
     private final static String NovelSectionNavPrev
-            = "<\\s*a\\s+href\\s*=\\s*\"(.*?)\"\\s*>[\\s\\S]*?前の話[\\s\\S]*?<\\s*/\\s*a\\s*>";
+            = "<\\s*a\\s+href\\s*=\\s*\"(.*?)\"\\s*>[\\s\\S]*?前へ[\\s\\S]*?<\\s*/\\s*a\\s*>";
     private final static String NovelSectionNavNext
-            = "[\\s\\S]*<\\s*a\\s+href\\s*=\\s*\"(.*?)\"\\s*>[\\s\\S]*?次の話[\\s\\S]*?<\\s*/\\s*a\\s*>";
+            = "[\\s\\S]*<\\s*a\\s+href\\s*=\\s*\"(.*?)\"\\s*>[\\s\\S]*?次へ[\\s\\S]*?<\\s*/\\s*a\\s*>";
 
     private final static String NovelHeadTextToken
             = "<\\s*div\\s+id\\s*=\\s*\"\\s*novel_p\\s*\"\\s+class\\s*=\\s*\"\\s*novel_view\\s*\"\\s*>";

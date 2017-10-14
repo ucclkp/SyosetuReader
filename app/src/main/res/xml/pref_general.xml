@@ -35,6 +35,7 @@
 
         <Preference
             android:key="clear_login"
+            android:enabled="false"
             android:summary="清除登陆信息"
             android:title="注销" />
 

@@ -104,7 +104,7 @@ public class FormatDialogFragment extends BottomSheetDialogFragment
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
-        Dialog dialog = new BottomSheetDialog(getContext(), R.style.FormatBottomDialog);
+        Dialog dialog = new FormatDialog(getContext(), R.style.FormatBottomDialog);
         dialog.setContentView(R.layout.dialog_format_bottom_sheet);
 
         TypedArray a = getContext().obtainStyledAttributes(

@@ -5,13 +5,13 @@
     <item
         android:id="@+id/menu_novel_section_fragment_action_prev"
         android:icon="@drawable/ic_nav_prev"
-        android:title="前の話"
+        android:title="前へ"
         app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/menu_novel_section_fragment_action_next"
         android:icon="@drawable/ic_nav_next"
-        android:title="次の話"
+        android:title="次へ"
         app:showAsAction="ifRoom"/>
 
     <item

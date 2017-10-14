@@ -17,10 +17,10 @@ import java.text.DecimalFormat;
 
 public class SyosetuUtility
 {
-    public final static String HOME_URL = "http://syosetu.com";
-    public final static String READ_URL = "http://yomou.syosetu.com";
-    public final static String BLOG_URL = "http://blog.syosetu.com";
-    public final static String NOVEL_URL = "http://ncode.syosetu.com";
+    public final static String HOME_URL = "https://syosetu.com";
+    public final static String READ_URL = "https://yomou.syosetu.com";
+    public final static String BLOG_URL = "https://blog.syosetu.com";
+    public final static String NOVEL_URL = "https://ncode.syosetu.com";
 
     public final static String PICKUP_URL = HOME_URL + "/pickup/list";
     public final static String POP_KEYWORD_URL = READ_URL + "/search/keyword";
@@ -28,19 +28,19 @@ public class SyosetuUtility
     public final static String SEARCH_URL = READ_URL + "/search.php";
     public final static String DETAIL_SEARCH_URL = READ_URL + "/search/cross/";
 
-    public final static String R18_HOME_URL = "http://noc.syosetu.com";
-    public final static String R18_NOVEL_URL = "http://novel18.syosetu.com";
+    public final static String R18_HOME_URL = "https://noc.syosetu.com";
+    public final static String R18_NOVEL_URL = "https://novel18.syosetu.com";
 
     public final static String R18_PICKUP_URL = R18_HOME_URL + "/pickup/list";
     public final static String R18_POP_KEYWORD_URL = R18_HOME_URL + "/search/classified";
     public final static String R18_RANKING_URL = R18_HOME_URL + "/rank/top";
     public final static String R18_SEARCH_URL = R18_HOME_URL + "/search/search/search.php";
 
-    public final static String AUTHOR_HOME_URL = "http://mypage.syosetu.com";
-    public final static String NOVEL_INFO_URL = "http://ncode.syosetu.com/novelview";
+    public final static String AUTHOR_HOME_URL = "https://mypage.syosetu.com";
+    public final static String NOVEL_INFO_URL = "https://ncode.syosetu.com/novelview";
 
-    public final static String R18_AUTHOR_HOME_URL = "http://xmypage.syosetu.com";
-    public final static String R18_NOVEL_INFO_URL = "http://novel18.syosetu.com/novelview";
+    public final static String R18_AUTHOR_HOME_URL = "https://xmypage.syosetu.com";
+    public final static String R18_NOVEL_INFO_URL = "https://novel18.syosetu.com/novelview";
 
 
     public final static String KeywordSplit = "\\s+|[　]";

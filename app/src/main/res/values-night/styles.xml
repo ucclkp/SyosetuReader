@@ -8,8 +8,11 @@
 
 
     <style name="FormatBottomDialog" parent="Theme.Design.BottomSheetDialog">
+        <item name="colorPrimaryDark">?attr/colorPrimary</item>
         <item name="android:textColorPrimary">@color/textColorPrimaryDark</item>
         <item name="android:textColorSecondary">@color/textColorSecondaryDark</item>
+        <item name="android:navigationBarColor">?attr/colorPrimary</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
 
         <item name="android:spinnerItemStyle">@style/SpinnerItemStyle</item>
         <item name="spinnerDropDownItemStyle">@style/SpinnerDropDownItemStyle</item>
