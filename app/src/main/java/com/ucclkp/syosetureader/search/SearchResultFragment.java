@@ -7,6 +7,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -84,24 +85,23 @@ public class SearchResultFragment extends Fragment
     {
         View parent = inflater.inflate(R.layout.fragment_search_result, container, false);
 
-        TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tl_main_activity);
+        TabLayout tabLayout = getActivity().findViewById(R.id.tl_main_activity);
         tabLayout.setVisibility(View.GONE);
 
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.tb_main_activity);
+        Toolbar toolbar = getActivity().findViewById(R.id.tb_main_activity);
         AppBarLayout.LayoutParams lp = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
         lp.setScrollFlags(0);
         toolbar.setLayoutParams(lp);
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) parent.findViewById(R.id.srl_search_result_fragment);
+        mSwipeRefreshLayout = parent.findViewById(R.id.srl_search_result_fragment);
         mSwipeRefreshLayout.setOnRefreshListener(mRefreshListener);
         mSwipeRefreshLayout.setColorSchemeResources(
                 R.color.color_blue,
                 R.color.color_red,
                 R.color.color_green,
                 R.color.color_yellow);
-        int currentNightMode = getResources().getConfiguration().uiMode
-                & Configuration.UI_MODE_NIGHT_MASK;
-        if (currentNightMode == Configuration.UI_MODE_NIGHT_YES)
+        boolean isNightMode = (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES);
+        if (isNightMode)
             mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.color_swipe_background);
 
         mSearchResultListAdapter = new SearchResultListAdapter(getContext());
@@ -109,7 +109,7 @@ public class SearchResultFragment extends Fragment
 
         mLinearLayoutManager = new LinearLayoutManager(getContext());
 
-        mSearchResultListView = (RecyclerView) parent.findViewById(R.id.rv_search_result_fragment);
+        mSearchResultListView = parent.findViewById(R.id.rv_search_result_fragment);
         mSearchResultListView.setHasFixedSize(true);
         mSearchResultListView.setLayoutManager(mLinearLayoutManager);
         mSearchResultListView.setAdapter(mSearchResultListAdapter);

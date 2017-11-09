@@ -5,7 +5,7 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="sp_night_mode"
-            android:summary="可开启夜间模式。请注意，该设置是全局的。"
+            android:summary="可开启夜间模式。一些页面可能会重新加载"
             android:title="夜间模式" />
 
     </PreferenceCategory>

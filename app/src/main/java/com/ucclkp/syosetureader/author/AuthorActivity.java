@@ -32,16 +32,16 @@ public class AuthorActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_author);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tb_author_activity);
+        Toolbar toolbar = findViewById(R.id.tb_author_activity);
         setSupportActionBar(toolbar);
 
         mActionBar = getSupportActionBar();
         if (mActionBar != null)
             mActionBar.setDisplayHomeAsUpEnabled(true);
 
-        mTabLayout = (TabLayout) findViewById(R.id.tl_author_activity);
-        mAppBarLayout = (AppBarLayout) findViewById(R.id.abl_author_activity);
-        mViewPager = (ViewPager) findViewById(R.id.vp_author_activity);
+        mTabLayout = findViewById(R.id.tl_author_activity);
+        mAppBarLayout = findViewById(R.id.abl_author_activity);
+        mViewPager = findViewById(R.id.vp_author_activity);
 
         String authorUrl = "";
         String authorName = "";

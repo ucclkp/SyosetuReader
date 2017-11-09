@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SyosetuReader</string>
+    <string name="app_name">Syosetsu Reader</string>
 
     <string name="nav_draw_open">Open</string>
     <string name="nav_draw_close">Close</string>

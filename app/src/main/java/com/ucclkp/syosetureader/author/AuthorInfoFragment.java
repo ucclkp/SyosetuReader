@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spanned;
@@ -30,8 +32,7 @@ import com.ucclkp.syosetureader.statictextview.StaticTextView;
 
 import java.util.UUID;
 
-public class AuthorInfoFragment extends Fragment
-{
+public class AuthorInfoFragment extends Fragment {
     private int mPortion;
     private String mAuthorId;
     private String mPortionUrl;
@@ -59,8 +60,7 @@ public class AuthorInfoFragment extends Fragment
     private final static String ARG_AUTHOR_URL = "arg_author_url";
 
 
-    public AuthorInfoFragment()
-    {
+    public AuthorInfoFragment() {
         mCurPageNumber = 1;
         mIsDisableScrollListener = false;
         mPageUUID = UUID.randomUUID().toString();
@@ -68,8 +68,7 @@ public class AuthorInfoFragment extends Fragment
 
 
     public static AuthorInfoFragment newInstance(
-            int portion, String authorUrl)
-    {
+            int portion, String authorUrl) {
         AuthorInfoFragment fragment = new AuthorInfoFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PORTION, portion);
@@ -79,15 +78,13 @@ public class AuthorInfoFragment extends Fragment
     }
 
     @Override
-    public void onAttach(Context context)
-    {
+    public void onAttach(Context context) {
         super.onAttach(context);
         UApplication.imageDownloader.addOnDownloadListener(mImgDLListener);
     }
 
     @Override
-    public void onDetach()
-    {
+    public void onDetach() {
         super.onDetach();
         if (mAuthorParser != null)
             mAuthorParser.cancel();
@@ -95,11 +92,9 @@ public class AuthorInfoFragment extends Fragment
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null)
-        {
+        if (getArguments() != null) {
             mPortion = getArguments().getInt(ARG_PORTION);
             String authorUrl = getArguments().getString(ARG_AUTHOR_URL);
 
@@ -110,54 +105,49 @@ public class AuthorInfoFragment extends Fragment
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
-        switch (mPortion)
-        {
-            case AuthorPagerAdapter.FRAGMENT_BASE:
-            {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container,
+                             Bundle savedInstanceState) {
+        switch (mPortion) {
+            case AuthorPagerAdapter.FRAGMENT_BASE: {
                 View parent = inflater.inflate(
                         R.layout.fragment_author_base, container, false);
 
-                mRefreshSRL = (SwipeRefreshLayout) parent.findViewById(R.id.srl_author_base_refresher);
+                mRefreshSRL = parent.findViewById(R.id.srl_author_base_refresher);
                 mRefreshSRL.setOnRefreshListener(mRefreshListener);
                 mRefreshSRL.setColorSchemeResources(
                         R.color.color_blue,
                         R.color.color_red,
                         R.color.color_green,
                         R.color.color_yellow);
-                int currentNightMode = getResources().getConfiguration().uiMode
-                        & Configuration.UI_MODE_NIGHT_MASK;
-                if (currentNightMode == Configuration.UI_MODE_NIGHT_YES)
+                boolean isNightMode = (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES);
+                if (isNightMode)
                     mRefreshSRL.setProgressBackgroundColorSchemeResource(R.color.color_swipe_background);
 
-                mAuthorBaseTV = (StaticTextView) parent.findViewById(R.id.stv_author_base_content);
+                mAuthorBaseTV = parent.findViewById(R.id.stv_author_base_content);
 
                 return parent;
             }
 
-            case AuthorPagerAdapter.FRAGMENT_WORKS:
-            {
+            case AuthorPagerAdapter.FRAGMENT_WORKS: {
                 View parent = inflater.inflate(
                         R.layout.fragment_author_works, container, false);
 
                 mWorkListAdapter = new WorkListAdapter(getActivity());
                 mWorkLinearLayoutManager = new LinearLayoutManager(getActivity());
 
-                mRefreshSRL = (SwipeRefreshLayout) parent.findViewById(R.id.srl_author_works_refresher);
+                mRefreshSRL = parent.findViewById(R.id.srl_author_works_refresher);
                 mRefreshSRL.setOnRefreshListener(mRefreshListener);
                 mRefreshSRL.setColorSchemeResources(
                         R.color.color_blue,
                         R.color.color_red,
                         R.color.color_green,
                         R.color.color_yellow);
-                int currentNightMode = getResources().getConfiguration().uiMode
-                        & Configuration.UI_MODE_NIGHT_MASK;
-                if (currentNightMode == Configuration.UI_MODE_NIGHT_YES)
+                boolean isNightMode = (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES);
+                if (isNightMode)
                     mRefreshSRL.setProgressBackgroundColorSchemeResource(R.color.color_swipe_background);
 
-                mAuthorWorkList = (RecyclerView) parent.findViewById(R.id.rv_author_works_list);
+                mAuthorWorkList = parent.findViewById(R.id.rv_author_works_list);
                 mAuthorWorkList.setAdapter(mWorkListAdapter);
                 mAuthorWorkList.setLayoutManager(mWorkLinearLayoutManager);
                 mAuthorWorkList.addItemDecoration(new DivideDecoration(getActivity()));
@@ -172,8 +162,7 @@ public class AuthorInfoFragment extends Fragment
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
-    {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         mAuthorParser = new AuthorParser(getActivity(),
@@ -181,8 +170,7 @@ public class AuthorInfoFragment extends Fragment
         mAuthorParser.setPageType(mPortion, mAuthorSite);
         mAuthorParser.setPipelineListener(mParserListener);
 
-        if (!TextUtils.isEmpty(mPortionUrl))
-        {
+        if (!TextUtils.isEmpty(mPortionUrl)) {
             mAuthorParser.enter(mPortionUrl);
 
             if (mAuthorParser.isInPipeline())
@@ -192,13 +180,10 @@ public class AuthorInfoFragment extends Fragment
 
 
     private SwipeRefreshLayout.OnRefreshListener mRefreshListener
-            = new SwipeRefreshLayout.OnRefreshListener()
-    {
+            = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
-        public void onRefresh()
-        {
-            switch (mPortion)
-            {
+        public void onRefresh() {
+            switch (mPortion) {
                 case AuthorPagerAdapter.FRAGMENT_BASE:
                     mAuthorBaseTV.setText("");
                     break;
@@ -216,20 +201,16 @@ public class AuthorInfoFragment extends Fragment
 
 
     private AuthorParser.OnPipelineListener<Object> mParserListener
-            = new HtmlDataPipeline.OnPipelineListener<Object>()
-    {
+            = new HtmlDataPipeline.OnPipelineListener<Object>() {
         @Override
-        public void onPostData(int exitCode, Object data)
-        {
+        public void onPostData(int exitCode, Object data) {
             mRefreshSRL.setRefreshing(false);
 
-            if (exitCode != HtmlDataPipeline.CODE_SUCCESS)
-            {
+            if (exitCode != HtmlDataPipeline.CODE_SUCCESS) {
                 Toast.makeText(getActivity(),
                         "Failed", Toast.LENGTH_SHORT).show();
 
-                switch (mPortion)
-                {
+                switch (mPortion) {
                     case AuthorPagerAdapter.FRAGMENT_WORKS:
                         mWorkListAdapter.setFootProgress(
                                 WorkListAdapter.PROGRESS_ERROR);
@@ -238,18 +219,15 @@ public class AuthorInfoFragment extends Fragment
                 return;
             }
 
-            switch (mPortion)
-            {
-                case AuthorPagerAdapter.FRAGMENT_BASE:
-                {
+            switch (mPortion) {
+                case AuthorPagerAdapter.FRAGMENT_BASE: {
                     AuthorParser.BaseData baseData
                             = (AuthorParser.BaseData) data;
                     mAuthorBaseTV.setText(baseData.data);
                     break;
                 }
 
-                case AuthorPagerAdapter.FRAGMENT_WORKS:
-                {
+                case AuthorPagerAdapter.FRAGMENT_WORKS: {
                     AuthorParser.WorkData workData
                             = (AuthorParser.WorkData) data;
 
@@ -273,29 +251,23 @@ public class AuthorInfoFragment extends Fragment
     };
 
 
-    private RecyclerView.OnScrollListener mListScrollListener = new RecyclerView.OnScrollListener()
-    {
+    private RecyclerView.OnScrollListener mListScrollListener = new RecyclerView.OnScrollListener() {
         @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState)
-        {
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
         }
 
         @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy)
-        {
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
 
-            if (!mIsDisableScrollListener)
-            {
+            if (!mIsDisableScrollListener) {
                 int totalItemCount = mWorkListAdapter.getItemCount();
                 int lastVisiblePosition = mWorkLinearLayoutManager.findLastVisibleItemPosition();
 
-                if (totalItemCount > 0 && lastVisiblePosition == totalItemCount - 1)
-                {
+                if (totalItemCount > 0 && lastVisiblePosition == totalItemCount - 1) {
                     int curMaxPageNumber = mAuthorParser.getCurMaxPageNumber();
-                    if (mCurPageNumber < curMaxPageNumber)
-                    {
+                    if (mCurPageNumber < curMaxPageNumber) {
                         mCurPageNumber++;
                         mIsDisableScrollListener = true;
 
@@ -307,33 +279,26 @@ public class AuthorInfoFragment extends Fragment
         }
     };
 
-    private SyosetuUtility.UrlCallback mUrlCallback = new SyosetuUtility.UrlCallback()
-    {
+    private SyosetuUtility.UrlCallback mUrlCallback = new SyosetuUtility.UrlCallback() {
         @Override
-        public void onClick(String url, View widget)
-        {
+        public void onClick(String url, View widget) {
             UApplication.chromeCustomTabsManager
                     .startChromeTab(getActivity(), url);
         }
     };
 
     private ImageDownloader.OnDownloadListener mImgDLListener
-            = new ImageDownloader.OnDownloadListener()
-    {
+            = new ImageDownloader.OnDownloadListener() {
         @Override
-        public void onDownloadComplete(String pageId, ImageDownloader.ImageResult result)
-        {
+        public void onDownloadComplete(String pageId, ImageDownloader.ImageResult result) {
             if (mPageUUID.equals(pageId)
-                    && mPortion == AuthorPagerAdapter.FRAGMENT_BASE)
-            {
+                    && mPortion == AuthorPagerAdapter.FRAGMENT_BASE) {
                 Spanned spannedText = (Spanned) mAuthorBaseTV.getText();
                 ImageSpan[] imgSpans = spannedText.getSpans(0, spannedText.length(), ImageSpan.class);
-                for (ImageSpan span : imgSpans)
-                {
+                for (ImageSpan span : imgSpans) {
                     UrlDrawable urlDrawable = (UrlDrawable) span.getDrawable();
                     if (urlDrawable.mState != UrlDrawable.State.STATE_COMPLETED
-                            && urlDrawable.mSource.equals(result.imageUrl))
-                    {
+                            && urlDrawable.mSource.equals(result.imageUrl)) {
                         int height = urlDrawable.mDrawable.getBounds().height();
 
                         urlDrawable.mDrawable = new BitmapDrawable(getResources(), result.bitmap);
@@ -353,14 +318,10 @@ public class AuthorInfoFragment extends Fragment
     };
 
 
-    public String getSectionUrl()
-    {
-        switch (mPortion)
-        {
-            case AuthorPagerAdapter.FRAGMENT_BASE:
-            {
-                switch (mAuthorSite)
-                {
+    public String getSectionUrl() {
+        switch (mPortion) {
+            case AuthorPagerAdapter.FRAGMENT_BASE: {
+                switch (mAuthorSite) {
                     case NORMAL:
                         return "http://mypage.syosetu.com/";
                     case NOCTURNE:
@@ -368,10 +329,8 @@ public class AuthorInfoFragment extends Fragment
                 }
             }
 
-            case AuthorPagerAdapter.FRAGMENT_WORKS:
-            {
-                switch (mAuthorSite)
-                {
+            case AuthorPagerAdapter.FRAGMENT_WORKS: {
+                switch (mAuthorSite) {
                     case NORMAL:
                         return "http://mypage.syosetu.com/mypage/novellist/userid/";
                     case NOCTURNE:

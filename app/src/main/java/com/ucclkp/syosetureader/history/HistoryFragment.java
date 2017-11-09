@@ -67,17 +67,17 @@ public class HistoryFragment extends Fragment
     {
         View parent = inflater.inflate(R.layout.fragment_history, container, false);
 
-        TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tl_main_activity);
+        TabLayout tabLayout = getActivity().findViewById(R.id.tl_main_activity);
         tabLayout.setVisibility(View.GONE);
 
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.tb_main_activity);
+        Toolbar toolbar = getActivity().findViewById(R.id.tb_main_activity);
         AppBarLayout.LayoutParams lp = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
         lp.setScrollFlags(0);
         toolbar.setLayoutParams(lp);
 
-        mTipTextView = (TextView) parent.findViewById(R.id.tv_history_fragment_tip);
+        mTipTextView = parent.findViewById(R.id.tv_history_fragment_tip);
 
-        mListView = (RecyclerView) parent.findViewById(R.id.rv_history_fragment_list);
+        mListView = parent.findViewById(R.id.rv_history_fragment_list);
         mListView.setHasFixedSize(true);
         mListView.setLayoutManager(new LinearLayoutManager(getContext()));
         mListView.setMotionEventSplittingEnabled(false);

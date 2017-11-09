@@ -314,14 +314,14 @@ public class WorkListAdapter extends RecyclerView.Adapter
         {
             super(itemView);
 
-            titleTextView = (TextView) itemView.findViewById(R.id.tv_list_item_author_work_title);
-            typeTextView = (TextView) itemView.findViewById(R.id.tv_list_item_author_work_type);
-            titleLayoutView = (LinearLayout) itemView.findViewById(R.id.ll_list_item_author_work_title);
+            titleTextView = itemView.findViewById(R.id.tv_list_item_author_work_title);
+            typeTextView = itemView.findViewById(R.id.tv_list_item_author_work_type);
+            titleLayoutView = itemView.findViewById(R.id.ll_list_item_author_work_title);
 
-            novelInfoButton = (Button) itemView.findViewById(R.id.bt_list_item_author_work_novelinfo);
-            summaryTextView = (TextView) itemView.findViewById(R.id.tv_list_item_author_work_summary);
-            chipsTextView = (TextView) itemView.findViewById(R.id.tv_list_item_author_work_chips);
-            extraTextView = (TextView) itemView.findViewById(R.id.tv_list_item_author_work_extra);
+            novelInfoButton = itemView.findViewById(R.id.bt_list_item_author_work_novelinfo);
+            summaryTextView = itemView.findViewById(R.id.tv_list_item_author_work_summary);
+            chipsTextView = itemView.findViewById(R.id.tv_list_item_author_work_chips);
+            extraTextView = itemView.findViewById(R.id.tv_list_item_author_work_extra);
         }
     }
 
@@ -334,8 +334,8 @@ public class WorkListAdapter extends RecyclerView.Adapter
         {
             super(itemView);
 
-            textView = (TextView) itemView.findViewById(R.id.tv_list_foot);
-            progressBar = (ProgressBar) itemView.findViewById(R.id.pb_list_foot);
+            textView = itemView.findViewById(R.id.tv_list_foot);
+            progressBar = itemView.findViewById(R.id.pb_list_foot);
         }
     }
 

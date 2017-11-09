@@ -87,16 +87,6 @@ class LoginWorker
 
                 in = connection.getInputStream();
                 htmlCode = readInputStream(in, "utf-8");
-            } catch (MalformedURLException me)
-            {
-                me.printStackTrace();
-                mErrorMessage = me.toString();
-                succeed = false;
-            } catch (IOException ioe)
-            {
-                ioe.printStackTrace();
-                mErrorMessage = ioe.toString();
-                succeed = false;
             } catch (Exception e)
             {
                 e.printStackTrace();

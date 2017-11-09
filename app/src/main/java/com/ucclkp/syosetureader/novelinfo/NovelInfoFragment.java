@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatDelegate;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -77,24 +78,23 @@ public class NovelInfoFragment extends Fragment
     {
         View parent = inflater.inflate(R.layout.fragment_novel_info, container, false);
 
-        mRefreshSRL = (SwipeRefreshLayout) parent.findViewById(R.id.srl_novelinfo_refresher);
+        mRefreshSRL = parent.findViewById(R.id.srl_novelinfo_refresher);
         mRefreshSRL.setOnRefreshListener(mRefreshListener);
         mRefreshSRL.setColorSchemeResources(
                 R.color.color_blue,
                 R.color.color_red,
                 R.color.color_green,
                 R.color.color_yellow);
-        int currentNightMode = getResources().getConfiguration().uiMode
-                & Configuration.UI_MODE_NIGHT_MASK;
-        if (currentNightMode == Configuration.UI_MODE_NIGHT_YES)
+        boolean isNightMode = (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES);
+        if (isNightMode)
             mRefreshSRL.setProgressBackgroundColorSchemeResource(R.color.color_swipe_background);
 
-        mTitleTextView = (TextView) parent.findViewById(R.id.tv_novelinfo_title);
-        mTypeTextView = (TextView) parent.findViewById(R.id.tv_novelinfo_type);
-        mListTextView = (TextView) parent.findViewById(R.id.tv_novelinfo_list);
-        mAuthorButton = (Button) parent.findViewById(R.id.bt_novelinfo_author);
-        mReadButton = (Button) parent.findViewById(R.id.bt_novelinfo_read);
-        mForumLayout = (LinearLayout) parent.findViewById(R.id.cl_novelinfo_forum);
+        mTitleTextView = parent.findViewById(R.id.tv_novelinfo_title);
+        mTypeTextView = parent.findViewById(R.id.tv_novelinfo_type);
+        mListTextView = parent.findViewById(R.id.tv_novelinfo_list);
+        mAuthorButton = parent.findViewById(R.id.bt_novelinfo_author);
+        mReadButton = parent.findViewById(R.id.bt_novelinfo_read);
+        mForumLayout = parent.findViewById(R.id.cl_novelinfo_forum);
 
         return parent;
     }

@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
@@ -162,18 +163,17 @@ public class NovelSectionFragment extends Fragment
                 R.color.color_red,
                 R.color.color_green,
                 R.color.color_yellow);
-        int currentNightMode = getResources().getConfiguration().uiMode
-                & Configuration.UI_MODE_NIGHT_MASK;
-        if (currentNightMode == Configuration.UI_MODE_NIGHT_YES)
+        boolean isNightMode = (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES);
+        if (isNightMode)
             mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.color_swipe_background);
 
-        mToolbar = (Toolbar) getActivity().findViewById(R.id.tb_novel_activity);
+        mToolbar = getActivity().findViewById(R.id.tb_novel_activity);
         AppBarLayout.LayoutParams lp
                 = (AppBarLayout.LayoutParams) mToolbar.getLayoutParams();
         lp.setScrollFlags(0);
         mToolbar.setLayoutParams(lp);
 
-        mAppBarLayout = (AppBarLayout) getActivity().findViewById(R.id.abl_novel_activity);
+        mAppBarLayout = getActivity().findViewById(R.id.abl_novel_activity);
         mAppBarLayout.setExpanded(true, false);
 
         SharedPreferences preferences = getActivity().getSharedPreferences(
@@ -184,7 +184,8 @@ public class NovelSectionFragment extends Fragment
                 UApplication.LINE_SPACING_ADD, FormatDialogFragment.DEFAULT_LSA_DIP);
         mLineSpacingMult = preferences.getString(
                 UApplication.LINE_SPACING_MULT, FormatDialogFragment.DEFAULT_LSM);
-        if (currentNightMode == Configuration.UI_MODE_NIGHT_YES)
+
+        if (isNightMode)
             mBackgroundId = preferences.getString(
                     UApplication.BACKGROUND_NIGHT_ID, FormatDialogFragment.BACKGROUND_ID_NIGHT_DEFAULT);
         else

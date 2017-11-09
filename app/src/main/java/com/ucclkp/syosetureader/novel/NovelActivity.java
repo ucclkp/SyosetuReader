@@ -7,6 +7,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -23,6 +24,7 @@ public class NovelActivity extends AppCompatActivity implements
         NovelSectionFragment.OnNovelSectionRecord,
         FormatDialogFragment.OnFormatChangedListener
 {
+    private int mSavedNightMode;
     private boolean mIsExitByUser;
     private SyosetuCacheManager mCacheManager;
 
@@ -50,7 +52,7 @@ public class NovelActivity extends AppCompatActivity implements
         mCacheManager = ((UApplication) getApplication()).getCacheManager();
         mCacheManager.open();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tb_novel_activity);
+        Toolbar toolbar = findViewById(R.id.tb_novel_activity);
         toolbar.setTitleTextAppearance(this, R.style.ToolbarTitleAppearance);
         toolbar.setSubtitleTextAppearance(this, R.style.ToolbarSubtitleAppearance);
         setSupportActionBar(toolbar);
@@ -59,7 +61,9 @@ public class NovelActivity extends AppCompatActivity implements
         if (mActionBar != null)
             mActionBar.setDisplayHomeAsUpEnabled(true);
 
-        mAppBarLayout = (AppBarLayout) findViewById(R.id.abl_novel_activity);
+        mSavedNightMode = AppCompatDelegate.getDefaultNightMode();
+
+        mAppBarLayout = findViewById(R.id.abl_novel_activity);
 
         Intent intent = getIntent();
         if (intent != null)
@@ -134,6 +138,11 @@ public class NovelActivity extends AppCompatActivity implements
         super.onStart();
         mIsExitByUser = false;
 
+        int nightMode = AppCompatDelegate.getDefaultNightMode();
+        if (nightMode != mSavedNightMode) {
+            recreate();
+        }
+
         Log.d("RetainDBG", "NovelActivity.onStart() invoked.");
     }
 
@@ -146,6 +155,7 @@ public class NovelActivity extends AppCompatActivity implements
 
         mCacheManager.flush();
         Log.d("RetainDBG", "NovelActivity.onStop() invoked.");
+
     }
 
     @Override

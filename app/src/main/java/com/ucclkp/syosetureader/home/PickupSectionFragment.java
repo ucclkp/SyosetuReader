@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -74,10 +75,8 @@ public class PickupSectionFragment extends Fragment implements HomePagerAdapter.
                 R.color.color_red,
                 R.color.color_green,
                 R.color.color_yellow);
-
-        int currentNightMode = getResources().getConfiguration().uiMode
-                & Configuration.UI_MODE_NIGHT_MASK;
-        if (currentNightMode == Configuration.UI_MODE_NIGHT_YES)
+        boolean isNightMode = (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES);
+        if (isNightMode)
             mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.color_swipe_background);
 
         mPickupListAdapter = new PickupListAdapter(getContext());

@@ -19,6 +19,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -216,37 +217,34 @@ public class NovelFragment extends Fragment
     {
         View parent = inflater.inflate(R.layout.fragment_novel, container, false);
 
-        mNovelSRL = (SwipeRefreshLayout) parent.findViewById(R.id.srl_novel);
+        mNovelSRL = parent.findViewById(R.id.srl_novel);
         mNovelSRL.setOnRefreshListener(mRefreshListener);
         mNovelSRL.setColorSchemeResources(
                 R.color.color_blue,
                 R.color.color_red,
                 R.color.color_green,
                 R.color.color_yellow);
+        boolean isNightMode = (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES);
+        if (isNightMode)
+            mNovelSRL.setProgressBackgroundColorSchemeResource(R.color.color_swipe_background);
 
-        mShortNovelSRL = (SwipeRefreshLayout) parent.findViewById(R.id.srl_novel_short);
+        mShortNovelSRL = parent.findViewById(R.id.srl_novel_short);
         mShortNovelSRL.setOnRefreshListener(mRefreshListener);
         mShortNovelSRL.setColorSchemeResources(
                 R.color.color_blue,
                 R.color.color_red,
                 R.color.color_green,
                 R.color.color_yellow);
-
-        int currentNightMode = getResources().getConfiguration().uiMode
-                & Configuration.UI_MODE_NIGHT_MASK;
-        if (currentNightMode == Configuration.UI_MODE_NIGHT_YES)
-        {
-            mNovelSRL.setProgressBackgroundColorSchemeResource(R.color.color_swipe_background);
+        if (isNightMode)
             mShortNovelSRL.setProgressBackgroundColorSchemeResource(R.color.color_swipe_background);
-        }
 
-        mToolbar = (Toolbar) getActivity().findViewById(R.id.tb_novel_activity);
+        mToolbar = getActivity().findViewById(R.id.tb_novel_activity);
         AppBarLayout.LayoutParams lp
                 = (AppBarLayout.LayoutParams) mToolbar.getLayoutParams();
         lp.setScrollFlags(0);
         mToolbar.setLayoutParams(lp);
 
-        mAppBarLayout = (AppBarLayout) getActivity().findViewById(R.id.abl_novel_activity);
+        mAppBarLayout = getActivity().findViewById(R.id.abl_novel_activity);
         mAppBarLayout.setExpanded(true, false);
 
         mSectionListAdapter = new NovelListAdapter(getContext());
@@ -254,7 +252,7 @@ public class NovelFragment extends Fragment
 
         mLinearLayoutManager = new LinearLayoutManager(getContext());
 
-        mSectionListView = (RecyclerView) parent.findViewById(R.id.rv_novel);
+        mSectionListView = parent.findViewById(R.id.rv_novel);
         mSectionListView.setHasFixedSize(true);
         mSectionListView.setLayoutManager(mLinearLayoutManager);
         mSectionListView.setAdapter(mSectionListAdapter);
@@ -271,14 +269,15 @@ public class NovelFragment extends Fragment
                 UApplication.LINE_SPACING_ADD, FormatDialogFragment.DEFAULT_LSA_DIP);
         mLineSpacingMult = preferences.getString(
                 UApplication.LINE_SPACING_MULT, FormatDialogFragment.DEFAULT_LSM);
-        if (currentNightMode == Configuration.UI_MODE_NIGHT_YES)
+
+        if (isNightMode)
             mBackgroundId = preferences.getString(
                     UApplication.BACKGROUND_NIGHT_ID, FormatDialogFragment.BACKGROUND_ID_NIGHT_DEFAULT);
         else
             mBackgroundId = preferences.getString(
                     UApplication.BACKGROUND_ID, FormatDialogFragment.BACKGROUND_ID_DEFAULT);
 
-        mShortNovelSTV = (StaticTextView) parent.findViewById(R.id.stv_novel_short);
+        mShortNovelSTV = parent.findViewById(R.id.stv_novel_short);
         mShortNovelSTV.setTextSize(mTextSize);
         mShortNovelSTV.setLineSpacing(Float.valueOf(mLineSpacingMult), Float.valueOf(mLineSpacingAdd));
         mShortNovelSTV.setBackground(FormatDialogFragment.getBackgroundById(getContext(), mBackgroundId));

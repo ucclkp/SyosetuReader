@@ -11,11 +11,11 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -33,11 +33,11 @@ import com.ucclkp.syosetureader.novel.NovelActivity;
 import com.ucclkp.syosetureader.search.SearchFragment;
 import com.ucclkp.syosetureader.search.SearchResultFragment;
 
-public class MainActivity extends AppCompatActivity
-{
+public class MainActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
     private ActionBar mActionBar;
     private AppBarLayout mAppBarLayout;
+    private MenuItem mSearchBarMenuItem;
 
     private TextView mHeaderTitleTV;
     private USearchView mSearchView;
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity
 
     private int mNavSelectedId;
     private boolean mIsSubmitCollapsed;
-
+    private int mSavedNightMode;
 
     private final static int FRAGMENT_HOME = 0;
     private final static int FRAGMENT_SEARCH = 1;
@@ -81,59 +81,54 @@ public class MainActivity extends AppCompatActivity
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tb_main_activity);
+        Toolbar toolbar = findViewById(R.id.tb_main_activity);
         setSupportActionBar(toolbar);
 
         mNavSelectedId = -1;
         mIsSubmitCollapsed = false;
 
         mActionBar = getSupportActionBar();
+        mSavedNightMode = AppCompatDelegate.getDefaultNightMode();
 
-        mTabLayout = (TabLayout) findViewById(R.id.tl_main_activity);
-        mAppBarLayout = (AppBarLayout) findViewById(R.id.abl_main_activity);
-        mAssistSearchView = (UNormalSearchView) findViewById(R.id.unsv_search_assist);
+        mTabLayout = findViewById(R.id.tl_main_activity);
+        mAppBarLayout = findViewById(R.id.abl_main_activity);
+        mAssistSearchView = findViewById(R.id.unsv_search_assist);
         mAssistSearchView.setOnQueryTextListener(mAssistQueryTextListener);
 
-        mSearchFAB = (FloatingActionButton) findViewById(R.id.fab_search);
+        mSearchFAB = findViewById(R.id.fab_search);
         mSearchFAB.setOnClickListener(mSearchFABClickListener);
 
-        mNavigationView = (NavigationView) findViewById(R.id.nv_main_activity);
+        mNavigationView = findViewById(R.id.nv_main_activity);
         mNavigationView.setNavigationItemSelectedListener(mNavigationItemSelectedListener);
 
-        mHeaderTitleTV = (TextView) mNavigationView.getHeaderView(0)
+        mHeaderTitleTV = mNavigationView.getHeaderView(0)
                 .findViewById(R.id.tv_nav_draw_header_title);
-        mHeaderTitleTV.setOnClickListener(new View.OnClickListener()
-        {
+        mHeaderTitleTV.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.dl_main_activity);
+        mDrawerLayout = findViewById(R.id.dl_main_activity);
         mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar,
-                R.string.nav_draw_open, R.string.nav_draw_close)
-        {
+                R.string.nav_draw_open, R.string.nav_draw_close) {
             @Override
-            public void onDrawerClosed(View drawerView)
-            {
+            public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
                 processNavSelect();
                 mNavSelectedId = -1;
             }
 
             @Override
-            public void onDrawerOpened(View drawerView)
-            {
+            public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                mActionBar.collapseActionView();
+                mSearchBarMenuItem.collapseActionView();
             }
         };
 
@@ -144,8 +139,7 @@ public class MainActivity extends AppCompatActivity
         Fragment searchFragment = getSupportFragmentManager()
                 .findFragmentByTag(FRAGMENT_TAGS[FRAGMENT_SEARCH]);
 
-        if (searchFragment == null)
-        {
+        if (searchFragment == null) {
             searchFragment = SearchFragment.newInstance();
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fl_main_replace_content,
@@ -154,8 +148,7 @@ public class MainActivity extends AppCompatActivity
                     .commit();
         }
 
-        if (homeFragment == null)
-        {
+        if (homeFragment == null) {
             homeFragment = HomeFragment.newInstance();
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fl_main_replace_content,
@@ -163,8 +156,7 @@ public class MainActivity extends AppCompatActivity
                     .commit();
         }
 
-        switch (UApplication.syosetuSite)
-        {
+        switch (UApplication.syosetuSite) {
             case NORMAL:
                 mNavigationView.setCheckedItem(R.id.drawer_read_novel);
                 break;
@@ -176,33 +168,39 @@ public class MainActivity extends AppCompatActivity
 
     @Nullable
     @Override
-    public ActionMode onWindowStartingActionMode(ActionMode.Callback callback)
-    {
+    public ActionMode onWindowStartingActionMode(ActionMode.Callback callback) {
         return super.onWindowStartingActionMode(callback);
     }
 
     @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState)
-    {
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         mActionBarDrawerToggle.syncState();
     }
 
     @Override
-    protected void onDestroy()
-    {
+    protected void onStart() {
+        super.onStart();
+
+        int nightMode = AppCompatDelegate.getDefaultNightMode();
+        if (nightMode != mSavedNightMode) {
+            recreate();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
         super.onDestroy();
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main_activity, menu);
 
-        MenuItem sItem = menu.findItem(R.id.menu_main_action_search);
-        MenuItemCompat.setOnActionExpandListener(sItem, mSearchViewExpandListener);
+        mSearchBarMenuItem = menu.findItem(R.id.menu_main_action_search);
+        mSearchBarMenuItem.setOnActionExpandListener(mSearchViewExpandListener);
 
-        mSearchView = (USearchView) sItem.getActionView();
+        mSearchView = (USearchView) mSearchBarMenuItem.getActionView();
         mSearchView.setOnQueryTextListener(mQueryTextListener);
 
         SearchFragment searchFragment = (SearchFragment) getSupportFragmentManager()
@@ -213,17 +211,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case R.id.menu_main_action_search:
-            {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_main_action_search: {
                 Fragment searchFragment = getSupportFragmentManager()
                         .findFragmentByTag(FRAGMENT_TAGS[FRAGMENT_SEARCH]);
 
-                if (!searchFragment.isVisible())
-                {
+                if (!searchFragment.isVisible()) {
                     getSupportFragmentManager().beginTransaction()
                             .hide(getCurFragment())
                             .show(searchFragment)
@@ -238,31 +232,25 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         //关闭抽屉
-        if (mDrawerLayout.isDrawerOpen(mNavigationView))
-        {
+        if (mDrawerLayout.isDrawerOpen(mNavigationView)) {
             mDrawerLayout.closeDrawers();
             return;
         }
 
         if (isFragmentVisible(FRAGMENT_TAGS[FRAGMENT_HISTORY])
                 || isFragmentVisible(FRAGMENT_TAGS[FRAGMENT_FAVORITE])
-                || isFragmentVisible(FRAGMENT_TAGS[FRAGMENT_DOWNLOAD]))
-        {
-            while (true)
-            {
+                || isFragmentVisible(FRAGMENT_TAGS[FRAGMENT_DOWNLOAD])) {
+            while (true) {
                 int count = getSupportFragmentManager()
                         .getBackStackEntryCount();
 
-                if (count > 0)
-                {
+                if (count > 0) {
                     FragmentManager.BackStackEntry entry =
                             getSupportFragmentManager().getBackStackEntryAt(count - 1);
                     if (entry.getName() != null
-                            && entry.getName().equals(BACK_STACK_BORING))
-                    {
+                            && entry.getName().equals(BACK_STACK_BORING)) {
                         getSupportFragmentManager().popBackStackImmediate();
                     } else
                         break;
@@ -270,8 +258,7 @@ public class MainActivity extends AppCompatActivity
                     break;
             }
 
-            switch (UApplication.syosetuSite)
-            {
+            switch (UApplication.syosetuSite) {
                 case NORMAL:
                     mNavigationView.setCheckedItem(R.id.drawer_read_novel);
                     break;
@@ -287,56 +274,46 @@ public class MainActivity extends AppCompatActivity
 
         int count = getSupportFragmentManager()
                 .getBackStackEntryCount();
-        if (count > 0)
-        {
+        if (count > 0) {
             FragmentManager.BackStackEntry entry =
                     getSupportFragmentManager().getBackStackEntryAt(count - 1);
             if (entry.getName() != null
-                    && entry.getName().equals(BACK_STACK_SEARCH))
-            {
+                    && entry.getName().equals(BACK_STACK_SEARCH)) {
                 getSupportFragmentManager().popBackStackImmediate();
             }
         }
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch (requestCode)
-        {
+        switch (requestCode) {
             case REQ_NOVEL_FROM_HIS:
-                if ((resultCode & RC_REFRESH_HIS) == RC_REFRESH_HIS)
-                {
+                if ((resultCode & RC_REFRESH_HIS) == RC_REFRESH_HIS) {
                     HistoryFragment fragment = (HistoryFragment) getSupportFragmentManager()
                             .findFragmentByTag(FRAGMENT_TAGS[FRAGMENT_HISTORY]);
-                    if (fragment != null && fragment.isVisible())
-                    {
+                    if (fragment != null && fragment.isVisible()) {
                         fragment.refresh();
                     }
                 }
                 break;
 
             case REQ_NOVEL_FROM_FAV:
-                if ((resultCode & RC_REFRESH_FAV) == RC_REFRESH_FAV)
-                {
+                if ((resultCode & RC_REFRESH_FAV) == RC_REFRESH_FAV) {
                     FavoriteFragment fragment = (FavoriteFragment) getSupportFragmentManager()
                             .findFragmentByTag(FRAGMENT_TAGS[FRAGMENT_FAVORITE]);
-                    if (fragment != null && fragment.isVisible())
-                    {
+                    if (fragment != null && fragment.isVisible()) {
                         fragment.refresh();
                     }
                 }
                 break;
 
             case REQ_SETTINGS:
-                if (resultCode == RC_REFRESH_HIS)
-                {
+                if (resultCode == RC_REFRESH_HIS) {
                     HistoryFragment fragment = (HistoryFragment) getSupportFragmentManager()
                             .findFragmentByTag(FRAGMENT_TAGS[FRAGMENT_HISTORY]);
-                    if (fragment != null && fragment.isVisible())
-                    {
+                    if (fragment != null && fragment.isVisible()) {
                         fragment.refresh();
                     }
                 }
@@ -345,11 +322,9 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    private void selectReadNovel()
-    {
+    private void selectReadNovel() {
         if (UApplication.syosetuSite
-                == SyosetuUtility.SyosetuSite.NOCTURNE)
-        {
+                == SyosetuUtility.SyosetuSite.NOCTURNE) {
             UApplication.syosetuSite
                     = SyosetuUtility.SyosetuSite.NORMAL;
 
@@ -365,8 +340,7 @@ public class MainActivity extends AppCompatActivity
 
         if (isFragmentVisible(FRAGMENT_TAGS[FRAGMENT_HISTORY])
                 || isFragmentVisible(FRAGMENT_TAGS[FRAGMENT_FAVORITE])
-                || isFragmentVisible(FRAGMENT_TAGS[FRAGMENT_DOWNLOAD]))
-        {
+                || isFragmentVisible(FRAGMENT_TAGS[FRAGMENT_DOWNLOAD])) {
             Fragment homeFragment = getSupportFragmentManager()
                     .findFragmentByTag(FRAGMENT_TAGS[FRAGMENT_HOME]);
 
@@ -381,11 +355,9 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void selectReadNovel18()
-    {
+    private void selectReadNovel18() {
         if (UApplication.syosetuSite
-                == SyosetuUtility.SyosetuSite.NORMAL)
-        {
+                == SyosetuUtility.SyosetuSite.NORMAL) {
             UApplication.syosetuSite
                     = SyosetuUtility.SyosetuSite.NOCTURNE;
 
@@ -401,8 +373,7 @@ public class MainActivity extends AppCompatActivity
 
         if (isFragmentVisible(FRAGMENT_TAGS[FRAGMENT_HISTORY])
                 || isFragmentVisible(FRAGMENT_TAGS[FRAGMENT_FAVORITE])
-                || isFragmentVisible(FRAGMENT_TAGS[FRAGMENT_DOWNLOAD]))
-        {
+                || isFragmentVisible(FRAGMENT_TAGS[FRAGMENT_DOWNLOAD])) {
             Fragment homeFragment = getSupportFragmentManager()
                     .findFragmentByTag(FRAGMENT_TAGS[FRAGMENT_HOME]);
 
@@ -417,18 +388,14 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void processNavSelect()
-    {
-        switch (mNavSelectedId)
-        {
-            case R.id.drawer_read_novel:
-            {
+    private void processNavSelect() {
+        switch (mNavSelectedId) {
+            case R.id.drawer_read_novel: {
                 selectReadNovel();
                 break;
             }
 
-            case R.id.drawer_read_novel18:
-            {
+            case R.id.drawer_read_novel18: {
                 selectReadNovel18();
                 break;
             }
@@ -463,8 +430,7 @@ public class MainActivity extends AppCompatActivity
                         .commit();
                 break;
 
-            case R.id.drawer_settings:
-            {
+            case R.id.drawer_settings: {
                 Intent intent = new Intent(
                         MainActivity.this,
                         SettingsActivity.class);
@@ -475,19 +441,16 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    private boolean isFragmentVisible(String tag)
-    {
+    private boolean isFragmentVisible(String tag) {
         Fragment fragment = getSupportFragmentManager()
                 .findFragmentByTag(tag);
         return (fragment != null) && fragment.isVisible();
     }
 
-    private Fragment getCurFragment()
-    {
-        for (int i = 0; i < FRAGMENT_TAGS.length; ++i)
-        {
+    private Fragment getCurFragment() {
+        for (String tag : FRAGMENT_TAGS) {
             Fragment fragment = getSupportFragmentManager()
-                    .findFragmentByTag(FRAGMENT_TAGS[i]);
+                    .findFragmentByTag(tag);
             if (fragment != null && fragment.isVisible())
                 return fragment;
         }
@@ -497,50 +460,40 @@ public class MainActivity extends AppCompatActivity
 
 
     private AgeCertificationDialogFragment.OnAgeCertListener mAgeCertListener
-            = new AgeCertificationDialogFragment.OnAgeCertListener()
-    {
+            = new AgeCertificationDialogFragment.OnAgeCertListener() {
         @Override
-        public void onGranted(int reqCode, boolean nomoreHint)
-        {
+        public void onGranted(int reqCode, boolean nomoreHint) {
             mNavSelectedId = R.id.drawer_read_novel18;
             mDrawerLayout.closeDrawers();
             mNavigationView.setCheckedItem(R.id.drawer_read_novel18);
         }
 
         @Override
-        public void onDenied(int reqCode, boolean nomoreHint)
-        {
+        public void onDenied(int reqCode, boolean nomoreHint) {
             Toast.makeText(MainActivity.this, "您已选择：非18",
                     Toast.LENGTH_SHORT).show();
         }
     };
 
     private NavigationView.OnNavigationItemSelectedListener mNavigationItemSelectedListener
-            = new NavigationView.OnNavigationItemSelectedListener()
-    {
+            = new NavigationView.OnNavigationItemSelectedListener() {
         @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item)
-        {
-            if (item.isChecked())
-            {
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            if (item.isChecked()) {
                 mDrawerLayout.closeDrawers();
                 return false;
             }
 
-            if (item.getItemId() == R.id.drawer_read_novel18)
-            {
+            if (item.getItemId() == R.id.drawer_read_novel18) {
                 SharedPreferences prefs = getSharedPreferences(
                         UApplication.PREF_CONFIG, MODE_PRIVATE);
-                if (prefs.getBoolean(UApplication.NOMORE_HINT18, false))
-                {
-                    if (!prefs.getBoolean(UApplication.REMED_OVER18, false))
-                    {
+                if (prefs.getBoolean(UApplication.NOMORE_HINT18, false)) {
+                    if (!prefs.getBoolean(UApplication.REMED_OVER18, false)) {
                         Toast.makeText(MainActivity.this, "您已选择：非18",
                                 Toast.LENGTH_SHORT).show();
                         return false;
                     }
-                } else
-                {
+                } else {
                     AgeCertificationDialogFragment acDialogFragment
                             = AgeCertificationDialogFragment.newInstance(0);
                     acDialogFragment.setOnAgeCertListener(mAgeCertListener);
@@ -556,19 +509,16 @@ public class MainActivity extends AppCompatActivity
         }
     };
 
-    private MenuItemCompat.OnActionExpandListener mSearchViewExpandListener
-            = new MenuItemCompat.OnActionExpandListener()
-    {
+    private MenuItem.OnActionExpandListener mSearchViewExpandListener
+            = new MenuItem.OnActionExpandListener() {
         @Override
-        public boolean onMenuItemActionExpand(MenuItem item)
-        {
+        public boolean onMenuItemActionExpand(MenuItem item) {
             return true;
         }
 
         @Override
-        public boolean onMenuItemActionCollapse(MenuItem item)
-        {
-            if (!mIsSubmitCollapsed)
+        public boolean onMenuItemActionCollapse(MenuItem item) {
+            if (isFragmentVisible(FRAGMENT_TAGS[FRAGMENT_SEARCH]) && !mIsSubmitCollapsed)
                 getSupportFragmentManager().popBackStackImmediate();
             mIsSubmitCollapsed = false;
             return true;
@@ -577,13 +527,10 @@ public class MainActivity extends AppCompatActivity
 
 
     private USearchView.OnQueryTextListener mQueryTextListener
-            = new USearchView.OnQueryTextListener()
-    {
+            = new USearchView.OnQueryTextListener() {
         @Override
-        public void onQueryTextSubmit(String query)
-        {
-            if (query.matches("^n[0-9]{4}[a-zA-Z]{1,2}$"))
-            {
+        public void onQueryTextSubmit(String query) {
+            if (query.matches("^n[0-9]{4}[a-zA-Z]{1,2}$")) {
                 Intent intent = new Intent(
                         MainActivity.this, NovelActivity.class);
                 intent.putExtra(NovelActivity.ARG_NOVEL_URL,
@@ -606,35 +553,29 @@ public class MainActivity extends AppCompatActivity
                     .commit();
 
             mIsSubmitCollapsed = true;
-            mActionBar.collapseActionView();
+            mSearchBarMenuItem.collapseActionView();
         }
 
         @Override
-        public void onQueryTextChange(String newText)
-        {
+        public void onQueryTextChange(String newText) {
         }
     };
 
     private UNormalSearchView.OnQueryTextListener mAssistQueryTextListener
-            = new UNormalSearchView.OnQueryTextListener()
-    {
+            = new UNormalSearchView.OnQueryTextListener() {
         @Override
-        public void onQueryTextSubmit(String query)
-        {
+        public void onQueryTextSubmit(String query) {
             mSearchView.submitQueryText();
         }
 
         @Override
-        public void onQueryTextChange(String newText)
-        {
+        public void onQueryTextChange(String newText) {
         }
     };
 
-    private View.OnClickListener mSearchFABClickListener = new View.OnClickListener()
-    {
+    private View.OnClickListener mSearchFABClickListener = new View.OnClickListener() {
         @Override
-        public void onClick(View v)
-        {
+        public void onClick(View v) {
             mSearchView.submitQueryText();
         }
     };

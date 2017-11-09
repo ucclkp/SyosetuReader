@@ -139,7 +139,7 @@ public class ChromeCustomTabsManager
     {
         TypedValue typedValue = new TypedValue();
         TypedArray a = context.obtainStyledAttributes(typedValue.data, new int[]{android.R.attr.colorPrimary});
-        mToolbarColor = a.getColor(0, Color.BLACK);
+        mToolbarColor = a.getColor(a.getIndex(0), Color.BLACK);
         a.recycle();
 
         mIntent.putExtra(EXTRA_CUSTOM_TABS_TOOLBAR_COLOR, mToolbarColor);

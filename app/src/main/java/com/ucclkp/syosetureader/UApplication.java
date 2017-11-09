@@ -1,12 +1,13 @@
 package com.ucclkp.syosetureader;
 
 import android.app.Application;
+import android.content.SharedPreferences;
+import android.support.v7.app.AppCompatDelegate;
 
 import com.ucclkp.syosetureader.chromecustomtabs.ChromeCustomTabsManager;
 
 
-public class UApplication extends Application
-{
+public class UApplication extends Application {
     private SyosetuBooks mSyosetuBooks;
     private SyosetuLibrary mSyosetuLibrary;
     private SyosetuCacheManager mCacheManager;
@@ -30,10 +31,12 @@ public class UApplication extends Application
     public final static String NOMORE_HINT18 = "nomore_hint18";
     public final static String REMED_OVER18 = "remed_over18";
 
+    public final static String PREF_SYSTEM = "pref_system";
+    public final static String NIGHT_MODE = "night_mode";
+
 
     @Override
-    public void onCreate()
-    {
+    public void onCreate() {
         super.onCreate();
 
         mCacheManager = new SyosetuCacheManager(getApplicationContext());
@@ -50,21 +53,23 @@ public class UApplication extends Application
         cookieManager.loadCookiesFromLocal(getApplicationContext());
         if (!cookieManager.hasOver18Cookie())
             cookieManager.addOver18Cookie();
+
+        SharedPreferences prefs = getSharedPreferences(PREF_SYSTEM, MODE_PRIVATE);
+        boolean nightMode = prefs.getBoolean(NIGHT_MODE, false);
+        AppCompatDelegate.setDefaultNightMode(
+                nightMode ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
     }
 
 
-    public SyosetuBooks getSyosetuBooks()
-    {
+    public SyosetuBooks getSyosetuBooks() {
         return mSyosetuBooks;
     }
 
-    public SyosetuLibrary getSyosetuLibrary()
-    {
+    public SyosetuLibrary getSyosetuLibrary() {
         return mSyosetuLibrary;
     }
 
-    public SyosetuCacheManager getCacheManager()
-    {
+    public SyosetuCacheManager getCacheManager() {
         return mCacheManager;
     }
 }

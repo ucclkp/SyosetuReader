@@ -29,19 +29,19 @@ public class LoginActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tb_login_activity);
+        Toolbar toolbar = findViewById(R.id.tb_login_activity);
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
 
-        mSubmitBT = (Button) findViewById(R.id.bt_login_submit);
+        mSubmitBT = findViewById(R.id.bt_login_submit);
         mSubmitBT.setOnClickListener(mSubmitClickListener);
 
-        mUserNameTV = (EditText) findViewById(R.id.et_login_username);
-        mPasswordTV = (EditText) findViewById(R.id.et_login_password);
-        mLoginProgressBar = (ProgressBar) findViewById(R.id.pb_login_progress);
+        mUserNameTV = findViewById(R.id.et_login_username);
+        mPasswordTV = findViewById(R.id.et_login_password);
+        mLoginProgressBar = findViewById(R.id.pb_login_progress);
 
         mLoginWorker = new LoginWorker();
         mLoginWorker.setOnLoginEventListener(mLoginEventListener);
