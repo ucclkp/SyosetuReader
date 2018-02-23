@@ -125,51 +125,51 @@ public class SearchFragment extends Fragment
     {
         View parent = inflater.inflate(R.layout.fragment_search, container, false);
 
-        TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tl_main_activity);
+        TabLayout tabLayout = getActivity().findViewById(R.id.tl_main_activity);
         tabLayout.setVisibility(View.GONE);
 
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.tb_main_activity);
+        Toolbar toolbar = getActivity().findViewById(R.id.tb_main_activity);
         AppBarLayout.LayoutParams lp = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
         lp.setScrollFlags(0);
         toolbar.setLayoutParams(lp);
 
-        mSearchAssist = (UNormalSearchView) getActivity().findViewById(R.id.unsv_search_assist);
+        mSearchAssist = getActivity().findViewById(R.id.unsv_search_assist);
 
-        mSearchFAB = (FloatingActionButton) getActivity().findViewById(R.id.fab_search);
+        mSearchFAB = getActivity().findViewById(R.id.fab_search);
         CoordinatorLayout.LayoutParams fabLayoutParams
                 = (CoordinatorLayout.LayoutParams) mSearchFAB.getLayoutParams();
         mFABBehavior = (FABScrollAwareBehavior) fabLayoutParams.getBehavior();
 
-        mOrderSpinner = (AppCompatSpinner) parent.findViewById(R.id.sp_base_sort);
-        mTypeSpinner = (AppCompatSpinner) parent.findViewById(R.id.sp_base_type);
+        mOrderSpinner = parent.findViewById(R.id.sp_base_sort);
+        mTypeSpinner = parent.findViewById(R.id.sp_base_type);
 
-        mIllustCB = (CheckBox) parent.findViewById(R.id.cb_base_illustration);
-        mPickupCB = (CheckBox) parent.findViewById(R.id.cb_base_pickup);
-        mExSuspendCB = (CheckBox) parent.findViewById(R.id.cb_base_ex_suspend);
+        mIllustCB = parent.findViewById(R.id.cb_base_illustration);
+        mPickupCB = parent.findViewById(R.id.cb_base_pickup);
+        mExSuspendCB = parent.findViewById(R.id.cb_base_ex_suspend);
 
-        mSearchFromTitleCB = (CheckBox) parent.findViewById(R.id.cb_adv_searchfrom_title);
-        mSearchFromSummaryCB = (CheckBox) parent.findViewById(R.id.cb_adv_searchfrom_summary);
-        mSearchFromKwCB = (CheckBox) parent.findViewById(R.id.cb_adv_searchfrom_kw);
-        mSearchFromAuthorCB = (CheckBox) parent.findViewById(R.id.cb_adv_searchfrom_author);
+        mSearchFromTitleCB = parent.findViewById(R.id.cb_adv_searchfrom_title);
+        mSearchFromSummaryCB = parent.findViewById(R.id.cb_adv_searchfrom_summary);
+        mSearchFromKwCB = parent.findViewById(R.id.cb_adv_searchfrom_kw);
+        mSearchFromAuthorCB = parent.findViewById(R.id.cb_adv_searchfrom_author);
 
-        mIsR15CB = (CheckBox) parent.findViewById(R.id.cb_adv_isr15);
-        mIsCruelCB = (CheckBox) parent.findViewById(R.id.cb_adv_iscruel);
-        mIsBLCB = (CheckBox) parent.findViewById(R.id.cb_adv_isbl);
-        mIsGLCB = (CheckBox) parent.findViewById(R.id.cb_adv_isgl);
-        mIsReincarnationCB = (CheckBox) parent.findViewById(R.id.cb_adv_isre);
-        mIsTransferCB = (CheckBox) parent.findViewById(R.id.cb_adv_istrans);
+        mIsR15CB = parent.findViewById(R.id.cb_adv_isr15);
+        mIsCruelCB = parent.findViewById(R.id.cb_adv_iscruel);
+        mIsBLCB = parent.findViewById(R.id.cb_adv_isbl);
+        mIsGLCB = parent.findViewById(R.id.cb_adv_isgl);
+        mIsReincarnationCB = parent.findViewById(R.id.cb_adv_isre);
+        mIsTransferCB = parent.findViewById(R.id.cb_adv_istrans);
 
-        mIsNotR15CB = (CheckBox) parent.findViewById(R.id.cb_adv_notr15);
-        mIsNotCruelCB = (CheckBox) parent.findViewById(R.id.cb_adv_notcruel);
-        mIsNotBLCB = (CheckBox) parent.findViewById(R.id.cb_adv_notbl);
-        mIsNotGLCB = (CheckBox) parent.findViewById(R.id.cb_adv_notgl);
-        mIsNotReincarnationCB = (CheckBox) parent.findViewById(R.id.cb_adv_notre);
-        mIsNotTransferCB = (CheckBox) parent.findViewById(R.id.cb_adv_nottrans);
+        mIsNotR15CB = parent.findViewById(R.id.cb_adv_notr15);
+        mIsNotCruelCB = parent.findViewById(R.id.cb_adv_notcruel);
+        mIsNotBLCB = parent.findViewById(R.id.cb_adv_notbl);
+        mIsNotGLCB = parent.findViewById(R.id.cb_adv_notgl);
+        mIsNotReincarnationCB = parent.findViewById(R.id.cb_adv_notre);
+        mIsNotTransferCB = parent.findViewById(R.id.cb_adv_nottrans);
 
-        mAdvCardView = (CardView) parent.findViewById(R.id.cv_adv_settings);
-        mExpConConditionLL = (LinearLayout) parent.findViewById(R.id.ll_adv_exp_con_condition);
+        mAdvCardView = parent.findViewById(R.id.cv_adv_settings);
+        mExpConConditionLL = parent.findViewById(R.id.ll_adv_exp_con_condition);
 
-        mAdvSwitch = (SwitchCompat) parent.findViewById(R.id.sc_switch_adv);
+        mAdvSwitch = parent.findViewById(R.id.sc_switch_adv);
         mAdvSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
         {
             @Override
@@ -194,13 +194,13 @@ public class SearchFragment extends Fragment
             }
         });
 
-        mKwPanelPlate = (CardView) parent.findViewById(R.id.cv_search_keyword_plate);
-        mKeywordPanel = (FrameLayout) parent.findViewById(R.id.fl_keyword_panel);
-        mKeywordBar = (KeywordBar) parent.findViewById(R.id.kb_search_kw_panel_bar);
+        mKwPanelPlate = parent.findViewById(R.id.cv_search_keyword_plate);
+        mKeywordPanel = parent.findViewById(R.id.fl_keyword_panel);
+        mKeywordBar = parent.findViewById(R.id.kb_search_kw_panel_bar);
         mKeywordBar.setSelection(0);
         mKeywordBar.setOnItemSelectListener(mKwBarItemSelectListener);
 
-        mKwLoadingPB = (ProgressBar) parent.findViewById(R.id.pb_search_kw_panel_load);
+        mKwLoadingPB = parent.findViewById(R.id.pb_search_kw_panel_load);
 
         mKwListAdapter = new KwPanelListAdapter(getContext());
         mKwListAdapter.setOnItemSelectListener(mKeywordSelectListener);
@@ -219,7 +219,7 @@ public class SearchFragment extends Fragment
             }
         });
 
-        mKwListView = (RecyclerView) parent.findViewById(R.id.rv_search_kw_panel_list);
+        mKwListView = parent.findViewById(R.id.rv_search_kw_panel_list);
         mKwListView.setAdapter(mKwListAdapter);
         mKwListView.setLayoutManager(mKwListLayoutManager);
         mKwListView.setHasFixedSize(true);

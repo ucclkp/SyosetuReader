@@ -62,12 +62,12 @@ public class HomeFragment extends Fragment
     {
         View parent = inflater.inflate(R.layout.fragment_home, container, false);
 
-        mToolbar = (Toolbar) getActivity().findViewById(R.id.tb_main_activity);
+        mToolbar = getActivity().findViewById(R.id.tb_main_activity);
 
-        mTabLayout = (TabLayout) getActivity().findViewById(R.id.tl_main_activity);
+        mTabLayout = getActivity().findViewById(R.id.tl_main_activity);
         mTabLayout.setVisibility(View.VISIBLE);
 
-        mAppBarLayout = (AppBarLayout) getActivity().findViewById(R.id.abl_main_activity);
+        mAppBarLayout = getActivity().findViewById(R.id.abl_main_activity);
 
         AppBarLayout.LayoutParams lp = (AppBarLayout.LayoutParams) mToolbar.getLayoutParams();
         lp.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
@@ -75,7 +75,7 @@ public class HomeFragment extends Fragment
                 | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);
         mToolbar.setLayoutParams(lp);
 
-        mHistoryViewPager = (ViewPager) parent.findViewById(R.id.vp_home);
+        mHistoryViewPager = parent.findViewById(R.id.vp_home);
 
         mSectionAdapter = new HomePagerAdapter(this, mHistoryViewPager);
 

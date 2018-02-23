@@ -27,8 +27,7 @@ import com.ucclkp.syosetureader.SyosetuUtility;
 import com.ucclkp.syosetureader.UApplication;
 import com.ucclkp.syosetureader.novel.NovelActivity;
 
-public class DownloadFragment extends Fragment
-{
+public class DownloadFragment extends Fragment {
     private RecyclerView mListView;
     private DownloadListAdapter mListAdapter;
 
@@ -37,12 +36,10 @@ public class DownloadFragment extends Fragment
     private ActionMode mSelectionActionMode;
 
 
-    public DownloadFragment()
-    {
+    public DownloadFragment() {
     }
 
-    public static DownloadFragment newInstance()
-    {
+    public static DownloadFragment newInstance() {
         DownloadFragment fragment = new DownloadFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -50,39 +47,35 @@ public class DownloadFragment extends Fragment
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null)
-        {
+        if (getArguments() != null) {
         }
 
-        getActivity().setTitle("离线资源");
+        getActivity().setTitle(getString(R.string.download));
     }
 
     @Override
-    public void onDetach()
-    {
+    public void onDetach() {
         super.onDetach();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         View parent = inflater.inflate(R.layout.fragment_download, container, false);
 
-        TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tl_main_activity);
+        TabLayout tabLayout = getActivity().findViewById(R.id.tl_main_activity);
         tabLayout.setVisibility(View.GONE);
 
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.tb_main_activity);
+        Toolbar toolbar = getActivity().findViewById(R.id.tb_main_activity);
         AppBarLayout.LayoutParams lp = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
         lp.setScrollFlags(0);
         toolbar.setLayoutParams(lp);
 
-        mTipTextView = (TextView) parent.findViewById(R.id.tv_download_fragment_tip);
+        mTipTextView = parent.findViewById(R.id.tv_download_fragment_tip);
 
-        mListView = (RecyclerView) parent.findViewById(R.id.rv_download_fragment_list);
+        mListView = parent.findViewById(R.id.rv_download_fragment_list);
         mListView.setHasFixedSize(true);
         mListView.setLayoutManager(new LinearLayoutManager(getContext()));
         mListView.setMotionEventSplittingEnabled(false);
@@ -96,34 +89,28 @@ public class DownloadFragment extends Fragment
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
-    {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (loadOffline())
-        {
+        if (loadOffline()) {
             mListView.setVisibility(View.VISIBLE);
             mTipTextView.setVisibility(View.GONE);
-        } else
-        {
+        } else {
             mListView.setVisibility(View.GONE);
             mTipTextView.setVisibility(View.VISIBLE);
         }
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden)
-    {
+    public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
 
-        if (!hidden)
-        {
-            getActivity().setTitle("离线资源");
+        if (!hidden) {
+            getActivity().setTitle(getString(R.string.download));
         }
     }
 
     @Override
-    public void onStart()
-    {
+    public void onStart() {
         super.onStart();
 
         if (UApplication.dlServiceController != null)
@@ -132,8 +119,7 @@ public class DownloadFragment extends Fragment
     }
 
     @Override
-    public void onStop()
-    {
+    public void onStop() {
         super.onStop();
 
         if (UApplication.dlServiceController != null)
@@ -142,10 +128,8 @@ public class DownloadFragment extends Fragment
     }
 
 
-    private String parseState(int state)
-    {
-        switch (state)
-        {
+    private String parseState(int state) {
+        switch (state) {
             case NovelDownloadService.STATE_WAITING:
                 return "等待下载";
 
@@ -166,8 +150,7 @@ public class DownloadFragment extends Fragment
     }
 
 
-    private boolean loadOffline()
-    {
+    private boolean loadOffline() {
         mListAdapter.clear();
 
         Cursor cursor = ((UApplication) getActivity().getApplication())
@@ -185,8 +168,7 @@ public class DownloadFragment extends Fragment
         int haveIndex = cursor.getColumnIndex(SyosetuBooks.COLUMN_HAVE);
         int totalIndex = cursor.getColumnIndex(SyosetuBooks.COLUMN_TOTAL);
 
-        do
-        {
+        do {
             String ncode = cursor.getString(ncodeIndex);
             String url = cursor.getString(urlIndex);
             String name = cursor.getString(nameIndex);
@@ -198,8 +180,7 @@ public class DownloadFragment extends Fragment
             int have;
             int total;
 
-            switch (state)
-            {
+            switch (state) {
                 case NovelDownloadService.STATE_DOWNLOADING:
                     have = cursor.getInt(haveIndex);
                     total = cursor.getInt(totalIndex);
@@ -229,11 +210,9 @@ public class DownloadFragment extends Fragment
 
 
     private NovelDownloadService.OnDownloadEventListener mDownloadEventListener
-            = new NovelDownloadService.OnDownloadEventListener()
-    {
+            = new NovelDownloadService.OnDownloadEventListener() {
         @Override
-        public void onTaskAdded(NovelDownloadService.DownloadBlock block)
-        {
+        public void onTaskAdded(NovelDownloadService.DownloadBlock block) {
             if (mListAdapter == null) return;
 
             String novelTitle;
@@ -250,8 +229,7 @@ public class DownloadFragment extends Fragment
         }
 
         @Override
-        public void onTaskStateChanged(NovelDownloadService.DownloadBlock block, int have, int total)
-        {
+        public void onTaskStateChanged(NovelDownloadService.DownloadBlock block, int have, int total) {
             if (mListAdapter == null) return;
 
             String novelTitle;
@@ -269,11 +247,9 @@ public class DownloadFragment extends Fragment
 
 
     private DownloadListAdapter.OnItemSelectListener mItemSelectListener =
-            new DownloadListAdapter.OnItemSelectListener()
-            {
+            new DownloadListAdapter.OnItemSelectListener() {
                 @Override
-                public void onItemClick(View itemView)
-                {
+                public void onItemClick(View itemView) {
                     RecyclerView.ViewHolder holder
                             = mListView.findContainingViewHolder(itemView);
                     if (holder == null)
@@ -282,23 +258,20 @@ public class DownloadFragment extends Fragment
                     int position = holder.getAdapterPosition();
                     DownloadListAdapter.BindData data = mListAdapter.getItem(position);
 
-                    if (mSelectionActionMode == null)
-                    {
+                    if (mSelectionActionMode == null) {
                         Bundle bundle = new Bundle();
                         bundle.putString(NovelActivity.ARG_NOVEL_URL, data.url);
                         Intent intent = new Intent(getActivity(), NovelActivity.class);
                         intent.putExtras(bundle);
                         startActivity(intent);
-                    } else
-                    {
+                    } else {
                         mListAdapter.toggleSelect(data.ncode);
                         mSelectionActionMode.invalidate();
                     }
                 }
 
                 @Override
-                public boolean onItemLongClick(View itemView)
-                {
+                public boolean onItemLongClick(View itemView) {
                     RecyclerView.ViewHolder holder
                             = mListView.findContainingViewHolder(itemView);
                     if (holder == null)
@@ -307,16 +280,14 @@ public class DownloadFragment extends Fragment
                     int position = holder.getAdapterPosition();
                     DownloadListAdapter.BindData data = mListAdapter.getItem(position);
 
-                    if (mSelectionActionMode == null)
-                    {
+                    if (mSelectionActionMode == null) {
                         mListAdapter.showCheckBox(true);
                         mListAdapter.modify(data.ncode, true);
 
                         mSelectionActionMode = ((AppCompatActivity) getActivity())
                                 .startSupportActionMode(mSelectionCallback);
                         return true;
-                    } else
-                    {
+                    } else {
                         mListAdapter.toggleSelect(data.ncode);
                         mSelectionActionMode.invalidate();
                         return true;
@@ -325,19 +296,16 @@ public class DownloadFragment extends Fragment
             };
 
 
-    private boolean canSelectAll()
-    {
+    private boolean canSelectAll() {
         return mListAdapter.getSelectedCount()
                 != mListAdapter.getItemCount();
     }
 
-    private boolean canDelete()
-    {
+    private boolean canDelete() {
         return mListAdapter.getSelectedCount() > 0;
     }
 
-    private ActionMode.Callback mSelectionCallback = new ActionMode.Callback()
-    {
+    private ActionMode.Callback mSelectionCallback = new ActionMode.Callback() {
         private final static int MENU_ITEM_ID_SELECT_ALL = 1;
         private final static int MENU_ITEM_ID_DELETE = 2;
 
@@ -345,12 +313,10 @@ public class DownloadFragment extends Fragment
         private final static int MENU_ITEM_ORDER_DELETE = 2;
 
 
-        private boolean updateSelectAllMenuItem(Menu menu)
-        {
+        private boolean updateSelectAllMenuItem(Menu menu) {
             boolean canSelectAll = canSelectAll();
             boolean selectAllItemExistes = menu.findItem(MENU_ITEM_ID_SELECT_ALL) != null;
-            if (canSelectAll && !selectAllItemExistes)
-            {
+            if (canSelectAll && !selectAllItemExistes) {
                 menu.add(Menu.NONE, MENU_ITEM_ID_SELECT_ALL, MENU_ITEM_ORDER_SELECT_ALL, "全选").
                         setAlphabeticShortcut('a').
                         setIcon(R.drawable.ic_action_select_all).
@@ -363,12 +329,10 @@ public class DownloadFragment extends Fragment
             return true;
         }
 
-        private boolean updateDeleteMenuItem(Menu menu)
-        {
+        private boolean updateDeleteMenuItem(Menu menu) {
             boolean canDelete = canDelete();
             boolean deleteItemExistes = menu.findItem(MENU_ITEM_ID_DELETE) != null;
-            if (canDelete && !deleteItemExistes)
-            {
+            if (canDelete && !deleteItemExistes) {
                 menu.add(Menu.NONE, MENU_ITEM_ID_DELETE, MENU_ITEM_ORDER_DELETE, "删除").
                         setAlphabeticShortcut('a').
                         setIcon(R.drawable.ic_action_delete).
@@ -383,8 +347,7 @@ public class DownloadFragment extends Fragment
 
 
         @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu)
-        {
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             mode.setTitle("已选择" + mListAdapter.getSelectedCount() + "项");
             mode.setSubtitle(null);
             mode.setTitleOptionalHint(true);
@@ -396,8 +359,7 @@ public class DownloadFragment extends Fragment
         }
 
         @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu)
-        {
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
             mode.setTitle("已选择" + mListAdapter.getSelectedCount() + "项");
 
             boolean updateSelectAll = updateSelectAllMenuItem(menu);
@@ -407,22 +369,18 @@ public class DownloadFragment extends Fragment
         }
 
         @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item)
-        {
-            switch (item.getItemId())
-            {
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
                 case MENU_ITEM_ID_SELECT_ALL:
                     mListAdapter.selectAll();
                     mSelectionActionMode.invalidate();
                     return true;
 
-                case MENU_ITEM_ID_DELETE:
-                {
+                case MENU_ITEM_ID_DELETE: {
                     mListAdapter.removeSelectedItem();
                     if (mListAdapter.getItemCount() != 0)
                         mSelectionActionMode.invalidate();
-                    else
-                    {
+                    else {
                         mListView.setVisibility(View.GONE);
                         mTipTextView.setVisibility(View.VISIBLE);
                         mSelectionActionMode.finish();
@@ -435,8 +393,7 @@ public class DownloadFragment extends Fragment
         }
 
         @Override
-        public void onDestroyActionMode(ActionMode mode)
-        {
+        public void onDestroyActionMode(ActionMode mode) {
             mListAdapter.showCheckBox(false);
             mSelectionActionMode = null;
         }

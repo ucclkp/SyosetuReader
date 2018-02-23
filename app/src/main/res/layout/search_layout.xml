@@ -41,7 +41,7 @@
         android:layout_centerVertical="true"
         android:layout_toStartOf="@+id/ll_search_icon"
         android:background="@null"
-        android:hint="検索キーワード、Ｎコード"
+        android:hint="@string/search_hint_keyword"
         android:imeOptions="actionSearch"
         android:inputType="text"/>
 

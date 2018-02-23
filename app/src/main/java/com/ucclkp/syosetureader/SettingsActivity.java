@@ -203,10 +203,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             String key = preference.getKey();
             switch (key) {
                 case "sp_night_mode": {
-                    if ((boolean) newValue)
+                    if ((boolean) newValue) {
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    else
+                    }
+                    else {
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    }
 
                     SharedPreferences prefs = getSharedPreferences(UApplication.PREF_SYSTEM, MODE_PRIVATE);
                     prefs.edit().putBoolean(UApplication.NIGHT_MODE, (boolean) newValue).apply();

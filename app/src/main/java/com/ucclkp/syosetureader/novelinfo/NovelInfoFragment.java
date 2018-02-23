@@ -24,8 +24,7 @@ import com.ucclkp.syosetureader.HtmlUtility;
 import com.ucclkp.syosetureader.R;
 import com.ucclkp.syosetureader.SyosetuUtility;
 
-public class NovelInfoFragment extends Fragment
-{
+public class NovelInfoFragment extends Fragment {
     private String mNovelInfoUrl;
     private NovelInfoParser mNovelInfoParser;
 
@@ -33,7 +32,6 @@ public class NovelInfoFragment extends Fragment
     private TextView mTypeTextView;
     private Button mAuthorButton;
     private TextView mListTextView;
-    private Button mReadButton;
     private LinearLayout mForumLayout;
     private SwipeRefreshLayout mRefreshSRL;
 
@@ -41,12 +39,10 @@ public class NovelInfoFragment extends Fragment
     private final static String ARG_NOVEL_INFO_URL = "arg_novel_info_url";
 
 
-    public NovelInfoFragment()
-    {
+    public NovelInfoFragment() {
     }
 
-    public static NovelInfoFragment newInstance(String url)
-    {
+    public static NovelInfoFragment newInstance(String url) {
         NovelInfoFragment fragment = new NovelInfoFragment();
         Bundle args = new Bundle();
         args.putString(ARG_NOVEL_INFO_URL, url);
@@ -55,18 +51,15 @@ public class NovelInfoFragment extends Fragment
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null)
-        {
+        if (getArguments() != null) {
             mNovelInfoUrl = getArguments().getString(ARG_NOVEL_INFO_URL);
         }
     }
 
     @Override
-    public void onDetach()
-    {
+    public void onDetach() {
         super.onDetach();
         if (mNovelInfoParser != null)
             mNovelInfoParser.cancel();
@@ -74,8 +67,7 @@ public class NovelInfoFragment extends Fragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         View parent = inflater.inflate(R.layout.fragment_novel_info, container, false);
 
         mRefreshSRL = parent.findViewById(R.id.srl_novelinfo_refresher);
@@ -93,15 +85,13 @@ public class NovelInfoFragment extends Fragment
         mTypeTextView = parent.findViewById(R.id.tv_novelinfo_type);
         mListTextView = parent.findViewById(R.id.tv_novelinfo_list);
         mAuthorButton = parent.findViewById(R.id.bt_novelinfo_author);
-        mReadButton = parent.findViewById(R.id.bt_novelinfo_read);
         mForumLayout = parent.findViewById(R.id.cl_novelinfo_forum);
 
         return parent;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
-    {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         mNovelInfoParser = new NovelInfoParser(getActivity());
@@ -114,11 +104,9 @@ public class NovelInfoFragment extends Fragment
 
 
     private SwipeRefreshLayout.OnRefreshListener mRefreshListener
-            = new SwipeRefreshLayout.OnRefreshListener()
-    {
+            = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
-        public void onRefresh()
-        {
+        public void onRefresh() {
             mForumLayout.setVisibility(View.INVISIBLE);
             mNovelInfoParser.enter(mNovelInfoUrl);
         }
@@ -126,19 +114,15 @@ public class NovelInfoFragment extends Fragment
 
 
     private NovelInfoParser.OnPipelineListener<NovelInfoParser.NovelInfoData> mParserListener
-            = new HtmlDataPipeline.OnPipelineListener<NovelInfoParser.NovelInfoData>()
-    {
+            = new HtmlDataPipeline.OnPipelineListener<NovelInfoParser.NovelInfoData>() {
         @Override
-        public void onPostData(int exitCode, NovelInfoParser.NovelInfoData data)
-        {
+        public void onPostData(int exitCode, NovelInfoParser.NovelInfoData data) {
             mRefreshSRL.setRefreshing(false);
 
-            if (exitCode != HtmlDataPipeline.CODE_SUCCESS)
-            {
+            if (exitCode != HtmlDataPipeline.CODE_SUCCESS) {
                 Toast.makeText(getActivity(),
                         "Failed", Toast.LENGTH_SHORT).show();
-            } else
-            {
+            } else {
                 String type = data.ncode + "  " + data.type;
 
                 mTitleTextView.setText(data.novelTitle);
@@ -146,21 +130,16 @@ public class NovelInfoFragment extends Fragment
 
                 if (data.authorUrl.isEmpty())
                     mAuthorButton.setVisibility(View.GONE);
-                else
-                {
+                else {
                     mAuthorButton.setText(data.authorName);
                     mAuthorButton.setOnClickListener(
                             SyosetuUtility.clickOfAuthor(data.authorUrl, data.authorName));
                     mAuthorButton.setVisibility(View.VISIBLE);
                 }
 
-                mReadButton.setOnClickListener(
-                        SyosetuUtility.clickOfTitle(data.novelUrl));
-
                 SpannableStringBuilder listData = new SpannableStringBuilder();
 
-                for (int i = 0; i < data.itemList1.size(); ++i)
-                {
+                for (int i = 0; i < data.itemList1.size(); ++i) {
                     NovelInfoParser.NovelInfoItem item = data.itemList1.get(i);
 
                     SpannableString titleSpaned = new SpannableString(item.title);
@@ -171,8 +150,7 @@ public class NovelInfoFragment extends Fragment
                     listData.append(titleSpaned).append("\n").append(item.content).append("\n\n");
                 }
 
-                for (int i = 0; i < data.itemList2.size(); ++i)
-                {
+                for (int i = 0; i < data.itemList2.size(); ++i) {
                     NovelInfoParser.NovelInfoItem item = data.itemList2.get(i);
 
                     SpannableString titleSpaned = new SpannableString(item.title);

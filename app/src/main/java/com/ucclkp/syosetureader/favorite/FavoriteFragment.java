@@ -27,8 +27,7 @@ import com.ucclkp.syosetureader.SyosetuUtility;
 import com.ucclkp.syosetureader.UApplication;
 import com.ucclkp.syosetureader.novel.NovelActivity;
 
-public class FavoriteFragment extends Fragment
-{
+public class FavoriteFragment extends Fragment {
     private RecyclerView mListView;
     private FavoriteListAdapter mListAdapter;
 
@@ -37,13 +36,11 @@ public class FavoriteFragment extends Fragment
     private ActionMode mSelectionActionMode;
 
 
-    public FavoriteFragment()
-    {
+    public FavoriteFragment() {
     }
 
 
-    public static FavoriteFragment newInstance()
-    {
+    public static FavoriteFragment newInstance() {
         FavoriteFragment fragment = new FavoriteFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -51,20 +48,17 @@ public class FavoriteFragment extends Fragment
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null)
-        {
+        if (getArguments() != null) {
         }
 
-        getActivity().setTitle("收藏");
+        getActivity().setTitle(getString(R.string.favorite));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         View parent = inflater.inflate(R.layout.fragment_favorite, container, false);
 
         TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tl_main_activity);
@@ -92,39 +86,32 @@ public class FavoriteFragment extends Fragment
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
-    {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         refresh();
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden)
-    {
+    public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
 
-        if (!hidden)
-        {
-            getActivity().setTitle("收藏");
+        if (!hidden) {
+            getActivity().setTitle(getString(R.string.favorite));
         }
     }
 
 
-    public void refresh()
-    {
-        if (loadHistory())
-        {
+    public void refresh() {
+        if (loadHistory()) {
             mListView.setVisibility(View.VISIBLE);
             mTipTextView.setVisibility(View.GONE);
-        } else
-        {
+        } else {
             mListView.setVisibility(View.GONE);
             mTipTextView.setVisibility(View.VISIBLE);
         }
     }
 
-    private boolean loadHistory()
-    {
+    private boolean loadHistory() {
         mListAdapter.clear();
 
         Cursor cursor = ((UApplication) getActivity().getApplication())
@@ -139,8 +126,7 @@ public class FavoriteFragment extends Fragment
         int siteIndex = cursor.getColumnIndex(SyosetuLibrary.COLUMN_SITE);
         int typeIndex = cursor.getColumnIndex(SyosetuLibrary.COLUMN_TYPE);
 
-        do
-        {
+        do {
             String ncode = cursor.getString(ncodeIndex);
             String url = cursor.getString(urlIndex);
             String name = cursor.getString(nameIndex);
@@ -160,11 +146,9 @@ public class FavoriteFragment extends Fragment
 
 
     private FavoriteListAdapter.OnItemSelectListener mItemSelectListener =
-            new FavoriteListAdapter.OnItemSelectListener()
-            {
+            new FavoriteListAdapter.OnItemSelectListener() {
                 @Override
-                public void onItemClick(View itemView)
-                {
+                public void onItemClick(View itemView) {
                     RecyclerView.ViewHolder holder
                             = mListView.findContainingViewHolder(itemView);
                     if (holder == null)
@@ -173,23 +157,20 @@ public class FavoriteFragment extends Fragment
                     int position = holder.getAdapterPosition();
                     FavoriteListAdapter.BindData data = mListAdapter.getItem(position);
 
-                    if (mSelectionActionMode == null)
-                    {
+                    if (mSelectionActionMode == null) {
                         Bundle bundle = new Bundle();
                         bundle.putString(NovelActivity.ARG_NOVEL_URL, data.url);
                         Intent intent = new Intent(getActivity(), NovelActivity.class);
                         intent.putExtras(bundle);
                         getActivity().startActivityForResult(intent, MainActivity.REQ_NOVEL_FROM_FAV);
-                    } else
-                    {
+                    } else {
                         mListAdapter.toggleSelect(data.ncode);
                         mSelectionActionMode.invalidate();
                     }
                 }
 
                 @Override
-                public boolean onItemLongClick(View itemView)
-                {
+                public boolean onItemLongClick(View itemView) {
                     RecyclerView.ViewHolder holder
                             = mListView.findContainingViewHolder(itemView);
                     if (holder == null)
@@ -198,16 +179,14 @@ public class FavoriteFragment extends Fragment
                     int position = holder.getAdapterPosition();
                     FavoriteListAdapter.BindData data = mListAdapter.getItem(position);
 
-                    if (mSelectionActionMode == null)
-                    {
+                    if (mSelectionActionMode == null) {
                         mListAdapter.showCheckBox(true);
                         mListAdapter.modify(data.ncode, true);
 
                         mSelectionActionMode = ((AppCompatActivity) getActivity())
                                 .startSupportActionMode(mSelectionCallback);
                         return true;
-                    } else
-                    {
+                    } else {
                         mListAdapter.toggleSelect(data.ncode);
                         mSelectionActionMode.invalidate();
                         return true;
@@ -216,19 +195,16 @@ public class FavoriteFragment extends Fragment
             };
 
 
-    private boolean canSelectAll()
-    {
+    private boolean canSelectAll() {
         return mListAdapter.getSelectedCount()
                 != mListAdapter.getItemCount();
     }
 
-    private boolean canDelete()
-    {
+    private boolean canDelete() {
         return mListAdapter.getSelectedCount() > 0;
     }
 
-    private ActionMode.Callback mSelectionCallback = new ActionMode.Callback()
-    {
+    private ActionMode.Callback mSelectionCallback = new ActionMode.Callback() {
         private final static int MENU_ITEM_ID_SELECT_ALL = 1;
         private final static int MENU_ITEM_ID_DELETE = 2;
 
@@ -236,12 +212,10 @@ public class FavoriteFragment extends Fragment
         private final static int MENU_ITEM_ORDER_DELETE = 2;
 
 
-        private boolean updateSelectAllMenuItem(Menu menu)
-        {
+        private boolean updateSelectAllMenuItem(Menu menu) {
             boolean canSelectAll = canSelectAll();
             boolean selectAllItemExistes = menu.findItem(MENU_ITEM_ID_SELECT_ALL) != null;
-            if (canSelectAll && !selectAllItemExistes)
-            {
+            if (canSelectAll && !selectAllItemExistes) {
                 menu.add(Menu.NONE, MENU_ITEM_ID_SELECT_ALL, MENU_ITEM_ORDER_SELECT_ALL, "全选").
                         setAlphabeticShortcut('a').
                         setIcon(R.drawable.ic_action_select_all).
@@ -254,12 +228,10 @@ public class FavoriteFragment extends Fragment
             return true;
         }
 
-        private boolean updateDeleteMenuItem(Menu menu)
-        {
+        private boolean updateDeleteMenuItem(Menu menu) {
             boolean canDelete = canDelete();
             boolean deleteItemExistes = menu.findItem(MENU_ITEM_ID_DELETE) != null;
-            if (canDelete && !deleteItemExistes)
-            {
+            if (canDelete && !deleteItemExistes) {
                 menu.add(Menu.NONE, MENU_ITEM_ID_DELETE, MENU_ITEM_ORDER_DELETE, "删除").
                         setAlphabeticShortcut('a').
                         setIcon(R.drawable.ic_action_delete).
@@ -274,8 +246,7 @@ public class FavoriteFragment extends Fragment
 
 
         @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu)
-        {
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             mode.setTitle("已选择" + mListAdapter.getSelectedCount() + "项");
             mode.setSubtitle(null);
             mode.setTitleOptionalHint(true);
@@ -287,8 +258,7 @@ public class FavoriteFragment extends Fragment
         }
 
         @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu)
-        {
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
             mode.setTitle("已选择" + mListAdapter.getSelectedCount() + "项");
 
             boolean updateSelectAll = updateSelectAllMenuItem(menu);
@@ -298,22 +268,18 @@ public class FavoriteFragment extends Fragment
         }
 
         @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item)
-        {
-            switch (item.getItemId())
-            {
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
                 case MENU_ITEM_ID_SELECT_ALL:
                     mListAdapter.selectAll();
                     mSelectionActionMode.invalidate();
                     return true;
 
-                case MENU_ITEM_ID_DELETE:
-                {
+                case MENU_ITEM_ID_DELETE: {
                     mListAdapter.removeSelectedItem();
                     if (mListAdapter.getItemCount() != 0)
                         mSelectionActionMode.invalidate();
-                    else
-                    {
+                    else {
                         mListView.setVisibility(View.GONE);
                         mTipTextView.setVisibility(View.VISIBLE);
                         mSelectionActionMode.finish();
@@ -326,8 +292,7 @@ public class FavoriteFragment extends Fragment
         }
 
         @Override
-        public void onDestroyActionMode(ActionMode mode)
-        {
+        public void onDestroyActionMode(ActionMode mode) {
             mListAdapter.showCheckBox(false);
             mSelectionActionMode = null;
         }

@@ -15,6 +15,7 @@ import android.view.ViewConfiguration;
 import android.view.ViewTreeObserver;
 import android.widget.EdgeEffect;
 import android.widget.OverScroller;
+import android.widget.Scroller;
 
 
 public abstract class UBaseView extends View implements NestedScrollingChild

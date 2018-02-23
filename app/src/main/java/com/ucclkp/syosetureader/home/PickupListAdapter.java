@@ -16,8 +16,7 @@ import com.ucclkp.syosetureader.SyosetuUtility;
 import java.util.ArrayList;
 import java.util.List;
 
-class PickupListAdapter extends RecyclerView.Adapter
-{
+class PickupListAdapter extends RecyclerView.Adapter {
     private Context mContext;
 
     private boolean mHasFooter;
@@ -33,8 +32,7 @@ class PickupListAdapter extends RecyclerView.Adapter
     public static final int PROGRESS_ERROR = 2;
 
 
-    static class BindData
-    {
+    static class BindData {
         String novelUrl = "";
         String novelTitle = "";
 
@@ -57,8 +55,7 @@ class PickupListAdapter extends RecyclerView.Adapter
     }
 
 
-    PickupListAdapter(Context context)
-    {
+    PickupListAdapter(Context context) {
         mContext = context;
 
         mHasFooter = false;
@@ -66,19 +63,15 @@ class PickupListAdapter extends RecyclerView.Adapter
     }
 
 
-    public void setOnItemSelectListener(OnItemSelectListener l)
-    {
+    public void setOnItemSelectListener(OnItemSelectListener l) {
         mItemSelectListener = l;
     }
 
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
-    {
-        switch (viewType)
-        {
-            case TYPE_NORMAL:
-            {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        switch (viewType) {
+            case TYPE_NORMAL: {
                 View convertView = LayoutInflater.from(
                         parent.getContext()).inflate(R.layout.list_item_pickup, parent, false);
                 convertView.setOnClickListener(mItemClickListener);
@@ -86,8 +79,7 @@ class PickupListAdapter extends RecyclerView.Adapter
                 return new ItemViewHolder(convertView);
             }
 
-            case TYPE_PROGRESSBAR:
-            {
+            case TYPE_PROGRESSBAR: {
                 View convertView = LayoutInflater.from(
                         parent.getContext()).inflate(R.layout.list_item_progressbar, parent, false);
                 convertView.setOnClickListener(mItemClickListener);
@@ -100,13 +92,10 @@ class PickupListAdapter extends RecyclerView.Adapter
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
-    {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         int viewType = getItemViewType(position);
-        switch (viewType)
-        {
-            case TYPE_NORMAL:
-            {
+        switch (viewType) {
+            case TYPE_NORMAL: {
                 BindData data = mDataList.get(position);
                 ItemViewHolder iHolder = (ItemViewHolder) holder;
 
@@ -118,11 +107,9 @@ class PickupListAdapter extends RecyclerView.Adapter
                 iHolder.authorButton.setText(data.authorName);
                 iHolder.authorButton.setOnClickListener(data.authorListener);
 
-                if (novelInfo.isEmpty())
-                {
+                if (novelInfo.isEmpty()) {
                     iHolder.novelInfoButton.setVisibility(View.GONE);
-                } else
-                {
+                } else {
                     iHolder.novelInfoButton.setVisibility(View.VISIBLE);
                     iHolder.novelInfoButton.setText(novelInfo);
                     iHolder.novelInfoButton.setOnClickListener(data.infoListener);
@@ -132,13 +119,11 @@ class PickupListAdapter extends RecyclerView.Adapter
                 break;
             }
 
-            case TYPE_PROGRESSBAR:
-            {
+            case TYPE_PROGRESSBAR: {
                 BindData data = mDataList.get(position);
                 ProgressViewHolder pHolder = (ProgressViewHolder) holder;
 
-                switch (data.progressType)
-                {
+                switch (data.progressType) {
                     case PROGRESS_LOADING:
                         pHolder.textView.setVisibility(View.GONE);
                         pHolder.progressBar.setVisibility(View.VISIBLE);
@@ -162,36 +147,30 @@ class PickupListAdapter extends RecyclerView.Adapter
     }
 
     @Override
-    public int getItemCount()
-    {
+    public int getItemCount() {
         return mDataList.size();
     }
 
     @Override
-    public long getItemId(int position)
-    {
+    public long getItemId(int position) {
         return position;
     }
 
     @Override
-    public int getItemViewType(int position)
-    {
+    public int getItemViewType(int position) {
         if (position == getItemCount() - 1 && mHasFooter)
             return TYPE_PROGRESSBAR;
 
         return TYPE_NORMAL;
     }
 
-    public BindData getItem(int position)
-    {
+    public BindData getItem(int position) {
         return mDataList.get(position);
     }
 
 
-    public void addFootProgress(int type)
-    {
-        if (!mHasFooter)
-        {
+    public void addFootProgress(int type) {
+        if (!mHasFooter) {
             BindData data = new BindData();
             data.progressType = type;
 
@@ -201,10 +180,8 @@ class PickupListAdapter extends RecyclerView.Adapter
         }
     }
 
-    public void setFootProgress(int type)
-    {
-        if (mHasFooter)
-        {
+    public void setFootProgress(int type) {
+        if (mHasFooter) {
             BindData data = mDataList.get(getItemCount() - 1);
             data.progressType = type;
 
@@ -212,10 +189,8 @@ class PickupListAdapter extends RecyclerView.Adapter
         }
     }
 
-    public void removeFootProgress()
-    {
-        if (mHasFooter)
-        {
+    public void removeFootProgress() {
+        if (mHasFooter) {
             mHasFooter = false;
             mDataList.remove(getItemCount() - 1);
             notifyItemRemoved(getItemCount());
@@ -223,8 +198,7 @@ class PickupListAdapter extends RecyclerView.Adapter
     }
 
 
-    public void add(PickupParser.PickupItem item)
-    {
+    public void add(PickupParser.PickupItem item) {
         BindData data = new BindData();
 
         data.novelUrl = item.novelUrl;
@@ -248,11 +222,9 @@ class PickupListAdapter extends RecyclerView.Adapter
         notifyItemInserted(getItemCount() - 1);
     }
 
-    public void clear()
-    {
+    public void clear() {
         int size = getItemCount();
-        if (size > 0)
-        {
+        if (size > 0) {
             mHasFooter = false;
 
             mDataList.clear();
@@ -261,8 +233,7 @@ class PickupListAdapter extends RecyclerView.Adapter
     }
 
 
-    private static class ItemViewHolder extends RecyclerView.ViewHolder
-    {
+    private static class ItemViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView;
         TextView typeTextView;
         LinearLayout titleLayoutView;
@@ -272,28 +243,37 @@ class PickupListAdapter extends RecyclerView.Adapter
         TextView summaryTextView;
 
 
-        ItemViewHolder(View itemView)
-        {
+        ItemViewHolder(View itemView) {
             super(itemView);
 
-            titleTextView = (TextView) itemView.findViewById(R.id.tv_list_item_pickup_title);
-            typeTextView = (TextView) itemView.findViewById(R.id.tv_list_item_pickup_type);
-            titleLayoutView = (LinearLayout) itemView.findViewById(R.id.ll_list_item_pickup_title);
+            titleTextView = itemView.findViewById(R.id.tv_list_item_pickup_title);
+            typeTextView = itemView.findViewById(R.id.tv_list_item_pickup_type);
+            titleLayoutView = itemView.findViewById(R.id.ll_list_item_pickup_title);
 
-            authorButton = (Button) itemView.findViewById(R.id.bt_list_item_pickup_author);
-            novelInfoButton = (Button) itemView.findViewById(R.id.bt_list_item_pickup_novelinfo);
+            authorButton = itemView.findViewById(R.id.bt_list_item_pickup_author);
+            novelInfoButton = itemView.findViewById(R.id.bt_list_item_pickup_novelinfo);
 
-            summaryTextView = (TextView) itemView.findViewById(R.id.tv_list_item_pickup_summary);
+            summaryTextView = itemView.findViewById(R.id.tv_list_item_pickup_summary);
+            summaryTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TextView view = (TextView) v;
+                    if (view.getMaxLines() == 3) {
+                        view.setMaxLines(Integer.MAX_VALUE);
+                    }
+                    else {
+                        view.setMaxLines(3);
+                    }
+                }
+            });
         }
     }
 
-    private static class ProgressViewHolder extends RecyclerView.ViewHolder
-    {
+    private static class ProgressViewHolder extends RecyclerView.ViewHolder {
         TextView textView;
         ProgressBar progressBar;
 
-        ProgressViewHolder(View itemView)
-        {
+        ProgressViewHolder(View itemView) {
             super(itemView);
 
             textView = (TextView) itemView.findViewById(R.id.tv_list_foot);
@@ -302,29 +282,24 @@ class PickupListAdapter extends RecyclerView.Adapter
     }
 
 
-    private View.OnClickListener mItemClickListener = new View.OnClickListener()
-    {
+    private View.OnClickListener mItemClickListener = new View.OnClickListener() {
         @Override
-        public void onClick(View v)
-        {
+        public void onClick(View v) {
             if (mItemSelectListener != null)
                 mItemSelectListener.onItemClick(v);
         }
     };
 
-    private View.OnLongClickListener mItemLongClickListener = new View.OnLongClickListener()
-    {
+    private View.OnLongClickListener mItemLongClickListener = new View.OnLongClickListener() {
         @Override
-        public boolean onLongClick(View v)
-        {
+        public boolean onLongClick(View v) {
             return mItemSelectListener != null
                     && mItemSelectListener.onItemLongClick(v);
         }
     };
 
 
-    public interface OnItemSelectListener
-    {
+    public interface OnItemSelectListener {
         void onItemClick(View itemView);
 
         boolean onItemLongClick(View itemView);

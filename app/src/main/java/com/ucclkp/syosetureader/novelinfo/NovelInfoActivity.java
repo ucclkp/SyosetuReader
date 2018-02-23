@@ -26,14 +26,14 @@ public class NovelInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_novel_info);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tb_novelinfo_activity);
+        Toolbar toolbar = findViewById(R.id.tb_novelinfo_activity);
         setSupportActionBar(toolbar);
 
         mActionBar = getSupportActionBar();
         if (mActionBar != null)
             mActionBar.setDisplayHomeAsUpEnabled(true);
 
-        mAppBarLayout = (AppBarLayout) findViewById(R.id.abl_novelinfo_activity);
+        mAppBarLayout = findViewById(R.id.abl_novelinfo_activity);
 
         String novelInfoUrl = "";
         Intent intent = getIntent();

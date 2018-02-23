@@ -58,7 +58,7 @@ public class HistoryFragment extends Fragment
         {
         }
 
-        getActivity().setTitle("历史记录");
+        getActivity().setTitle(getString(R.string.history));
     }
 
     @Override
@@ -106,7 +106,7 @@ public class HistoryFragment extends Fragment
 
         if (!hidden)
         {
-            getActivity().setTitle("历史记录");
+            getActivity().setTitle(getString(R.string.history));
         }
     }
 

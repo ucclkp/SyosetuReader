@@ -84,8 +84,7 @@ public class PickupSectionFragment extends Fragment implements HomePagerAdapter.
 
         mLinearLayoutManager = new LinearLayoutManager(getContext());
 
-        mPickupListView = (RecyclerView) parent.findViewById(R.id.rv_pickup_fragment);
-        mPickupListView.setHasFixedSize(true);
+        mPickupListView = parent.findViewById(R.id.rv_pickup_fragment);
         mPickupListView.setLayoutManager(mLinearLayoutManager);
         mPickupListView.setAdapter(mPickupListAdapter);
         mPickupListView.addItemDecoration(new DivideDecoration(getActivity()));

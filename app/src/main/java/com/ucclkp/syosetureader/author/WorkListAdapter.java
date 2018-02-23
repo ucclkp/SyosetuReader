@@ -249,7 +249,7 @@ public class WorkListAdapter extends RecyclerView.Adapter
         //genre
         if (!item.genre.isEmpty())
         {
-            String genrePrefix = mContext.getString(R.string.genre_prefix);
+            String genrePrefix = mContext.getString(R.string.prefix_genre);
             data.chips.append(genrePrefix).append(item.genre);
             data.chips.setSpan(new RecipientChipSpan(ContextCompat.getColor(mContext, R.color.chip_color)),
                     genrePrefix.length(), data.chips.length(),
@@ -263,7 +263,7 @@ public class WorkListAdapter extends RecyclerView.Adapter
             {
                 if (!TextUtils.isEmpty(data.chips))
                     data.chips.append("\n");
-                data.chips.append(mContext.getString(R.string.keyword_prefix));
+                data.chips.append(mContext.getString(R.string.prefix_keyword));
             }
 
             String keyword = item.keywordList.get(i);
@@ -322,6 +322,19 @@ public class WorkListAdapter extends RecyclerView.Adapter
             summaryTextView = itemView.findViewById(R.id.tv_list_item_author_work_summary);
             chipsTextView = itemView.findViewById(R.id.tv_list_item_author_work_chips);
             extraTextView = itemView.findViewById(R.id.tv_list_item_author_work_extra);
+
+            summaryTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TextView view = (TextView) v;
+                    if (view.getMaxLines() == 3) {
+                        view.setMaxLines(Integer.MAX_VALUE);
+                    }
+                    else {
+                        view.setMaxLines(3);
+                    }
+                }
+            });
         }
     }
 

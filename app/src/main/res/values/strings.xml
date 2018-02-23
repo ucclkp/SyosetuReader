@@ -4,7 +4,7 @@
     <string name="nav_draw_open">Open</string>
     <string name="nav_draw_close">Close</string>
 
-    <string name="drawer_head_title">点击登陆</string>
+    <string name="drawer_head_title">ログイン</string>
 
     <string name="site_novel">小説を読もう</string>
     <string name="site_novel18">ノクターンノベルズ</string>
@@ -16,32 +16,60 @@
     <string name="source_download">Download ver</string>
     <string name="source_network">Network ver</string>
 
+    <string name="favorite">お気に入り</string>
+    <string name="history">閲覧履歴</string>
+    <string name="download">ダウンロード</string>
+
     <string name="novel">小説</string>
     <string name="author">作者</string>
     <string name="novel_info">小説情报</string>
-    <string name="settings">设定</string>
+    <string name="settings">設定</string>
     <string name="login">ログイン</string>
-    <string name="about">关于</string>
+    <string name="about">このアプリについて</string>
 
     <string name="list_footer_error">エラーが発生しました。</string>
     <string name="list_footer_nomore">NO MORE DATA</string>
 
-    <string name="author_prefix">作者：</string>
-    <string name="genre_prefix">ジャンル：</string>
-    <string name="keyword_prefix">キーワード：</string>
-    <string name="lastupdate_prefix">最終更新日：</string>
-    <string name="readtime_prefix">読了時間：</string>
-    <string name="weekuu_prefix">週別ユニークユーザ：</string>
-    <string name="review_prefix">レビュー数：</string>
-    <string name="ncode_prefix">Nコード：</string>
-    <string name="overall_prefix">総合評価ポイント：</string>
-    <string name="rankuc_prefix">評価人数：</string>
-    <string name="rankpoint_prefix">評価点：</string>
-    <string name="bookmark_prefix">ブックマーク：</string>
+    <string name="search_hint_keyword">検索キーワード、Ｎコード</string>
+    <string name="search_hint_ex_keyword">排除キーワード</string>
 
-    <string name="pc_contribute">PC投稿</string>
-    <string name="mb_contribute">ケータイ投稿</string>
-    <string name="illust_contribute">挿絵あり</string>
+    <string name="search_settings_normal">基本設定</string>
+    <string name="search_settings_sort">並び替え：</string>
+    <string name="search_settings_type">種別：</string>
+    <string name="search_settings_illust">挿絵のある作品</string>
+    <string name="search_settings_pickup">ピックアップ作品</string>
+    <string name="search_settings_ex_suspend">長期連載停止中を除外する</string>
+
+    <string name="search_settings_advance">高級設定</string>
+    <string name="search_settings_keyword_range">キーワード検索範囲指定：</string>
+    <string name="search_settings_range_title">作品名</string>
+    <string name="search_settings_range_summary">あらすじ</string>
+    <string name="search_settings_range_keyword">キーワード</string>
+    <string name="search_settings_range_author">作者名</string>
+    <string name="search_settings_ex_cond">抽出/除外条件：</string>
+    <string name="search_settings_cond_r15">R15</string>
+    <string name="search_settings_cond_cruel">残酷な描写あり</string>
+    <string name="search_settings_cond_bl">ボーイズラブ</string>
+    <string name="search_settings_cond_gl">ガールズラブ</string>
+    <string name="search_settings_cond_re">異世界転生</string>
+    <string name="search_settings_cond_tr">異世界転移</string>
+
+    <string name="prefix_author">作者：</string>
+    <string name="prefix_genre">ジャンル：</string>
+    <string name="prefix_keyword">キーワード：</string>
+    <string name="prefix_lastupdate">最終更新日：</string>
+    <string name="prefix_readtime">読了時間：</string>
+    <string name="prefix_weekuu">週別ユニークユーザ：</string>
+    <string name="prefix_review">レビュー数：</string>
+    <string name="prefix_ncode">Nコード：</string>
+    <string name="prefix_overall">総合評価ポイント：</string>
+    <string name="prefix_rankuc">評価人数：</string>
+    <string name="prefix_rankpoint">評価点：</string>
+    <string name="prefix_bookmark">ブックマーク：</string>
+
+    <string name="contribute_pc">PC投稿</string>
+    <string name="contribute_mb">ケータイ投稿</string>
+    <string name="contribute_illust">挿絵あり</string>
 
     <string name="sort_notorder">おまかせ順</string>
     <string name="sort_new">新着順</string>
@@ -81,6 +109,26 @@
     </string>
 
     <string name="default_search_url">https://www.baidu.com/s?word=</string>
+
+    <string name="settings_title_theme">テーマ</string>
+    <string name="settings_nightmode_title">夜間モード</string>
+    <string name="settings_nightmode_summary">可开启夜间模式。一些页面可能会重新加载</string>
+
+    <string name="settings_title_view">ビュー</string>
+    <string name="settings_netsearch_title">网页搜索</string>
+    <string name="settings_netsearch_summary">当点击文本菜单的“网页搜索”时，将使用这里设置的URL进行搜索</string>
+    <string name="settings_netsearch_dialogmsg">请在这里输入网址，要搜索的内容请使用 $1 来表示。或者只输入网址，此时搜索内容将附在网址后面。</string>
+
+    <string name="settings_title_local">本地存储</string>
+    <string name="settings_clearcache_title">清除缓存</string>
+    <string name="settings_clearcache_summary">清除图片和文本缓存</string>
+    <string name="settings_clearhis_title">清除历史纪录</string>
+    <string name="settings_clearhis_summary">清除您曾查看过的小说的记录</string>
+    <string name="settings_clearlogin_title">ログアウト</string>
+    <string name="settings_clearlogin_summary">清除登陆信息</string>
+
+    <string name="settings_title_other">その他</string>
+    <string name="settings_about_title">@string/about</string>
 
     <string name="about_title">SyosetuReader</string>
     <string name="about_intro">

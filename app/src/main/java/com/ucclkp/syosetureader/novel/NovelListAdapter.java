@@ -16,12 +16,10 @@ import android.widget.TextView;
 
 import com.ucclkp.syosetureader.R;
 import com.ucclkp.syosetureader.SyosetuUtility;
-import com.ucclkp.syosetureader.statictextview.StaticTextView;
 
 import java.util.ArrayList;
 
-class NovelListAdapter extends RecyclerView.Adapter
-{
+class NovelListAdapter extends RecyclerView.Adapter {
     private Context mContext;
 
     private boolean mHasFooter;
@@ -43,8 +41,7 @@ class NovelListAdapter extends RecyclerView.Adapter
     static final int PROGRESS_ERROR = 2;
 
 
-    static class BindData
-    {
+    static class BindData {
         //TYPE_HEAD数据。
         String headAttention = "";
         String headTitle = "";
@@ -72,8 +69,7 @@ class NovelListAdapter extends RecyclerView.Adapter
     }
 
 
-    NovelListAdapter(Context context)
-    {
+    NovelListAdapter(Context context) {
         mContext = context;
 
         mHasFooter = false;
@@ -88,19 +84,15 @@ class NovelListAdapter extends RecyclerView.Adapter
     }
 
 
-    void setOnItemSelectListener(OnItemSelectListener l)
-    {
+    void setOnItemSelectListener(OnItemSelectListener l) {
         mItemSelectListener = l;
     }
 
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
-    {
-        switch (viewType)
-        {
-            case TYPE_HEAD:
-            {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        switch (viewType) {
+            case TYPE_HEAD: {
                 View convertView = LayoutInflater.from(
                         parent.getContext()).inflate(R.layout.list_item_novel_head, parent, false);
                 convertView.setOnClickListener(mItemClickListener);
@@ -109,8 +101,7 @@ class NovelListAdapter extends RecyclerView.Adapter
                 return new HeadViewHolder(convertView);
             }
 
-            case TYPE_PREV_TIP:
-            {
+            case TYPE_PREV_TIP: {
                 View convertView = LayoutInflater.from(
                         parent.getContext()).inflate(R.layout.list_item_novel_prev_tip, parent, false);
                 convertView.setOnClickListener(mItemClickListener);
@@ -119,8 +110,7 @@ class NovelListAdapter extends RecyclerView.Adapter
                 return new TipViewHolder(convertView);
             }
 
-            case TYPE_NORMAL:
-            {
+            case TYPE_NORMAL: {
                 View convertView = LayoutInflater.from(
                         parent.getContext()).inflate(R.layout.list_item_novel_section, parent, false);
                 convertView.setOnClickListener(mItemClickListener);
@@ -129,8 +119,7 @@ class NovelListAdapter extends RecyclerView.Adapter
                 return new ItemViewHolder(convertView);
             }
 
-            case TYPE_CHAPTER:
-            {
+            case TYPE_CHAPTER: {
                 View convertView = LayoutInflater.from(
                         parent.getContext()).inflate(R.layout.list_item_novel_chapter, parent, false);
                 convertView.setOnClickListener(mItemClickListener);
@@ -139,8 +128,7 @@ class NovelListAdapter extends RecyclerView.Adapter
                 return new ChapterViewHolder(convertView);
             }
 
-            case TYPE_PROGRESSBAR:
-            {
+            case TYPE_PROGRESSBAR: {
                 View convertView = LayoutInflater.from(
                         parent.getContext()).inflate(R.layout.list_item_progressbar, parent, false);
                 convertView.setOnClickListener(mItemClickListener);
@@ -154,37 +142,30 @@ class NovelListAdapter extends RecyclerView.Adapter
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
-    {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         int viewType = getItemViewType(position);
-        switch (viewType)
-        {
-            case TYPE_HEAD:
-            {
+        switch (viewType) {
+            case TYPE_HEAD: {
                 BindData data = mDataList.get(position);
                 HeadViewHolder hHolder = (HeadViewHolder) holder;
 
-                if (data.headAttention.length() > 0)
-                {
+                if (data.headAttention.length() > 0) {
                     if (hHolder.attentionTextView.getVisibility() != View.VISIBLE)
                         hHolder.attentionTextView.setVisibility(View.VISIBLE);
                     hHolder.attentionTextView.setText(data.headAttention);
-                } else
-                {
+                } else {
                     if (hHolder.attentionTextView.getVisibility() != View.GONE)
                         hHolder.attentionTextView.setVisibility(View.GONE);
                 }
 
                 hHolder.titleTextView.setText(data.headTitle);
 
-                if (data.authorListener != null)
-                {
+                if (data.authorListener != null) {
                     hHolder.authorButton.setText(data.headAuthor);
                     hHolder.authorButton.setOnClickListener(data.authorListener);
                     hHolder.authorButton.setVisibility(View.VISIBLE);
                     hHolder.authorTextView.setVisibility(View.GONE);
-                } else
-                {
+                } else {
                     hHolder.authorTextView.setText(data.headAuthor);
                     hHolder.authorTextView.setVisibility(View.VISIBLE);
                     hHolder.authorButton.setVisibility(View.GONE);
@@ -195,8 +176,7 @@ class NovelListAdapter extends RecyclerView.Adapter
                 break;
             }
 
-            case TYPE_PREV_TIP:
-            {
+            case TYPE_PREV_TIP: {
                 BindData data = mDataList.get(position);
                 TipViewHolder tHolder = (TipViewHolder) holder;
 
@@ -206,19 +186,16 @@ class NovelListAdapter extends RecyclerView.Adapter
                 break;
             }
 
-            case TYPE_NORMAL:
-            {
+            case TYPE_NORMAL: {
                 BindData data = mDataList.get(position);
                 ItemViewHolder iHolder = (ItemViewHolder) holder;
 
-                if (data.viewed)
-                {
+                if (data.viewed) {
                     iHolder.timeTextView.setTextColor(
                             ContextCompat.getColor(mContext, R.color.text_color_viewed));
                     iHolder.contentTextView.setTextColor(
                             ContextCompat.getColor(mContext, R.color.text_color_viewed));
-                } else
-                {
+                } else {
                     iHolder.timeTextView.setTextColor(
                             mTextSecondaryColor);
                     iHolder.contentTextView.setTextColor(
@@ -230,8 +207,7 @@ class NovelListAdapter extends RecyclerView.Adapter
                 break;
             }
 
-            case TYPE_CHAPTER:
-            {
+            case TYPE_CHAPTER: {
                 BindData data = mDataList.get(position);
                 ChapterViewHolder cHolder = (ChapterViewHolder) holder;
 
@@ -239,13 +215,11 @@ class NovelListAdapter extends RecyclerView.Adapter
                 break;
             }
 
-            case TYPE_PROGRESSBAR:
-            {
+            case TYPE_PROGRESSBAR: {
                 BindData data = mDataList.get(position);
                 ProgressViewHolder pHolder = (ProgressViewHolder) holder;
 
-                switch (data.progressType)
-                {
+                switch (data.progressType) {
                     case PROGRESS_LOADING:
                         pHolder.textView.setVisibility(View.GONE);
                         pHolder.progressBar.setVisibility(View.VISIBLE);
@@ -271,33 +245,28 @@ class NovelListAdapter extends RecyclerView.Adapter
     }
 
     @Override
-    public int getItemCount()
-    {
+    public int getItemCount() {
         return mDataList.size();
     }
 
     @Override
-    public long getItemId(int position)
-    {
+    public long getItemId(int position) {
         return position;
     }
 
     @Override
-    public int getItemViewType(int position)
-    {
+    public int getItemViewType(int position) {
         return mDataList.get(position).viewType;
     }
 
-    public BindData getItem(int position)
-    {
+    public BindData getItem(int position) {
         return mDataList.get(position);
     }
 
 
     public void addHeader(
             String attention, String title,
-            String author, String authorUrl, Spanned summary)
-    {
+            String author, String authorUrl, Spanned summary) {
         BindData data = new BindData();
         data.headAttention = attention;
         data.headTitle = title;
@@ -313,8 +282,7 @@ class NovelListAdapter extends RecyclerView.Adapter
     }
 
     public void addSection(
-            String title, String time, String url, boolean viewed)
-    {
+            String title, String time, String url, boolean viewed) {
         BindData data = new BindData();
         data.sectionUrl = url;
         data.sectionName = title;
@@ -326,14 +294,12 @@ class NovelListAdapter extends RecyclerView.Adapter
         notifyItemInserted(getItemCount() - 1);
     }
 
-    public void setPrevTip(String title, String tip, String url)
-    {
+    public void setPrevTip(String title, String tip, String url) {
         if (mDataList.size() == 0)
             return;
 
         BindData data = mDataList.get(1);
-        if (data == null || data.viewType != TYPE_PREV_TIP)
-        {
+        if (data == null || data.viewType != TYPE_PREV_TIP) {
             data = new BindData();
             data.sectionUrl = url;
             data.sectionName = title;
@@ -342,8 +308,7 @@ class NovelListAdapter extends RecyclerView.Adapter
 
             mDataList.add(1, data);
             notifyItemInserted(1);
-        } else
-        {
+        } else {
             data.sectionUrl = url;
             data.sectionName = title;
             data.tip = tip;
@@ -352,15 +317,11 @@ class NovelListAdapter extends RecyclerView.Adapter
         }
     }
 
-    public BindData modifySection(String url, boolean viewed)
-    {
-        for (int i = 0; i < mDataList.size(); ++i)
-        {
+    public BindData modifySection(String url, boolean viewed) {
+        for (int i = 0; i < mDataList.size(); ++i) {
             if (mDataList.get(i).viewType == TYPE_NORMAL
-                    && mDataList.get(i).sectionUrl.equals(url))
-            {
-                if (mDataList.get(i).viewed != viewed)
-                {
+                    && mDataList.get(i).sectionUrl.equals(url)) {
+                if (mDataList.get(i).viewed != viewed) {
                     mDataList.get(i).viewed = viewed;
                     notifyItemChanged(i);
                 }
@@ -371,8 +332,7 @@ class NovelListAdapter extends RecyclerView.Adapter
         return null;
     }
 
-    public void addChapter(String title)
-    {
+    public void addChapter(String title) {
         BindData data = new BindData();
         data.chapterTitle = title;
         data.viewType = TYPE_CHAPTER;
@@ -381,10 +341,8 @@ class NovelListAdapter extends RecyclerView.Adapter
         notifyItemInserted(getItemCount() - 1);
     }
 
-    public void addFootProgress(int type)
-    {
-        if (!mHasFooter)
-        {
+    public void addFootProgress(int type) {
+        if (!mHasFooter) {
             BindData data = new BindData();
             data.progressType = type;
 
@@ -394,10 +352,8 @@ class NovelListAdapter extends RecyclerView.Adapter
         }
     }
 
-    public void setFootProgress(int type)
-    {
-        if (mHasFooter)
-        {
+    public void setFootProgress(int type) {
+        if (mHasFooter) {
             BindData data = mDataList.get(getItemCount() - 1);
             data.progressType = type;
 
@@ -405,135 +361,116 @@ class NovelListAdapter extends RecyclerView.Adapter
         }
     }
 
-    public void removeFootProgress()
-    {
-        if (mHasFooter)
-        {
+    public void removeFootProgress() {
+        if (mHasFooter) {
             mHasFooter = false;
             mDataList.remove(getItemCount() - 1);
             notifyItemRemoved(getItemCount());
         }
     }
 
-    public void clear()
-    {
+    public void clear() {
         int size = getItemCount();
-        if (size > 0)
-        {
+        if (size > 0) {
             mDataList.clear();
             notifyItemRangeRemoved(0, size);
         }
     }
 
 
-    static class HeadViewHolder extends RecyclerView.ViewHolder
-    {
+    static class HeadViewHolder extends RecyclerView.ViewHolder {
         TextView attentionTextView;
         TextView titleTextView;
         Button authorButton;
         TextView authorTextView;
-        StaticTextView summaryTextView;
+        TextView summaryTextView;
 
-        HeadViewHolder(View itemView)
-        {
+        HeadViewHolder(View itemView) {
             super(itemView);
 
-            attentionTextView = (TextView) itemView
+            attentionTextView = itemView
                     .findViewById(R.id.tv_item_novel_head_attention);
-            titleTextView = (TextView) itemView
+            titleTextView = itemView
                     .findViewById(R.id.tv_item_novel_head_title);
-            authorButton = (Button) itemView
+            authorButton = itemView
                     .findViewById(R.id.bt_item_novel_head_author);
-            authorTextView = (TextView) itemView
+            authorTextView = itemView
                     .findViewById(R.id.tv_item_novel_head_author);
-            summaryTextView = (StaticTextView) itemView
+            summaryTextView = itemView
                     .findViewById(R.id.tv_item_novel_head_summary);
         }
     }
 
-    private static class TipViewHolder extends RecyclerView.ViewHolder
-    {
+    private static class TipViewHolder extends RecyclerView.ViewHolder {
         TextView tipTextView;
         TextView titleTextView;
 
-        TipViewHolder(View itemView)
-        {
+        TipViewHolder(View itemView) {
             super(itemView);
 
-            tipTextView = (TextView) itemView
+            tipTextView = itemView
                     .findViewById(R.id.tv_list_item_prev_tip_tip);
-            titleTextView = (TextView) itemView
+            titleTextView = itemView
                     .findViewById(R.id.tv_list_item_prev_tip_title);
         }
     }
 
-    private static class ItemViewHolder extends RecyclerView.ViewHolder
-    {
+    private static class ItemViewHolder extends RecyclerView.ViewHolder {
         TextView timeTextView;
         TextView contentTextView;
 
-        ItemViewHolder(View itemView)
-        {
+        ItemViewHolder(View itemView) {
             super(itemView);
 
-            timeTextView = (TextView) itemView
+            timeTextView = itemView
                     .findViewById(R.id.tv_item_novel_section_time);
-            contentTextView = (TextView) itemView
+            contentTextView = itemView
                     .findViewById(R.id.tv_item_novel_section_title);
         }
     }
 
-    private static class ChapterViewHolder extends RecyclerView.ViewHolder
-    {
+    private static class ChapterViewHolder extends RecyclerView.ViewHolder {
         TextView chapterTextView;
 
-        ChapterViewHolder(View itemView)
-        {
+        ChapterViewHolder(View itemView) {
             super(itemView);
 
-            chapterTextView = (TextView) itemView
+            chapterTextView = itemView
                     .findViewById(R.id.tv_item_novel_chapter);
         }
     }
 
-    private static class ProgressViewHolder extends RecyclerView.ViewHolder
-    {
+    private static class ProgressViewHolder extends RecyclerView.ViewHolder {
         TextView textView;
         ProgressBar progressBar;
 
-        ProgressViewHolder(View itemView)
-        {
+        ProgressViewHolder(View itemView) {
             super(itemView);
 
-            textView = (TextView) itemView.findViewById(R.id.tv_list_foot);
-            progressBar = (ProgressBar) itemView.findViewById(R.id.pb_list_foot);
+            textView = itemView.findViewById(R.id.tv_list_foot);
+            progressBar = itemView.findViewById(R.id.pb_list_foot);
         }
     }
 
 
-    private View.OnClickListener mItemClickListener = new View.OnClickListener()
-    {
+    private View.OnClickListener mItemClickListener = new View.OnClickListener() {
         @Override
-        public void onClick(View v)
-        {
+        public void onClick(View v) {
             if (mItemSelectListener != null)
                 mItemSelectListener.onItemClick(v);
         }
     };
 
-    private View.OnLongClickListener mItemLongClickListener = new View.OnLongClickListener()
-    {
+    private View.OnLongClickListener mItemLongClickListener = new View.OnLongClickListener() {
         @Override
-        public boolean onLongClick(View v)
-        {
+        public boolean onLongClick(View v) {
             return mItemSelectListener != null
                     && mItemSelectListener.onItemLongClick(v);
         }
     };
 
 
-    public interface OnItemSelectListener
-    {
+    public interface OnItemSelectListener {
         void onItemClick(View itemView);
 
         boolean onItemLongClick(View itemView);

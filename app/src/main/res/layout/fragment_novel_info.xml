@@ -19,6 +19,7 @@
                 android:id="@+id/cl_novelinfo_forum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="24dp"
                 android:orientation="vertical"
                 android:visibility="invisible">
 
@@ -29,7 +30,6 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="TextView"
                     android:textColor="?android:attr/textColorPrimary"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -41,7 +41,6 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="4dp"
-                    android:text="TextView"
                     android:textSize="13sp" />
 
                 <Button
@@ -52,7 +51,6 @@
                     android:layout_marginTop="8dp"
                     android:backgroundTint="?attr/colorAccent"
                     android:minHeight="42dp"
-                    android:text="Button"
                     android:textColor="?android:attr/textColorPrimaryInverse" />
 
                 <TextView
@@ -62,20 +60,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
-                    android:text="TextView"
                     android:textColor="?android:attr/textColorPrimary" />
-
-                <Button
-                    android:id="@+id/bt_novelinfo_read"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:text="小説を読む"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
 
             </LinearLayout>
 

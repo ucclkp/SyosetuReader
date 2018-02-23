@@ -1,52 +1,56 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="主题">
+    <PreferenceCategory
+        android:title="@string/settings_title_theme">
 
         <SwitchPreference
             android:defaultValue="false"
             android:key="sp_night_mode"
-            android:summary="可开启夜间模式。一些页面可能会重新加载"
-            android:title="夜间模式" />
+            android:summary="@string/settings_nightmode_summary"
+            android:title="@string/settings_nightmode_title" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="浏览">
+    <PreferenceCategory
+        android:title="@string/settings_title_view">
 
         <EditTextPreference
             android:defaultValue="@string/default_search_url"
-            android:dialogMessage="请在这里输入网址，要搜索的内容请使用 $1 来表示。或者只输入网址，此时搜索内容将附在网址后面。"
+            android:dialogMessage="@string/settings_netsearch_dialogmsg"
             android:key="search_url"
-            android:summary="当点击文本菜单的“网页搜索”时，将使用这里设置的URL进行搜索"
-            android:title="网页搜索" />
+            android:summary="@string/settings_netsearch_summary"
+            android:title="@string/settings_netsearch_title" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="本地存储">
+    <PreferenceCategory
+        android:title="@string/settings_title_local">
 
         <Preference
             android:key="clear_cache"
-            android:summary="清除图片和文本缓存"
-            android:title="清除缓存" />
+            android:summary="@string/settings_clearcache_summary"
+            android:title="@string/settings_clearcache_title" />
 
         <Preference
             android:key="clear_history"
-            android:summary="清除您曾查看过的小说的记录"
-            android:title="清除历史纪录" />
+            android:summary="@string/settings_clearhis_summary"
+            android:title="@string/settings_clearhis_title" />
 
         <Preference
             android:key="clear_login"
             android:enabled="false"
-            android:summary="清除登陆信息"
-            android:title="注销" />
+            android:summary="@string/settings_clearlogin_summary"
+            android:title="@string/settings_clearlogin_title" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="其他">
+    <PreferenceCategory
+        android:title="@string/settings_title_other">
 
         <Preference
             android:defaultValue="false"
             android:key="other_about"
-            android:title="关于" />
+            android:title="@string/settings_about_title" />
 
     </PreferenceCategory>
 

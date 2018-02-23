@@ -278,7 +278,7 @@ class SearchResultListAdapter extends RecyclerView.Adapter
         //genre
         if (!item.genre.isEmpty())
         {
-            String genrePrefix = mContext.getString(R.string.genre_prefix);
+            String genrePrefix = mContext.getString(R.string.prefix_genre);
             data.chips.append(genrePrefix);
             data.chips.append(item.genre).append(item.genreType);
             data.chips.setSpan(new RecipientChipSpan(ContextCompat.getColor(mContext, R.color.chip_color)),
@@ -293,7 +293,7 @@ class SearchResultListAdapter extends RecyclerView.Adapter
             {
                 if (!TextUtils.isEmpty(data.chips))
                     data.chips.append("\n");
-                data.chips.append(mContext.getString(R.string.keyword_prefix));
+                data.chips.append(mContext.getString(R.string.prefix_keyword));
             }
 
             String keyword = item.keywordList.get(i);
@@ -320,7 +320,7 @@ class SearchResultListAdapter extends RecyclerView.Adapter
 
             if (item.isPCContribute)
             {
-                String title = mContext.getString(R.string.pc_contribute);
+                String title = mContext.getString(R.string.contribute_pc);
                 data.contriChips.append(title).append(" ");
                 data.contriChips.setSpan(new RecipientChipSpan(
                                 ContextCompat.getColor(mContext, R.color.chip_pc_color)),
@@ -330,7 +330,7 @@ class SearchResultListAdapter extends RecyclerView.Adapter
             }
             if (item.isMBContribute)
             {
-                String title = mContext.getString(R.string.mb_contribute);
+                String title = mContext.getString(R.string.contribute_mb);
                 data.contriChips.append(title).append(" ");
                 data.contriChips.setSpan(new RecipientChipSpan(
                                 ContextCompat.getColor(mContext, R.color.chip_mb_color)),
@@ -340,7 +340,7 @@ class SearchResultListAdapter extends RecyclerView.Adapter
             }
             if (item.hasIllustration)
             {
-                String title = mContext.getString(R.string.illust_contribute);
+                String title = mContext.getString(R.string.contribute_illust);
                 data.contriChips.append(title).append(" ");
                 data.contriChips.setSpan(new RecipientChipSpan(
                                 ContextCompat.getColor(mContext, R.color.chip_illust_color)),
@@ -354,22 +354,22 @@ class SearchResultListAdapter extends RecyclerView.Adapter
                     data.contriChips.length());
         }
 
-        data.others = mContext.getString(R.string.lastupdate_prefix)
+        data.others = mContext.getString(R.string.prefix_lastupdate)
                 + item.lastUpdatedDate + "\n"
-                + (item.ncode.isEmpty() ? "" : (mContext.getString(R.string.ncode_prefix) + item.ncode + "\n"))
-                + mContext.getString(R.string.readtime_prefix)
+                + (item.ncode.isEmpty() ? "" : (mContext.getString(R.string.prefix_ncode) + item.ncode + "\n"))
+                + mContext.getString(R.string.prefix_readtime)
                 + item.readingTime + "\n"
-                + mContext.getString(R.string.weekuu_prefix)
+                + mContext.getString(R.string.prefix_weekuu)
                 + item.weekUniqueUser + "\n"
-                + mContext.getString(R.string.review_prefix)
+                + mContext.getString(R.string.prefix_review)
                 + item.review + "\n"
-                + mContext.getString(R.string.overall_prefix)
+                + mContext.getString(R.string.prefix_overall)
                 + item.overallPoint + "\n"
-                + mContext.getString(R.string.rankuc_prefix)
+                + mContext.getString(R.string.prefix_rankuc)
                 + item.rankUserCount + "\n"
-                + mContext.getString(R.string.rankpoint_prefix)
+                + mContext.getString(R.string.prefix_rankpoint)
                 + item.rankPoint + "\n"
-                + mContext.getString(R.string.bookmark_prefix)
+                + mContext.getString(R.string.prefix_bookmark)
                 + item.bookmarkCount;
 
         mDataList.add(data);
@@ -409,19 +409,32 @@ class SearchResultListAdapter extends RecyclerView.Adapter
         {
             super(itemView);
 
-            titleTextView = (TextView) itemView.findViewById(R.id.tv_list_item_sr_title);
-            typeTextView = (TextView) itemView.findViewById(R.id.tv_list_item_sr_type);
-            titleLayoutView = (LinearLayout) itemView.findViewById(R.id.ll_list_item_sr_title);
+            titleTextView = itemView.findViewById(R.id.tv_list_item_sr_title);
+            typeTextView = itemView.findViewById(R.id.tv_list_item_sr_type);
+            titleLayoutView = itemView.findViewById(R.id.ll_list_item_sr_title);
 
-            contriTextView = (TextView) itemView.findViewById(R.id.tv_list_item_sr_contri_chips);
+            contriTextView = itemView.findViewById(R.id.tv_list_item_sr_contri_chips);
 
-            authorButton = (Button) itemView.findViewById(R.id.bt_list_item_sr_author);
-            authorTextView = (TextView) itemView.findViewById(R.id.tv_list_item_sr_author_text);
-            novelInfoButton = (Button) itemView.findViewById(R.id.bt_list_item_sr_novelinfo);
-            summaryTextView = (TextView) itemView.findViewById(R.id.tv_list_item_sr_summary);
+            authorButton = itemView.findViewById(R.id.bt_list_item_sr_author);
+            authorTextView = itemView.findViewById(R.id.tv_list_item_sr_author_text);
+            novelInfoButton = itemView.findViewById(R.id.bt_list_item_sr_novelinfo);
+            summaryTextView = itemView.findViewById(R.id.tv_list_item_sr_summary);
 
-            chipsTextView = (TextView) itemView.findViewById(R.id.tv_list_item_sr_chips);
-            othersTextView = (TextView) itemView.findViewById(R.id.tv_list_item_sr_others);
+            chipsTextView = itemView.findViewById(R.id.tv_list_item_sr_chips);
+            othersTextView = itemView.findViewById(R.id.tv_list_item_sr_others);
+
+            summaryTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TextView view = (TextView) v;
+                    if (view.getMaxLines() == 3) {
+                        view.setMaxLines(Integer.MAX_VALUE);
+                    }
+                    else {
+                        view.setMaxLines(3);
+                    }
+                }
+            });
         }
     }
 
@@ -434,8 +447,8 @@ class SearchResultListAdapter extends RecyclerView.Adapter
         {
             super(itemView);
 
-            textView = (TextView) itemView.findViewById(R.id.tv_list_foot);
-            progressBar = (ProgressBar) itemView.findViewById(R.id.pb_list_foot);
+            textView = itemView.findViewById(R.id.tv_list_foot);
+            progressBar = itemView.findViewById(R.id.pb_list_foot);
         }
     }
 

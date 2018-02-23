@@ -28,7 +28,7 @@
         android:layout_marginStart="56dp"
         android:layout_toStartOf="@+id/ib_close_search_assist"
         android:background="@null"
-        android:hint="排除キーワード"
+        android:hint="@string/search_hint_ex_keyword"
         android:imeOptions="actionSearch"
         android:inputType="text"
         android:padding="16dp"/>
