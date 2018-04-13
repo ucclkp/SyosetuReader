@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
+        android:focusable="true"
         android:orientation="vertical">
 
         <TextView
@@ -20,7 +21,6 @@
             android:paddingEnd="16dp"
             android:paddingStart="16dp"
             android:paddingTop="16dp"
-            android:text="TextView"
             android:textAlignment="textStart"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="15sp"/>
@@ -33,7 +33,6 @@
             android:paddingEnd="16dp"
             android:paddingStart="16dp"
             android:paddingTop="6dp"
-            android:text="TextView"
             android:textSize="12sp"/>
 
     </LinearLayout>
@@ -48,7 +47,6 @@
         android:ellipsize="end"
         android:minHeight="42dp"
         android:minWidth="0dp"
-        android:text="Button"
         android:textColor="?android:attr/textColorPrimaryInverse"
         android:textSize="14sp"/>
 
@@ -61,7 +59,6 @@
         android:elevation="0dp"
         android:minHeight="42dp"
         android:minWidth="0dp"
-        android:text="Button"
         android:textColor="?android:attr/textColorPrimaryInverse"
         android:textSize="14sp"/>
 
@@ -74,7 +71,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:lineSpacingMultiplier="@dimen/novel_summary_lsm"
-        android:text="TextView"
         android:textColor="?android:attr/textColorPrimary"/>
 
 </LinearLayout>

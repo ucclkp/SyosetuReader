@@ -20,11 +20,10 @@ import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class HtmlUtility
-{
+public class HtmlUtility {
+
     public static int getTagEndIndex(
-            String source, String tagName, int startIndex, boolean includeEndTag)
-    {
+            String source, String tagName, int startIndex, boolean includeEndTag) {
         int acc = 1;
 
         Pattern pattern = Pattern.compile(
@@ -36,18 +35,14 @@ public class HtmlUtility
 
         Matcher matcher = pattern.matcher(source);
         matcher = matcher.region(startIndex, source.length());
-        while (matcher.find())
-        {
+        while (matcher.find()) {
             String mt = matcher.group(1);
             mt = mt.replaceAll("\\s", "");
-            if (mt.equals("<" + tagName))
-            {
+            if (mt.equals("<" + tagName)) {
                 ++acc;
-            } else if (mt.equals("</" + tagName + ">"))
-            {
+            } else if (mt.equals("</" + tagName + ">")) {
                 --acc;
-                if (acc == 0)
-                {
+                if (acc == 0) {
                     return includeEndTag ? matcher.end(1) : matcher.start(1);
                 }
             }
@@ -57,35 +52,29 @@ public class HtmlUtility
     }
 
     public static String getTagContent(
-            String source, String tagTokenRegex, String tagName, boolean includeMatchTag)
-    {
+            String source, String tagTokenRegex, String tagName, boolean includeMatchTag) {
         return getTagContent(source, 0, tagTokenRegex, tagName, includeMatchTag);
     }
 
     public static String getTagContent(
-            String source, int startIndex, String tagTokenRegex, String tagName, boolean includeMatchTag)
-    {
+            String source, int startIndex, String tagTokenRegex, String tagName, boolean includeMatchTag) {
         return getTagContent(source, startIndex, tagTokenRegex,
                 tagName, includeMatchTag, null);
     }
 
     public static String getTagContent(
             String source, int startIndex, String tagTokenRegex,
-            String tagName, boolean includeMatchTag, int[] position)
-    {
+            String tagName, boolean includeMatchTag, int[] position) {
         String content = "";
 
         Pattern pattern = Pattern.compile(tagTokenRegex);
         Matcher matcher = pattern.matcher(source);
         matcher = matcher.region(startIndex, source.length());
-        if (matcher.find())
-        {
+        if (matcher.find()) {
             int tagStartIndex = includeMatchTag ? matcher.start() : matcher.end();
             int tagEndIndex = getTagEndIndex(source, tagName, matcher.end(), includeMatchTag);
-            if (tagEndIndex >= 0)
-            {
-                if (position != null)
-                {
+            if (tagEndIndex >= 0) {
+                if (position != null) {
                     position[0] = tagStartIndex;
                     position[1] = tagEndIndex;
                 }
@@ -97,15 +86,12 @@ public class HtmlUtility
     }
 
 
-    public static String getUrlRear(String url)
-    {
+    public static String getUrlRear(String url) {
         String rear;
-        if (url.endsWith("/"))
-        {
+        if (url.endsWith("/")) {
             int startIndex = url.lastIndexOf("/", url.length() - 2);
             rear = url.substring(startIndex + 1, url.length() - 1);
-        } else
-        {
+        } else {
             int startIndex = url.lastIndexOf("/");
             rear = url.substring(startIndex + 1);
         }
@@ -114,8 +100,7 @@ public class HtmlUtility
     }
 
 
-    public static SpannableStringBuilder processTitle(String title)
-    {
+    public static SpannableStringBuilder processTitle(String title) {
         SpannableStringBuilder text
                 = new SpannableStringBuilder(title);
         text.setSpan(new RelativeSizeSpan(1.3f),
@@ -129,61 +114,49 @@ public class HtmlUtility
     }
 
 
-    public static String decodeHtmlUnicode(String unicodeStr)
-    {
+    public static String decodeHtmlUnicode(String unicodeStr) {
         if (unicodeStr == null)
             return null;
 
         StringBuilder retBuf = new StringBuilder();
         int maxLoop = unicodeStr.length();
-        for (int i = 0; i < maxLoop; i++)
-        {
-            if (unicodeStr.charAt(i) == '\\')
-            {
+        for (int i = 0; i < maxLoop; i++) {
+            if (unicodeStr.charAt(i) == '\\') {
                 if ((i < maxLoop - 5)
                         && ((unicodeStr.charAt(i + 1) == 'u') || (unicodeStr
                         .charAt(i + 1) == 'U')))
-                    try
-                    {
+                    try {
                         retBuf.append((char) Integer.parseInt(
                                 unicodeStr.substring(i + 2, i + 6), 16));
                         i += 5;
-                    } catch (NumberFormatException localNumberFormatException)
-                    {
+                    } catch (NumberFormatException localNumberFormatException) {
                         retBuf.append(unicodeStr.charAt(i));
                     }
                 else
                     retBuf.append(unicodeStr.charAt(i));
-            } else
-            {
+            } else {
                 retBuf.append(unicodeStr.charAt(i));
             }
         }
         return retBuf.toString();
     }
 
-    public static String decodeUrl(String url)
-    {
+    public static String decodeUrl(String url) {
         String decodedUrl = "";
-        try
-        {
+        try {
             decodedUrl = URLDecoder.decode(url, "utf-8");
-        } catch (UnsupportedEncodingException e)
-        {
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
         return decodedUrl;
     }
 
-    public static String encodeUrl(String url)
-    {
+    public static String encodeUrl(String url) {
         String encodedUrl = "";
-        try
-        {
+        try {
             encodedUrl = URLEncoder.encode(url, "utf-8");
-        } catch (UnsupportedEncodingException e)
-        {
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
@@ -191,14 +164,12 @@ public class HtmlUtility
     }
 
 
-    public static Bitmap getBitmapFromUrl(String imgUrl)
-    {
+    public static Bitmap getBitmapFromUrl(String imgUrl) {
         URL url;
         InputStream in = null;
         HttpURLConnection connection = null;
 
-        try
-        {
+        try {
             url = new URL(imgUrl);
 
             connection = (HttpURLConnection) url.openConnection();
@@ -209,46 +180,37 @@ public class HtmlUtility
 
             in = connection.getInputStream();
             return BitmapFactory.decodeStream(in);
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
-        } finally
-        {
+        } finally {
             if (connection != null)
                 connection.disconnect();
 
-            try
-            {
+            try {
                 if (in != null)
                     in.close();
-            } catch (IOException e1)
-            {
+            } catch (IOException e1) {
                 e1.printStackTrace();
             }
         }
     }
 
 
-    public static int intValue(String intStr, int def)
-    {
+    public static int intValue(String intStr, int def) {
         int result;
 
-        try
-        {
+        try {
             result = Integer.valueOf(intStr);
-        } catch (NumberFormatException e)
-        {
+        } catch (NumberFormatException e) {
             result = def;
         }
 
         return result;
     }
 
-    public static boolean boolValue(String boolStr, boolean def)
-    {
-        if (boolStr.length() > 0)
-        {
+    public static boolean boolValue(String boolStr, boolean def) {
+        if (boolStr.length() > 0) {
             if (boolStr.equals("0") || boolStr.equals("false"))
                 return false;
             else if (boolStr.equals("1") || boolStr.equals("true"))
@@ -258,8 +220,7 @@ public class HtmlUtility
         return def;
     }
 
-    public static String removeLB(String content)
-    {
+    public static String removeLB(String content) {
         int index = content.length() - 1;
         while (index >= 0 && content.charAt(index) == '\n')
             --index;
@@ -270,8 +231,7 @@ public class HtmlUtility
             return content;
     }
 
-    public static void removeLB(SpannableStringBuilder content)
-    {
+    public static void removeLB(SpannableStringBuilder content) {
         int index = content.length() - 1;
         while (index >= 0 && content.charAt(index) == '\n')
             --index;

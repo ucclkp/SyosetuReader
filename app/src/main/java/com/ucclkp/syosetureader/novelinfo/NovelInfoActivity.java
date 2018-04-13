@@ -11,8 +11,7 @@ import android.view.MenuItem;
 
 import com.ucclkp.syosetureader.R;
 
-public class NovelInfoActivity extends AppCompatActivity
-{
+public class NovelInfoActivity extends AppCompatActivity {
     private ActionBar mActionBar;
     private AppBarLayout mAppBarLayout;
 
@@ -23,8 +22,7 @@ public class NovelInfoActivity extends AppCompatActivity
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_novel_info);
 
@@ -39,15 +37,13 @@ public class NovelInfoActivity extends AppCompatActivity
 
         String novelInfoUrl = "";
         Intent intent = getIntent();
-        if (intent != null)
-        {
+        if (intent != null) {
             novelInfoUrl = intent.getStringExtra(ARG_NOVEL_INFO_URL);
         }
 
         Fragment novelInfoFragment = getSupportFragmentManager()
                 .findFragmentByTag(FRAGMENT_NOVEL_INFO);
-        if (novelInfoFragment == null)
-        {
+        if (novelInfoFragment == null) {
             novelInfoFragment = NovelInfoFragment.newInstance(novelInfoUrl);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fl_novelinfo_content,
@@ -58,12 +54,9 @@ public class NovelInfoActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case android.R.id.home:
-            {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: {
                 finish();
                 return true;
             }
