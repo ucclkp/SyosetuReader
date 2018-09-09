@@ -10,21 +10,17 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class KwPanelParser extends HtmlDataPipeline<KwPanelParser.KeywordData>
-{
+public class KwPanelParser extends HtmlDataPipeline<KwPanelParser.KeywordData> {
     private Context mContext;
 
-    public class KeywordData
-    {
+    public class KeywordData {
         ArrayList<KwAtom> stockList = new ArrayList<>();
-        ArrayList<KwAtom> recommandList = new ArrayList<>();
+        ArrayList<KwAtom> recommendList = new ArrayList<>();
         ArrayList<KwAtom> replayList = new ArrayList<>();
     }
 
-    public class KwAtom
-    {
+    public class KwAtom {
         String title;
-
         String value;
         String keyword;
 
@@ -36,36 +32,31 @@ public class KwPanelParser extends HtmlDataPipeline<KwPanelParser.KeywordData>
     public final static int KT_KEYWORD = 1;
 
 
-    public KwPanelParser(Context context)
-    {
+    public KwPanelParser(Context context) {
         mContext = context;
     }
 
 
     @Override
-    public KeywordData onStartParse(RetrieveHtmlData htmldata)
-    {
-        String source = htmldata.htmlCode;
+    public KeywordData onStartParse(RetrieveHtmlData htmlData) {
+        String source = htmlData.htmlCode;
         KeywordData data = new KeywordData();
 
         String stockContent = HtmlUtility.getTagContent(
                 source, KeywordStockToken, "div", false);
-        if (!stockContent.isEmpty())
-        {
+        if (!stockContent.isEmpty()) {
             parseKeywordList(stockContent, data.stockList);
         }
 
-        String recommandContent = HtmlUtility.getTagContent(
-                source, KeywordRecommandToken, "div", false);
-        if (!recommandContent.isEmpty())
-        {
-            parseKeywordList(recommandContent, data.recommandList);
+        String recommendContent = HtmlUtility.getTagContent(
+                source, KeywordRecommendToken, "div", false);
+        if (!recommendContent.isEmpty()) {
+            parseKeywordList(recommendContent, data.recommendList);
         }
 
         String replayContent = HtmlUtility.getTagContent(
                 source, KeywordReplayToken, "div", false);
-        if (!replayContent.isEmpty())
-        {
+        if (!replayContent.isEmpty()) {
             parseKeywordList(replayContent, data.replayList);
         }
 
@@ -73,51 +64,43 @@ public class KwPanelParser extends HtmlDataPipeline<KwPanelParser.KeywordData>
     }
 
 
-    private void parseKeywordList(String contentSource, List<KwAtom> dataList)
-    {
-        Pattern pattern = Pattern.compile(KeywordTitle + "|" + KeywordSelf);
-        Matcher matcher = pattern.matcher(contentSource);
-        while (matcher.find())
-        {
-            String hitted = matcher.group(0).trim();
-            if (hitted.matches("^<\\s*h[\\s\\S]*?"))
-            {
-                KwAtom atom = new KwAtom();
-                atom.type = KT_TITLE;
-                atom.title = matcher.group(1).trim();
+    private void parseKeywordList(String contentSource, List<KwAtom> dataList) {
+        ListParser lp = new ListParser();
+        lp.set(contentSource, "tr");
+        while (lp.find()) {
+            String typeContent = lp.getContent(false);
 
-                dataList.add(atom);
-            } else if (hitted.matches("^<\\s*span[\\s\\S]*?"))
-            {
-                KwAtom atom = new KwAtom();
-                atom.type = KT_KEYWORD;
-                atom.value = matcher.group(2);
-                atom.keyword = matcher.group(3);
+            KwAtom atom = new KwAtom();
+            atom.type = KT_TITLE;
+            atom.title = HtmlUtility.getTagContent(typeContent, "th", false);
+            dataList.add(atom);
 
-                dataList.add(atom);
+            ListParser word_lp = new ListParser();
+            word_lp.set(typeContent, "li");
+            while (word_lp.find()) {
+                String wordContent = word_lp.getContent(false);
+
+                Pattern pattern = Pattern.compile(KeywordValue);
+                Matcher matcher = pattern.matcher(wordContent);
+                if (matcher.find()) {
+                    KwAtom word_atom = new KwAtom();
+                    word_atom.type = KT_KEYWORD;
+                    word_atom.keyword = HtmlUtility.getTagContent(wordContent, "span", false);
+                    word_atom.value = matcher.group(1);
+                    dataList.add(word_atom);
+                }
             }
         }
     }
 
 
     private final static String KeywordStockToken
-            = "<\\s*div\\s+id\\s*=\\s*\"\\s*keywordBox1\\s*\""
-            + "\\s+class\\s*=\\s*\"\\s*keyword_box\\s*\""
-            + "\\s+data-id\\s*=\\s*\"\\s*1\\s*\"\\s*>";
-    private final static String KeywordRecommandToken
-            = "<\\s*div\\s+id\\s*=\\s*\"\\s*keywordBox2\\s*\""
-            + "\\s+class\\s*=\\s*\"\\s*keyword_box\\s*\""
-            + "\\s+data-id\\s*=\\s*\"\\s*2\\s*\"\\s*>";
+            = "<div[\\S\\s]*?id=\"keywordBox1\"[\\S\\s]*?>";
+    private final static String KeywordRecommendToken
+            = "<div[\\S\\s]*?id=\"keywordBox2\"[\\S\\s]*?>";
     private final static String KeywordReplayToken
-            = "<\\s*div\\s+id\\s*=\\s*\"\\s*keywordBox3\\s*\""
-            + "\\s+class\\s*=\\s*\"\\s*keyword_box\\s*\""
-            + "\\s+data-id\\s*=\\s*\"\\s*3\\s*\"\\s*>";
+            = "<div[\\S\\s]*?id=\"keywordBox3\"[\\S\\s]*?>";
 
-    private final static String KeywordTitle
-            = "<\\s*h[\\d]+?\\s*>(.*?)<\\s*/\\s*h[\\d]+?\\s*>";
-    private final static String KeywordSelf
-            = "<\\s*span\\s+class\\s*=[\\s\\S]*?>\\s*"
-            + "<\\s*label\\s*>\\s*"
-            + "<\\s*input\\s+type=\\s*\"\\s*checkbox\\s*\" value=\"(.*?)\" class\\s*=\\s*\"\\s*norimono\\s*\""
-            + "\\s+data-type\\s*=\\s*\"\\s*word\\s*\"\\s*/\\s*>(.*?)<\\s*/\\s*label\\s*>\\s*<\\s*/\\s*span\\s*>";
+    private final static String KeywordValue
+            = "<input[\\S\\s]*?value=\"(.*?)\"[\\S\\s]*?/>";
 }

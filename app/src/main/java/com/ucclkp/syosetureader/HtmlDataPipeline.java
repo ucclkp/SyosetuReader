@@ -358,6 +358,14 @@ public abstract class HtmlDataPipeline<Parsed> {
         private Matcher mMatcher;
 
 
+        public void set(String source, String splitTagName) {
+            String splitRegex = "<\\s*" + splitTagName + "\\s*>";
+
+            mSource = source;
+            mSplitTagName = splitTagName;
+            mMatcher = Pattern.compile(splitRegex).matcher(source);
+        }
+
         public void set(String source, String splitRegex, String splitTagName) {
             mSource = source;
             mSplitTagName = splitTagName;

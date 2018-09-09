@@ -6,8 +6,7 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 
-class TextGestureDetector
-{
+class TextGestureDetector {
     private float mPrevX;
     private float mPrevY;
     private float mStartX;
@@ -32,8 +31,7 @@ class TextGestureDetector
     private int mMaxmumVelocity;
 
 
-    TextGestureDetector(View textView, Callback callback)
-    {
+    TextGestureDetector(View textView, Callback callback) {
         if (textView == null || callback == null)
             throw new RuntimeException("TextGestureDetector-Constructor(): null params.");
 
@@ -52,59 +50,48 @@ class TextGestureDetector
     }
 
 
-    public boolean isLongPressed()
-    {
+    public boolean isLongPressed() {
         return mIsLongPressed;
     }
 
-    public void setPrevX(float prevX)
-    {
+    public void setPrevX(float prevX) {
         mPrevX = prevX;
     }
 
-    public void setPrevY(float prevY)
-    {
+    public void setPrevY(float prevY) {
         mPrevY = prevY;
     }
 
-    public float getPrevX()
-    {
+    public float getPrevX() {
         return mPrevX;
     }
 
-    public float getPrevY()
-    {
+    public float getPrevY() {
         return mPrevY;
     }
 
 
-    private void prepareVelocityTracker(MotionEvent e)
-    {
+    private void prepareVelocityTracker(MotionEvent e) {
         if (mVelocityTracker == null)
             mVelocityTracker = VelocityTracker.obtain();
         mVelocityTracker.addMovement(e);
     }
 
-    private void releaseVelocityTracker()
-    {
-        if (mVelocityTracker != null)
-        {
+    private void releaseVelocityTracker() {
+        if (mVelocityTracker != null) {
             mVelocityTracker.recycle();
             mVelocityTracker = null;
         }
     }
 
 
-    boolean onTouchEvent(MotionEvent e)
-    {
+    boolean onTouchEvent(MotionEvent e) {
         boolean result = false;
         prepareVelocityTracker(e);
         mCallback.onStartEvent(e);
 
-        switch (e.getActionMasked())
-        {
-            case MotionEvent.ACTION_DOWN:
-            {
+        switch (e.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN: {
                 mIsTouchMoved = false;
                 mIsLongPressed = false;
 
@@ -128,8 +115,7 @@ class TextGestureDetector
                 mActivePointerId = e.getPointerId(index);
                 break;
 
-            case MotionEvent.ACTION_MOVE:
-            {
+            case MotionEvent.ACTION_MOVE: {
                 final int pointerIndex =
                         e.findPointerIndex(mActivePointerId);
                 if (pointerIndex == -1)
@@ -145,26 +131,22 @@ class TextGestureDetector
                 mPrevY = curY;
 
                 //长按后拖动。
-                if (mLongTappingResult && mIsLongPressed)
-                {
+                if (mLongTappingResult && mIsLongPressed) {
                     mCallback.onLongTapping(false, curX, curY);
                     return true;
                 }
 
-                if (!mIsTouchMoved)
-                {
+                if (!mIsTouchMoved) {
                     float xDiff = Math.abs(curX - mStartX);
                     float yDiff = Math.abs(curY - mStartY);
 
-                    if (mCallback.onDetermineCanScroll(xDiff, yDiff, mTouchSlop))
-                    {
+                    if (mCallback.onDetermineCanScroll(xDiff, yDiff, mTouchSlop)) {
                         mIsTouchMoved = true;
                         mCallback.onStartScroll(e);
                     }
                 }
 
-                if (mIsTouchMoved)
-                {
+                if (mIsTouchMoved) {
                     mTextView.removeCallbacks(mLongPressRunnable);
                     mCallback.onScroll(e, mStartX, mStartY, curX, curY, deltaX, deltaY);
                 }
@@ -174,8 +156,7 @@ class TextGestureDetector
             case MotionEvent.ACTION_POINTER_UP:
                 final int pointerIndex = e.getActionIndex();
                 final int pointerId = e.getPointerId(pointerIndex);
-                if (pointerId == mActivePointerId)
-                {
+                if (pointerId == mActivePointerId) {
                     final int newPointerIndex = pointerIndex == 0 ? 1 : 0;
                     mPrevX = e.getX(newPointerIndex);
                     mPrevY = e.getY(newPointerIndex);
@@ -186,29 +167,24 @@ class TextGestureDetector
                 }
                 break;
 
-            case MotionEvent.ACTION_UP:
-            {
+            case MotionEvent.ACTION_UP: {
                 mCallback.onStartUp(e, mVelocityTracker);
 
-                if (!mIsTouchMoved && !mIsLongPressed)
-                {
+                if (!mIsTouchMoved && !mIsLongPressed) {
                     mCallback.onSingleTap(e);
 
-                    if (mIsFirstTap)
-                    {
+                    if (mIsFirstTap) {
                         mIsFirstTap = false;
                         mTextView.postDelayed(mDoubleTapRunnable,
                                 ViewConfiguration.getDoubleTapTimeout());
-                    } else
-                    {
+                    } else {
                         mCallback.onDoubleTap(e);
                         mTextView.removeCallbacks(mDoubleTapRunnable);
                         mIsFirstTap = true;
                     }
                 } else if (mIsLongPressed && mLongTappingResult)
                     mCallback.onLongTap(e);
-                else
-                {
+                else {
                     Log.d("onFling", "computeCurrentVelocity()");
 
                     mVelocityTracker.computeCurrentVelocity(1000, mMaxmumVelocity);
@@ -229,8 +205,7 @@ class TextGestureDetector
                 break;
             }
 
-            case MotionEvent.ACTION_CANCEL:
-            {
+            case MotionEvent.ACTION_CANCEL: {
                 mIsTouchMoved = false;
                 mIsLongPressed = false;
                 mActivePointerId = -1;
@@ -250,28 +225,23 @@ class TextGestureDetector
     }
 
 
-    private Runnable mLongPressRunnable = new Runnable()
-    {
+    private Runnable mLongPressRunnable = new Runnable() {
         @Override
-        public void run()
-        {
+        public void run() {
             mIsLongPressed = true;
             mLongTappingResult = mCallback.onLongTapping(true, mPrevX, mPrevY);
         }
     };
 
-    private Runnable mDoubleTapRunnable = new Runnable()
-    {
+    private Runnable mDoubleTapRunnable = new Runnable() {
         @Override
-        public void run()
-        {
+        public void run() {
             mIsFirstTap = true;
         }
     };
 
 
-    interface Callback
-    {
+    interface Callback {
         void onStartEvent(MotionEvent e);
 
         void onEndEvent(MotionEvent e, VelocityTracker velocityTracker, boolean result);

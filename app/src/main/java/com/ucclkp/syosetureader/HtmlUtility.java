@@ -52,6 +52,12 @@ public class HtmlUtility {
     }
 
     public static String getTagContent(
+            String source, String tagName, boolean includeMatchTag) {
+        String tagTokenRegex = "<\\s*" + tagName + "\\s*>";
+        return getTagContent(source, 0, tagTokenRegex, tagName, includeMatchTag);
+    }
+
+    public static String getTagContent(
             String source, String tagTokenRegex, String tagName, boolean includeMatchTag) {
         return getTagContent(source, 0, tagTokenRegex, tagName, includeMatchTag);
     }

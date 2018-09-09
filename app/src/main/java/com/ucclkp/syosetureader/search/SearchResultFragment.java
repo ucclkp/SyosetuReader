@@ -1,7 +1,6 @@
 package com.ucclkp.syosetureader.search;
 
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;

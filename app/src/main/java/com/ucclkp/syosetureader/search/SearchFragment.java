@@ -4,6 +4,7 @@ package com.ucclkp.syosetureader.search;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -82,7 +83,7 @@ public class SearchFragment extends Fragment
     private RecyclerView mKwListView;
     private ProgressBar mKwLoadingPB;
 
-    private boolean mIsKwPanelHidding;
+    private boolean mIsKwPanelHiding;
     private KwPanelParser mKwPanelParser;
     private KwPanelListAdapter mKwListAdapter;
     private GridLayoutManager mKwListLayoutManager;
@@ -120,7 +121,7 @@ public class SearchFragment extends Fragment
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
         View parent = inflater.inflate(R.layout.fragment_search, container, false);
@@ -189,7 +190,7 @@ public class SearchFragment extends Fragment
             public void onClick(View v)
             {
                 if (mKeywordPanel.getVisibility() == View.VISIBLE
-                        && !mIsKwPanelHidding)
+                        && !mIsKwPanelHiding)
                     hideKeywordPanel();
             }
         });
@@ -226,7 +227,7 @@ public class SearchFragment extends Fragment
 
         mKwPanelParser = new KwPanelParser(getContext());
         mKwPanelParser.setPipelineListener(mKwPanelParseListener);
-        mKwPanelParser.enter(SyosetuUtility.DETAIL_SEARCH_URL);
+        mKwPanelParser.enter(SyosetuUtility.SEARCH_URL);
 
         return parent;
     }
@@ -381,12 +382,12 @@ public class SearchFragment extends Fragment
                 {
                     mKwLoadingPB.setVisibility(View.VISIBLE);
                     mKwListView.setVisibility(View.GONE);
-                    mKwPanelParser.enter(SyosetuUtility.DETAIL_SEARCH_URL);
+                    mKwPanelParser.enter(SyosetuUtility.SEARCH_URL);
                 }
 
                 showKeywordPanel();
             } else if (mKeywordPanel.getVisibility() == View.VISIBLE
-                    && !mIsKwPanelHidding)
+                    && !mIsKwPanelHiding)
                 hideKeywordPanel();
         }
     };
@@ -407,7 +408,7 @@ public class SearchFragment extends Fragment
                         fillKeywordList(mKeywordBarData.stockList);
                         break;
                     case 1:
-                        fillKeywordList(mKeywordBarData.recommandList);
+                        fillKeywordList(mKeywordBarData.recommendList);
                         break;
                     case 2:
                         fillKeywordList(mKeywordBarData.replayList);
@@ -435,7 +436,7 @@ public class SearchFragment extends Fragment
                     fillKeywordList(mKeywordBarData.stockList);
                     break;
                 case 1:
-                    fillKeywordList(mKeywordBarData.recommandList);
+                    fillKeywordList(mKeywordBarData.recommendList);
                     break;
                 case 2:
                     fillKeywordList(mKeywordBarData.replayList);
@@ -514,7 +515,7 @@ public class SearchFragment extends Fragment
         myView.setVisibility(View.VISIBLE);
         circuleAnim.start();
 
-        mIsKwPanelHidding = false;
+        mIsKwPanelHiding = false;
     }
 
     private void hideKeywordPanel()
@@ -541,7 +542,7 @@ public class SearchFragment extends Fragment
                 mKwPanelShadow.setVisibility(View.INVISIBLE);
                 mKeywordPanel.setVisibility(View.INVISIBLE);
 
-                mIsKwPanelHidding = false;
+                mIsKwPanelHiding = false;
             }
 
             @Override
@@ -549,7 +550,7 @@ public class SearchFragment extends Fragment
             {
                 super.onAnimationCancel(animation);
 
-                mIsKwPanelHidding = false;
+                mIsKwPanelHiding = false;
             }
         });
 
@@ -560,7 +561,7 @@ public class SearchFragment extends Fragment
 
         anim.start();
 
-        mIsKwPanelHidding = true;
+        mIsKwPanelHiding = true;
     }
 
 

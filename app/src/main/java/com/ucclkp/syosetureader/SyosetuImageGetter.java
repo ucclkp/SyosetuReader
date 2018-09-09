@@ -15,7 +15,7 @@ public class SyosetuImageGetter implements Html.ImageGetter
     private Context mContext;
     private SyosetuCacheManager mCacheMgr;
 
-    private static final int IMAGE_RECOMMAND_HEIGHT = 400;
+    private static final int IMAGE_RECOMMEND_HEIGHT = 400;
 
 
     public SyosetuImageGetter(Context context)
@@ -45,7 +45,7 @@ public class SyosetuImageGetter implements Html.ImageGetter
         {
             Drawable drawable = new BitmapDrawable(mContext.getResources(), bmp);
 
-            int height = IMAGE_RECOMMAND_HEIGHT;
+            int height = IMAGE_RECOMMEND_HEIGHT;
             float factor = (float) height / drawable.getIntrinsicHeight();
             int width = (int) (drawable.getIntrinsicWidth() * factor);
             drawable.setBounds(0, 0, width, height);
@@ -57,7 +57,7 @@ public class SyosetuImageGetter implements Html.ImageGetter
             urlDrawable.setBounds(drawable.getBounds());
         } else
         {
-            Drawable drawable = new BlankDrawable(1, IMAGE_RECOMMAND_HEIGHT);
+            Drawable drawable = new BlankDrawable(1, IMAGE_RECOMMEND_HEIGHT);
             drawable.setBounds(0, 0,
                     drawable.getIntrinsicWidth(),
                     drawable.getIntrinsicHeight());

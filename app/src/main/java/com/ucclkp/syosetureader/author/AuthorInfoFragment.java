@@ -1,7 +1,6 @@
 package com.ucclkp.syosetureader.author;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;

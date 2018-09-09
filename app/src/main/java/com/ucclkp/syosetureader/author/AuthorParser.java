@@ -20,8 +20,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-class AuthorParser extends HtmlDataPipeline<Object>
-{
+class AuthorParser extends HtmlDataPipeline<Object> {
     private int mPortion;
     private int mCurMaxPageNumber = 1;
     private SyosetuUtility.SyosetuSite mAuthorSite;
@@ -31,18 +30,15 @@ class AuthorParser extends HtmlDataPipeline<Object>
     private SyosetuUtility.UrlCallback mUrlCallback;
 
 
-    static class BaseData
-    {
+    static class BaseData {
         SpannableStringBuilder data = null;
     }
 
-    static class WorkData
-    {
+    static class WorkData {
         List<WorkItem> itemList = new ArrayList<>();
     }
 
-    static class WorkItem
-    {
+    static class WorkItem {
         String novelUrl = "";
         String novelTitle = "";
         String summary = "";
@@ -62,41 +58,33 @@ class AuthorParser extends HtmlDataPipeline<Object>
 
     AuthorParser(Context context,
                  SyosetuImageGetter imageGetter,
-                 SyosetuUtility.UrlCallback callback)
-    {
+                 SyosetuUtility.UrlCallback callback) {
         mContext = context;
         mImageGetter = imageGetter;
         mUrlCallback = callback;
     }
 
 
-    public void setPageType(int portion, SyosetuUtility.SyosetuSite site)
-    {
+    public void setPageType(int portion, SyosetuUtility.SyosetuSite site) {
         mPortion = portion;
         mAuthorSite = site;
     }
 
 
-    void resetPageNumber()
-    {
+    void resetPageNumber() {
         mCurMaxPageNumber = 1;
     }
 
-    int getCurMaxPageNumber()
-    {
+    int getCurMaxPageNumber() {
         return mCurMaxPageNumber;
     }
 
 
     @Override
-    public Object onStartParse(RetrieveHtmlData htmldata)
-    {
-        switch (mPortion)
-        {
-            case AuthorPagerAdapter.FRAGMENT_BASE:
-            {
-                switch (mAuthorSite)
-                {
+    public Object onStartParse(RetrieveHtmlData htmldata) {
+        switch (mPortion) {
+            case AuthorPagerAdapter.FRAGMENT_BASE: {
+                switch (mAuthorSite) {
                     case NORMAL:
                         return parseBasePage(htmldata.htmlCode);
                     case NOCTURNE:
@@ -112,26 +100,21 @@ class AuthorParser extends HtmlDataPipeline<Object>
         return null;
     }
 
-    private BaseData parseBasePage(String source)
-    {
+    private BaseData parseBasePage(String source) {
         BaseData data = new BaseData();
 
         String mainSource = HtmlUtility.getTagContent(
                 source, BaseMainToken, "div", false);
-        if (!mainSource.isEmpty())
-        {
+        if (!mainSource.isEmpty()) {
             String profileSource = HtmlUtility.getTagContent(
                     mainSource, BaseProfileToken, "dl", false);
-            if (!profileSource.isEmpty())
-            {
+            if (!profileSource.isEmpty()) {
                 data.data = new SpannableStringBuilder();
 
                 Matcher matcher = Pattern.compile(
                         BaseProfileTitle + "|" + BaseProfileContent).matcher(profileSource);
-                while (matcher.find())
-                {
-                    if (matcher.group().matches("^<\\s*dt[\\s\\S]*?"))
-                    {
+                while (matcher.find()) {
+                    if (matcher.group().matches("^<\\s*dt[\\s\\S]*?")) {
                         String title = matcher.group(1).trim();
                         SpannableString titleSpaned = new SpannableString(
                                 Html.fromHtml(title).toString());
@@ -140,12 +123,10 @@ class AuthorParser extends HtmlDataPipeline<Object>
                                 0, titleSpaned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
                         data.data.append(titleSpaned).append("\n");
-                    } else if (matcher.group().matches("^<\\s*dd[\\s\\S]*?"))
-                    {
+                    } else if (matcher.group().matches("^<\\s*dd[\\s\\S]*?")) {
                         int end = HtmlUtility.getTagEndIndex(
                                 profileSource, "dd", matcher.end(), false);
-                        if (end != -1)
-                        {
+                        if (end != -1) {
                             String content = profileSource.substring(matcher.end(), end);
                             data.data.append(Html.fromHtml(
                                     content, mImageGetter, null)).append("\n\n");
@@ -162,24 +143,20 @@ class AuthorParser extends HtmlDataPipeline<Object>
         return data;
     }
 
-    private BaseData parseBase18Page(String source)
-    {
+    private BaseData parseBase18Page(String source) {
         BaseData data = new BaseData();
 
         String subSource = HtmlUtility.getTagContent(
                 source, Base18SubToken, "div", false);
-        if (!subSource.isEmpty())
-        {
+        if (!subSource.isEmpty()) {
             String profileSource = HtmlUtility.getTagContent(
                     subSource, Base18ProfileToken, "ul", false);
-            if (!profileSource.isEmpty())
-            {
+            if (!profileSource.isEmpty()) {
                 data.data = new SpannableStringBuilder();
 
                 ListParser listParser = new ListParser();
                 listParser.set(profileSource, Base18ProfileTitle, "li");
-                while (listParser.find())
-                {
+                while (listParser.find()) {
                     String title = listParser.getContent(false);
                     data.data.append(Html.fromHtml(title)).append("\n");
                 }
@@ -193,8 +170,7 @@ class AuthorParser extends HtmlDataPipeline<Object>
         return data;
     }
 
-    private WorkData parseWorkPage(String source)
-    {
+    private WorkData parseWorkPage(String source) {
         WorkData data = new WorkData();
 
         String mainSource = HtmlUtility.getTagContent(
@@ -204,12 +180,10 @@ class AuthorParser extends HtmlDataPipeline<Object>
 
         String pageInfo = HtmlUtility.getTagContent(
                 mainSource, WorkPageNumberToken, "div", false);
-        if (!pageInfo.isEmpty())
-        {
+        if (!pageInfo.isEmpty()) {
             Pattern pattern = Pattern.compile(WorkPageNumber);
             Matcher matcher = pattern.matcher(pageInfo);
-            while (matcher.find())
-            {
+            while (matcher.find()) {
                 int curPage = HtmlUtility.intValue(matcher.group(1).trim(), 0);
                 if (curPage > mCurMaxPageNumber)
                     mCurMaxPageNumber = curPage;
@@ -218,15 +192,12 @@ class AuthorParser extends HtmlDataPipeline<Object>
 
         String listSource = HtmlUtility.getTagContent(
                 mainSource, WorkListToken, "div", false);
-        if (!listSource.isEmpty())
-        {
+        if (!listSource.isEmpty()) {
             ListParser listParser = new ListParser();
-            listParser.set(listSource, WorkListItemToken, "ul");
-            while (listParser.find())
-            {
+            listParser.set(listSource, "ul");
+            while (listParser.find()) {
                 String listItemSource = listParser.getContent(false);
-                if (!listItemSource.isEmpty())
-                {
+                if (!listItemSource.isEmpty()) {
                     WorkItem workItem = new WorkItem();
                     parseWorkListItem(listItemSource, workItem);
                     data.itemList.add(workItem);
@@ -237,19 +208,16 @@ class AuthorParser extends HtmlDataPipeline<Object>
         return data;
     }
 
-    private void parseWorkListItem(String source, WorkItem item)
-    {
+    private void parseWorkListItem(String source, WorkItem item) {
         int lastIndex = 0;
         int position[] = new int[2];
 
         //title
         String title = HtmlUtility.getTagContent(
                 source, WorkTitleToken, "li", false);
-        if (!title.isEmpty())
-        {
+        if (!title.isEmpty()) {
             Matcher matcher = Pattern.compile(UrlToken).matcher(title);
-            if (matcher.find())
-            {
+            if (matcher.find()) {
                 item.novelUrl = matcher.group(1).trim();
                 item.novelTitle = Html.fromHtml(
                         matcher.group(2).trim()).toString();
@@ -260,8 +228,7 @@ class AuthorParser extends HtmlDataPipeline<Object>
         //summary
         String summary = HtmlUtility.getTagContent(
                 source, lastIndex, WorkSummaryToken, "li", false, position);
-        if (!summary.isEmpty())
-        {
+        if (!summary.isEmpty()) {
             item.summary = Html.fromHtml(
                     summary.trim()).toString();
             lastIndex = position[1];
@@ -270,14 +237,12 @@ class AuthorParser extends HtmlDataPipeline<Object>
         //extra
         String extra = HtmlUtility.getTagContent(
                 source, lastIndex, WorkExtraToken, "li", false, position);
-        if (!extra.isEmpty())
-        {
+        if (!extra.isEmpty()) {
             int extraLastIndex = 0;
             int extraPosition[] = new int[2];
 
             Matcher matcher = Pattern.compile(WorkGenreToken).matcher(extra);
-            if (matcher.find())
-            {
+            if (matcher.find()) {
                 item.genre = Html.fromHtml(
                         matcher.group(1).trim()).toString();
                 extraLastIndex = matcher.end();
@@ -285,8 +250,7 @@ class AuthorParser extends HtmlDataPipeline<Object>
 
             matcher = Pattern.compile(WorkTypeToken).matcher(extra);
             matcher.region(extraLastIndex, extra.length());
-            if (matcher.find())
-            {
+            if (matcher.find()) {
                 item.type = Html.fromHtml(
                         matcher.group(1).trim()).toString();
                 extraLastIndex = matcher.end();
@@ -294,14 +258,12 @@ class AuthorParser extends HtmlDataPipeline<Object>
 
             String info = HtmlUtility.getTagContent(
                     extra, extraLastIndex, WorkInfoToken, "p", true, extraPosition);
-            if (!info.isEmpty())
-            {
+            if (!info.isEmpty()) {
                 item.type += extra.substring(
                         extraLastIndex, extraPosition[0]).trim();
 
                 matcher = Pattern.compile(UrlToken).matcher(info);
-                if (matcher.find())
-                {
+                if (matcher.find()) {
                     item.novelInfoUrl = matcher.group(1).trim();
                     item.novelInfoTitle = matcher.group(2).trim();
                 }
@@ -313,11 +275,9 @@ class AuthorParser extends HtmlDataPipeline<Object>
         //keyword
         String keyword = HtmlUtility.getTagContent(
                 source, lastIndex, WorkKeywordToken, "li", false, position);
-        if (!keyword.isEmpty())
-        {
+        if (!keyword.isEmpty()) {
             String[] keywordArray = keyword.split(SyosetuUtility.KeywordSplit);
-            for (int i = 0; i < keywordArray.length; ++i)
-            {
+            for (int i = 0; i < keywordArray.length; ++i) {
                 if (!TextUtils.isEmpty(keywordArray[i]))
                     item.keywordList.add(keywordArray[i]);
             }
@@ -328,8 +288,7 @@ class AuthorParser extends HtmlDataPipeline<Object>
         //attention
         String attention = HtmlUtility.getTagContent(
                 source, lastIndex, WorkKeywordToken, "li", false, position);
-        if (!attention.isEmpty())
-        {
+        if (!attention.isEmpty()) {
             Matcher matcher = Pattern.compile(WorkAttentionToken).matcher(attention);
             while (matcher.find())
                 item.attention += matcher.group(1).trim() + "  ";
@@ -340,8 +299,7 @@ class AuthorParser extends HtmlDataPipeline<Object>
         //reading time
         String readingTime = HtmlUtility.getTagContent(
                 source, lastIndex, WorkReadingTimeToken, "li", false, position);
-        if (!readingTime.isEmpty())
-        {
+        if (!readingTime.isEmpty()) {
             item.readingTime = readingTime;
             lastIndex = position[1];
         }
@@ -371,8 +329,6 @@ class AuthorParser extends HtmlDataPipeline<Object>
             = "<\\s*a\\s+href\\s*=[\\s\\S]*?title\\s*=\\s*\"page\\s+\\d*?\"\\s*>(\\d*?)<\\s*/\\s*a\\s*>";
     private final static String WorkListToken
             = "<\\s*div\\s+id\\s*=\\s*\"\\s*novellist\\s*\"\\s*>";
-    private final static String WorkListItemToken
-            = "<\\s*?ul\\s*?>";
 
     private final static String WorkTitleToken
             = "<\\s*li\\s+class\\s*=\\s*\"\\s*title\\s*\"\\s*>";

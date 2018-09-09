@@ -15,8 +15,7 @@ import com.ucclkp.syosetureader.novelinfo.NovelInfoActivity;
 
 import java.text.DecimalFormat;
 
-public class SyosetuUtility
-{
+public class SyosetuUtility {
     public final static String HOME_URL = "https://syosetu.com";
     public final static String READ_URL = "https://yomou.syosetu.com";
     public final static String BLOG_URL = "https://blog.syosetu.com";
@@ -26,7 +25,6 @@ public class SyosetuUtility
     public final static String POP_KEYWORD_URL = READ_URL + "/search/keyword";
     public final static String RANKING_URL = READ_URL + "/rank/genretop";
     public final static String SEARCH_URL = READ_URL + "/search.php";
-    public final static String DETAIL_SEARCH_URL = READ_URL + "/search/cross/";
 
     public final static String R18_HOME_URL = "https://noc.syosetu.com";
     public final static String R18_NOVEL_URL = "https://novel18.syosetu.com";
@@ -46,28 +44,24 @@ public class SyosetuUtility
     public final static String KeywordSplit = "\\s+|[　]";
 
 
-    public enum SyosetuSite
-    {
+    public enum SyosetuSite {
         NORMAL,
         NOCTURNE
     }
 
-    public enum SyosetuType
-    {
+    public enum SyosetuType {
         SERIES,
         SHORT
     }
 
-    public enum SyosetuSource
-    {
+    public enum SyosetuSource {
         DOWNLOAD,
         CACHE,
         NETWORK
     }
 
 
-    public static SyosetuSite getSiteFromNovelUrl(String url)
-    {
+    public static SyosetuSite getSiteFromNovelUrl(String url) {
         if (url.startsWith(NOVEL_URL))
             return SyosetuSite.NORMAL;
         else if (url.startsWith(R18_NOVEL_URL))
@@ -76,8 +70,7 @@ public class SyosetuUtility
         return UApplication.syosetuSite;
     }
 
-    public static SyosetuSite getSiteFromAuthorUrl(String url)
-    {
+    public static SyosetuSite getSiteFromAuthorUrl(String url) {
         if (url.startsWith(AUTHOR_HOME_URL))
             return SyosetuSite.NORMAL;
         else if (url.startsWith(R18_AUTHOR_HOME_URL))
@@ -86,19 +79,20 @@ public class SyosetuUtility
         return UApplication.syosetuSite;
     }
 
-    public static String getTypeStr(Context context, boolean isShort)
-    {
-        if (isShort)
+    public static String getTypeStr(Context context, boolean isShort) {
+        if (isShort) {
             return context.getString(R.string.type_short);
-        else
+        } else {
             return context.getString(R.string.type_series);
+        }
     }
 
+    public static String getHomeUrl() {
+        return getHomeUrl(UApplication.syosetuSite);
+    }
 
-    public static String getHomeUrl()
-    {
-        switch (UApplication.syosetuSite)
-        {
+    public static String getHomeUrl(SyosetuSite site) {
+        switch (site) {
             case NORMAL:
                 return HOME_URL;
             case NOCTURNE:
@@ -108,23 +102,12 @@ public class SyosetuUtility
         return "";
     }
 
-    public static String getHomeUrl(SyosetuSite site)
-    {
-        switch (site)
-        {
-            case NORMAL:
-                return HOME_URL;
-            case NOCTURNE:
-                return R18_HOME_URL;
-        }
-
-        return "";
+    public static String getNovelUrl() {
+        return getNovelUrl(UApplication.syosetuSite);
     }
 
-    public static String getNovelUrl()
-    {
-        switch (UApplication.syosetuSite)
-        {
+    public static String getNovelUrl(SyosetuSite site) {
+        switch (site) {
             case NORMAL:
                 return NOVEL_URL;
             case NOCTURNE:
@@ -134,23 +117,12 @@ public class SyosetuUtility
         return "";
     }
 
-    public static String getNovelUrl(SyosetuSite site)
-    {
-        switch (site)
-        {
-            case NORMAL:
-                return NOVEL_URL;
-            case NOCTURNE:
-                return R18_NOVEL_URL;
-        }
-
-        return "";
+    public static String getNovelSite(Context context) {
+        return getNovelSite(context, UApplication.syosetuSite);
     }
 
-    public static String getNovelSite(Context context)
-    {
-        switch (UApplication.syosetuSite)
-        {
+    public static String getNovelSite(Context context, SyosetuSite site) {
+        switch (site) {
             case NORMAL:
                 return context.getString(R.string.site_novel);
             case NOCTURNE:
@@ -160,23 +132,12 @@ public class SyosetuUtility
         return "";
     }
 
-    public static String getNovelSite(Context context, SyosetuSite site)
-    {
-        switch (site)
-        {
-            case NORMAL:
-                return context.getString(R.string.site_novel);
-            case NOCTURNE:
-                return context.getString(R.string.site_novel18);
-        }
-
-        return "";
+    public static String getAuthorHomeUrl() {
+        return getAuthorHomeUrl(UApplication.syosetuSite);
     }
 
-    public static String getAuthorHomeUrl()
-    {
-        switch (UApplication.syosetuSite)
-        {
+    public static String getAuthorHomeUrl(SyosetuSite site) {
+        switch (site) {
             case NORMAL:
                 return AUTHOR_HOME_URL;
             case NOCTURNE:
@@ -186,23 +147,12 @@ public class SyosetuUtility
         return "";
     }
 
-    public static String getAuthorHomeUrl(SyosetuSite site)
-    {
-        switch (site)
-        {
-            case NORMAL:
-                return AUTHOR_HOME_URL;
-            case NOCTURNE:
-                return R18_AUTHOR_HOME_URL;
-        }
-
-        return "";
+    public static String getNovelInfoUrl() {
+        return getNovelInfoUrl(UApplication.syosetuSite);
     }
 
-    public static String getNovelInfoUrl()
-    {
-        switch (UApplication.syosetuSite)
-        {
+    public static String getNovelInfoUrl(SyosetuSite site) {
+        switch (site) {
             case NORMAL:
                 return NOVEL_INFO_URL;
             case NOCTURNE:
@@ -212,23 +162,12 @@ public class SyosetuUtility
         return "";
     }
 
-    public static String getNovelInfoUrl(SyosetuSite site)
-    {
-        switch (site)
-        {
-            case NORMAL:
-                return NOVEL_INFO_URL;
-            case NOCTURNE:
-                return R18_NOVEL_INFO_URL;
-        }
-
-        return "";
+    public static String getPickupUrl() {
+        return getPickupUrl(UApplication.syosetuSite);
     }
 
-    public static String getPickupUrl()
-    {
-        switch (UApplication.syosetuSite)
-        {
+    public static String getPickupUrl(SyosetuSite site) {
+        switch (site) {
             case NORMAL:
                 return PICKUP_URL;
             case NOCTURNE:
@@ -238,23 +177,12 @@ public class SyosetuUtility
         return "";
     }
 
-    public static String getPickupUrl(SyosetuSite site)
-    {
-        switch (site)
-        {
-            case NORMAL:
-                return PICKUP_URL;
-            case NOCTURNE:
-                return R18_PICKUP_URL;
-        }
-
-        return "";
+    public static String getSearchUrl() {
+        return getSearchUrl(UApplication.syosetuSite);
     }
 
-    public static String getSearchUrl()
-    {
-        switch (UApplication.syosetuSite)
-        {
+    public static String getSearchUrl(SyosetuSite site) {
+        switch (site) {
             case NORMAL:
                 return SEARCH_URL;
             case NOCTURNE:
@@ -264,45 +192,12 @@ public class SyosetuUtility
         return "";
     }
 
-    public static String getSearchUrl(SyosetuSite site)
-    {
-        switch (site)
-        {
-            case NORMAL:
-                return SEARCH_URL;
-            case NOCTURNE:
-                return R18_SEARCH_URL;
-        }
-
-        return "";
+    public static String getSearchResultHost() {
+        return getSearchResultHost(UApplication.syosetuSite);
     }
 
-    public static String getDetailSearchUrl()
-    {
-        switch (UApplication.syosetuSite)
-        {
-            case NORMAL:
-                return DETAIL_SEARCH_URL;
-        }
-
-        return "";
-    }
-
-    public static String getDetailSearchUrl(SyosetuSite site)
-    {
-        switch (site)
-        {
-            case NORMAL:
-                return DETAIL_SEARCH_URL;
-        }
-
-        return "";
-    }
-
-    public static String getSearchResultHost()
-    {
-        switch (UApplication.syosetuSite)
-        {
+    public static String getSearchResultHost(SyosetuSite site) {
+        switch (site) {
             case NORMAL:
                 return READ_URL;
             case NOCTURNE:
@@ -312,23 +207,12 @@ public class SyosetuUtility
         return "";
     }
 
-    public static String getSearchResultHost(SyosetuSite site)
-    {
-        switch (site)
-        {
-            case NORMAL:
-                return READ_URL;
-            case NOCTURNE:
-                return R18_HOME_URL;
-        }
-
-        return "";
+    public static String getPickupPageNumberRegex() {
+        return getPickupPageNumberRegex(UApplication.syosetuSite);
     }
 
-    public static String getPickupPageNumberRegex()
-    {
-        switch (UApplication.syosetuSite)
-        {
+    public static String getPickupPageNumberRegex(SyosetuSite site) {
+        switch (site) {
             case NORMAL:
                 return "<\\s*a\\s+href\\s*=\\s*\"(.*?)\\d*?\"\\s+title\\s*=\\s*\"page\\s+\\d*?\"\\s*>(\\d*?)<\\s*/\\s*a\\s*>";
             case NOCTURNE:
@@ -338,25 +222,14 @@ public class SyosetuUtility
         return "";
     }
 
-    public static String getPickupPageNumberRegex(SyosetuSite site)
-    {
-        switch (site)
-        {
-            case NORMAL:
-                return "<\\s*a\\s+href\\s*=\\s*\"(.*?)\\d*?\"\\s+title\\s*=\\s*\"page\\s+\\d*?\"\\s*>(\\d*?)<\\s*/\\s*a\\s*>";
-            case NOCTURNE:
-                return "<\\s*a\\s+href\\s*=\\s*\"(.*?)\\d*?\"\\s+title\\s*=\\s*\"\\d*?\\s+ページ\"\\s*>(\\d*?)<\\s*/\\s*a\\s*>";
-        }
-
-        return "";
+    public static String getSearchResultPageNumberTokenRegex() {
+        return getSearchResultPageNumberTokenRegex(UApplication.syosetuSite);
     }
 
-    public static String getSearchResultPageNumberTokenRegex()
-    {
-        switch (UApplication.syosetuSite)
-        {
+    public static String getSearchResultPageNumberTokenRegex(SyosetuSite site) {
+        switch (site) {
             case NORMAL:
-                return "<\\s*div\\s+class\\s*=\\s*\"\\s*searchdate_box\\s*\"\\s*>";
+                return "<\\s*div\\s+class\\s*=\\s*\"\\s*pager\\s*\"\\s*>";
             case NOCTURNE:
                 return "<\\s*p\\s+class\\s*=\\s*\"\\s*pager\\s*\"\\s*>";
         }
@@ -364,36 +237,12 @@ public class SyosetuUtility
         return "";
     }
 
-    public static String getSearchResultPageNumberTokenRegex(SyosetuSite site)
-    {
-        switch (site)
-        {
-            case NORMAL:
-                return "<\\s*div\\s+class\\s*=\\s*\"\\s*searchdate_box\\s*\"\\s*>";
-            case NOCTURNE:
-                return "<\\s*p\\s+class\\s*=\\s*\"\\s*pager\\s*\"\\s*>";
-        }
-
-        return "";
+    public static String getSearchResultPageNumberTokenTag() {
+        return getSearchResultPageNumberTokenTag(UApplication.syosetuSite);
     }
 
-    public static String getSearchResultPageNumberTokenTag()
-    {
-        switch (UApplication.syosetuSite)
-        {
-            case NORMAL:
-                return "div";
-            case NOCTURNE:
-                return "p";
-        }
-
-        return "";
-    }
-
-    public static String getSearchResultPageNumberTokenTag(SyosetuSite site)
-    {
-        switch (site)
-        {
+    public static String getSearchResultPageNumberTokenTag(SyosetuSite site) {
+        switch (site) {
             case NORMAL:
                 return "div";
             case NOCTURNE:
@@ -404,15 +253,12 @@ public class SyosetuUtility
     }
 
 
-    public static View.OnClickListener clickOfTitle(final String url)
-    {
+    public static View.OnClickListener clickOfTitle(final String url) {
         if (TextUtils.isEmpty(url)) return null;
 
-        return new View.OnClickListener()
-        {
+        return new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), NovelActivity.class);
                 intent.putExtra(NovelActivity.ARG_NOVEL_URL, url);
                 v.getContext().startActivity(intent);
@@ -420,15 +266,12 @@ public class SyosetuUtility
         };
     }
 
-    public static View.OnClickListener clickOfAuthor(final String url, final String name)
-    {
+    public static View.OnClickListener clickOfAuthor(final String url, final String name) {
         if (TextUtils.isEmpty(url)) return null;
 
-        return new View.OnClickListener()
-        {
+        return new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), AuthorActivity.class);
                 intent.putExtra(AuthorActivity.ARG_AUTHOR_URL, url);
                 intent.putExtra(AuthorActivity.ARG_AUTHOR_NAME, name);
@@ -437,15 +280,12 @@ public class SyosetuUtility
         };
     }
 
-    public static View.OnClickListener clickOfInfo(final String url)
-    {
+    public static View.OnClickListener clickOfInfo(final String url) {
         if (TextUtils.isEmpty(url)) return null;
 
-        return new View.OnClickListener()
-        {
+        return new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), NovelInfoActivity.class);
                 intent.putExtra(NovelInfoActivity.ARG_NOVEL_INFO_URL, url);
                 v.getContext().startActivity(intent);
@@ -454,11 +294,9 @@ public class SyosetuUtility
     }
 
 
-    public static void setUrlMovement(String scheme, Spannable content, UrlCallback callback)
-    {
+    public static void setUrlMovement(String scheme, Spannable content, UrlCallback callback) {
         URLSpan[] spans = content.getSpans(0, content.length(), URLSpan.class);
-        for (URLSpan span : spans)
-        {
+        for (URLSpan span : spans) {
             int urlStart = content.getSpanStart(span);
             int urlEnd = content.getSpanEnd(span);
             int urlFlags = content.getSpanFlags(span);
@@ -476,15 +314,12 @@ public class SyosetuUtility
     }
 
     public static String constructSubtitle(
-            Context context, String index, int length, SyosetuSource source)
-    {
+            Context context, String index, int length, SyosetuSource source) {
         String result = "";
         String lengthStr;
 
-        if (length >= 0)
-        {
-            if (length >= 1000)
-            {
+        if (length >= 0) {
+            if (length >= 1000) {
                 lengthStr = new DecimalFormat(".0")
                         .format((float) length / 1000) + "k";
             } else
@@ -498,8 +333,7 @@ public class SyosetuUtility
             result += "  ";
         }
 
-        switch (source)
-        {
+        switch (source) {
             case CACHE:
                 result += context.getString(R.string.source_cache);
                 break;
@@ -515,46 +349,38 @@ public class SyosetuUtility
     }
 
     public static String constructSectionId(
-            String ncode, String sectionUrl)
-    {
+            String ncode, String sectionUrl) {
         return ncode + ":" + HtmlUtility.getUrlRear(sectionUrl);
     }
 
 
-    public static class SyosetuUrlSpan extends URLSpan
-    {
+    public static class SyosetuUrlSpan extends URLSpan {
         private UrlCallback mCallback;
 
-        public SyosetuUrlSpan(String url)
-        {
+        public SyosetuUrlSpan(String url) {
             super(url);
         }
 
-        public SyosetuUrlSpan(Parcel src)
-        {
+        public SyosetuUrlSpan(Parcel src) {
             super(src);
         }
 
 
-        public void setCallback(UrlCallback callback)
-        {
+        public void setCallback(UrlCallback callback) {
             mCallback = callback;
         }
 
 
         @Override
-        public void updateDrawState(TextPaint ds)
-        {
+        public void updateDrawState(TextPaint ds) {
             ds.setColor(ds.linkColor);
             ds.setUnderlineText(false);
         }
 
         @Override
-        public void onClick(View widget)
-        {
+        public void onClick(View widget) {
             String url = getURL();
-            if (mCallback != null)
-            {
+            if (mCallback != null) {
                 url = HtmlUtility.decodeUrl(url);
                 mCallback.onClick(url, widget);
             }
@@ -562,8 +388,7 @@ public class SyosetuUtility
     }
 
 
-    public interface UrlCallback
-    {
+    public interface UrlCallback {
         void onClick(String url, View widget);
     }
 }
