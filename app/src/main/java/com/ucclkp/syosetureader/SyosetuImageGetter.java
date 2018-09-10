@@ -39,6 +39,9 @@ public class SyosetuImageGetter implements Html.ImageGetter
     public Drawable getDrawable(String source)
     {
         UrlDrawable urlDrawable;
+        if (source.startsWith("//")) {
+            source = "http:" + source;
+        }
 
         Bitmap bmp = mCacheMgr.getBitmap(source);
         if (bmp != null)

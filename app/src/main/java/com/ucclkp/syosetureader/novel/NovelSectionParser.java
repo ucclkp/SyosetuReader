@@ -106,24 +106,23 @@ public class NovelSectionParser extends HtmlDataPipeline<NovelSectionParser.Sect
 
 
     private final static String NovelSectionToken
-            = "<\\s*div\\s+id\\s*=\\s*\"\\s*novel_color\\s*\"\\s*>";
-
+            = "<div id=\"novel_color\">";
     private final static String NovelSectionNavToken
-            = "<\\s*div\\s+class\\s*=\\s*\"\\s*novel_bn\\s*\"\\s*>";
+            = "<div class=\"novel_bn\">";
     private final static String NovelSectionNumberToken
-            = "<\\s*div\\s+id\\s*=\\s*\"\\s*novel_no\\s*\"\\s*>";
+            = "<div id=\"novel_no\">";
     private final static String NovelSectionSubtitleToken
-            = "<\\s*p\\s+class\\s*=\\s*\"\\s*novel_subtitle\\s*\"\\s*>";
+            = "<p\\s+class=\"novel_subtitle\"\\s*>";
 
     private final static String NovelSectionNavPrev
-            = "<\\s*a\\s+href\\s*=\\s*\"(.*?)\"\\s*>[\\s\\S]*?前へ[\\s\\S]*?<\\s*/\\s*a\\s*>";
+            = "<a href=\"(.*?)\">[\\s\\S]*?前へ[\\s\\S]*?</a>";
     private final static String NovelSectionNavNext
-            = "[\\s\\S]*<\\s*a\\s+href\\s*=\\s*\"(.*?)\"\\s*>[\\s\\S]*?次へ[\\s\\S]*?<\\s*/\\s*a\\s*>";
+            = "[\\s\\S]*<a href=\"(.*?)\">[\\s\\S]*?次へ[\\s\\S]*?</a>";
 
     private final static String NovelHeadTextToken
-            = "<\\s*div\\s+id\\s*=\\s*\"\\s*novel_p\\s*\"\\s+class\\s*=\\s*\"\\s*novel_view\\s*\"\\s*>";
+            = "<div\\s+id=\"novel_p\"\\s+class=\"novel_view\"\\s*>";
     private final static String NovelTextToken
-            = "<\\s*div\\s+id\\s*=\\s*\"\\s*novel_honbun\"\\s+class\\s*=\\s*\"\\s*novel_view\\s*\"\\s*>";
+            = "<div\\s+id=\"novel_honbun\"\\s+class=\"novel_view\"\\s*>";
     private final static String NovelFootTextToken
-            = "<\\s*div\\s+id\\s*=\\s*\"\\s*novel_a\\s*\"\\s+class=\\s*\"\\s*novel_view\\s*\"\\s*>";
+            = "<div\\s+id=\"novel_a\"\\s+class=\"novel_view\"\\s*>";
 }

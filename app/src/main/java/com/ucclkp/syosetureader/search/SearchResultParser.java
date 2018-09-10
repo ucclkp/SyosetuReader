@@ -424,39 +424,39 @@ class SearchResultParser extends HtmlDataPipeline<SearchResultParser.SearchData>
 
 
     private final static String ListItemToken
-            = "<\\s*div\\s+class\\s*=\\s*\"\\s*searchkekka_box\\s*\"\\s*>";
+            = "<div\\s+class=\"searchkekka_box\"\\s*>";
 
     private final static String PageNumberToken
-            = "<\\s*div\\s+class\\s*=\\s*\"\\s*searchdate_box\\s*\"\\s*>";
+            = "<div\\s+class=\"searchdate_box\"\\s*>";
     private final static String PageNumber
-            = "<\\s*a\\s+href\\s*=[\\s\\S]*?>(\\d*?)<\\s*/\\s*a\\s*>";
+            = "<a\\s+href=[\\s\\S]*?>(\\d*?)</a>";
 
     private final static String NovelTitleToken
-            = "<\\s*div\\s+class\\s*=\\s*\"\\s*novel_h\\s*\"\\s*>";
+            = "<div\\s+class=\"novel_h\"\\s*>";
 
     private final static String ItemLinkToken
-            = "<\\s*a[\\s\\S]*?href\\s*=\\s*\"(.*?)\"[\\s\\S]*?>(.*?)<\\s*/\\s*a\\s*>";
+            = "<a[\\s\\S]*?href=\"(.*?)\"[\\s\\S]*?>(.*?)</a>";
 
     private final static String ItemTypeToken
-            = "<\\s*td\\s+class\\s*=\\s*\"\\s*left\\s*\"[\\s\\S]*?>";
+            = "<td\\s+class=\"left\"[\\s\\S]*?>";
     private final static String ItemSummaryToken
-            = "<\\s*div\\s+class\\s*=\\s*\"\\s*ex\\s*\"\\s*>";
+            = "<div\\s+class=\"ex\"\\s*>";
     private final static String ItemSummary18Token
-            = "<\\s*td\\s+class\\s*=\\s*\"\\s*ex\\s*\"\\s*>";
+            = "<td\\s+class=\"ex\"\\s*>";
     private final static String ItemGenreToken
             = "ジャンル：(.*?)<\\s*br\\s*/\\s*>\\s*キーワード：";
     private final static String ItemReadingTimeToken
-            = "\\s*?<\\s*span\\s+class\\s*=\\s*\"\\s*marginleft\\s*\"\\s*>\\s*読了時間：(.*?)<\\s*/\\s*span\\s*>";
+            = "\\s*?<span\\s+class=\"marginleft\"\\s*>\\s*読了時間：(.*?)</span>";
     private final static String ItemUUAndRVToken
             = "週別ユニークユーザ：\\s*?(.*?人)[\\S\\s]*?レビュー数：\\s*?(.*?件)";
     private final static String ItemOverallToken
-            = "総合評価ポイント：\\s*(.*?)\\s*<\\s*/\\s*span\\s*>";
+            = "総合評価ポイント：\\s*(.*?)\\s*</span>";
     private final static String ItemRankUserCountToken
-            = "評価人数：\\s*(.*?)\\s*<\\s*span";
+            = "評価人数：\\s*(.*?)\\s*<span";
     private final static String ItemRankPointToken
-            = "評価点：\\s*(.*?)\\s*<\\s*/\\s*span\\s*>";
+            = "評価点：\\s*(.*?)\\s*</span>";
     private final static String ItemBookmarkToken
-            = "ブックマーク：\\s*(.*?)\\s*<\\s*/\\s*span\\s*>";
+            = "ブックマーク：\\s*(.*?)\\s*</span>";
 
     private final static String ItemPCContriImageUrl
             = "http://static.syosetu.com/sub/yomouview/images/pc_toko.gif";

@@ -307,48 +307,48 @@ class AuthorParser extends HtmlDataPipeline<Object> {
 
 
     private final static String BaseMainToken
-            = "<\\s*div\\s+id\\s*=\\s*\"\\s*main\\s*\"\\s*>";
+            = "<div\\s+id=\"main\"\\s*>";
     private final static String BaseProfileToken
-            = "<\\s*dl\\s+class\\s*=\\s*\"\\s*profile\\s*\"\\s*>";
+            = "<dl\\s+class=\"profile\"\\s*>";
     private final static String BaseProfileTitle
-            = "<\\s*dt[\\s\\S]*?>(.*?)<\\s*/\\s*dt\\s*>";
+            = "<dt[\\s\\S]*?>(.*?)</dt>";
     private final static String BaseProfileContent
-            = "<\\s*dd[\\s\\S]*?>";
+            = "<dd[\\s\\S]*?>";
 
     private final static String Base18SubToken
-            = "<\\s*div\\s+id\\s*=\\s*\"\\s*sub\\s*\"\\s*>";
+            = "<div\\s+id=\"sub\"\\s*>";
     private final static String Base18ProfileToken
-            = "<\\s*ul\\s+id\\s*=\\s*\"\\s*profile\\s*\"\\s*>";
+            = "<ul\\s+id=\"profile\"\\s*>";
     private final static String Base18ProfileTitle
-            = "<\\s*li[\\s\\S]*?>";
+            = "<li[\\s\\S]*?>";
 
     private final static String WorkMainToken = BaseMainToken;
     private final static String WorkPageNumberToken
             = "<div class=\"pager_idou\">";
     private final static String WorkPageNumber
-            = "<\\s*a\\s+href\\s*=[\\s\\S]*?title\\s*=\\s*\"page\\s+\\d*?\"\\s*>(\\d*?)<\\s*/\\s*a\\s*>";
+            = "<a\\s+href=[\\s\\S]*?title=\"page\\s+\\d*?\"\\s*>(\\d*?)</a>";
     private final static String WorkListToken
-            = "<\\s*div\\s+id\\s*=\\s*\"\\s*novellist\\s*\"\\s*>";
+            = "<div\\s+id=\"novellist\">";
 
     private final static String WorkTitleToken
-            = "<\\s*li\\s+class\\s*=\\s*\"\\s*title\\s*\"\\s*>";
+            = "<li\\s+class=\"title\"\\s*>";
     private final static String WorkSummaryToken
-            = "<\\s*li\\s+class\\s*=\\s*\"\\s*ex\\s*\"\\s*>";
+            = "<li\\s+class=\"ex\"\\s*>";
     private final static String WorkExtraToken
-            = "<\\s*li\\s+class\\s*=\\s*\"\\s*date1\\s*\"\\s*>";
+            = "<li\\s+class=\"date1\"\\s*>";
     private final static String WorkGenreToken
-            = "<\\s*span\\s+class\\s*=\\s*\"\\s*genre\\s*\"\\s*>(.*?)<\\s*/\\s*span\\s*>";
+            = "<span\\s+class=\"genre\"\\s*>(.*?)</span>";
     private final static String WorkTypeToken
-            = "<\\s*span\\s+class\\s*=\\s*\"\\s*type\\s*\"\\s*>(.*?)<\\s*/\\s*span\\s*>";
+            = "<span\\s+class=\"type\">(.*?)</span>";
     private final static String WorkInfoToken
-            = "<\\s*p\\s+class\\s*=\\s*\"\\s*info\\s*\"\\s*>";
+            = "<p\\s+class=\"info\">";
     private final static String WorkKeywordToken
-            = "<\\s*li\\s+class\\s*=\\s*\"\\s*keyword\\s*\"\\s*>";
+            = "<li\\s+class=\"keyword\"\\s*>";
     private final static String WorkReadingTimeToken
-            = "<\\s*li\\s+class\\s*=\\s*\"\\s*date\\s*\"\\s*>";
+            = "<li\\s+class=\"date\">";
     private final static String WorkAttentionToken
-            = "<\\s*span\\s*>(.*?)<\\s*/\\s*span\\s*>";
+            = "<span>(.*?)</span>";
 
     private final static String UrlToken
-            = "<\\s*a[\\s\\S]*?href\\s*=\\s*\"(.*?)\"[\\s\\S]*?>(.*?)<\\s*/\\s*a\\s*>";
+            = "<a[\\s\\S]*?href=\"(.*?)\"[\\s\\S]*?>(.*?)</a>";
 }

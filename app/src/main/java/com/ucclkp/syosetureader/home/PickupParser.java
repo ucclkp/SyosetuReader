@@ -157,14 +157,14 @@ class PickupParser extends HtmlDataPipeline<PickupParser.HomeData>
 
 
     private final static String ListItemToken
-            = "<\\s*div\\s+class\\s*=\\s*\"\\s*trackback_list\\s*\"\\s*>";
+            = "<div\\s+class=\"trackback_list\"\\s*>";
 
     private final static String PageNumberToken
-            = "<\\s*div\\s+class\\s*=\\s*\"\\s*naviall_c\\s*\"\\s*>";
+            = "<div\\s+class=\"naviall_c\"\\s*>";
 
     private final static String ItemSepToken
-            = "<\\s*div\\s+class\\s*=\\s*\"\\s*trackback_listdiv\\s*\"\\s*>";
+            = "<div\\s+class=\"trackback_listdiv\"\\s*>";
 
     private final static String ItemLinkToken
-            = "<\\s*a[\\s\\S]*?href\\s*=\\s*\"(.*?)\"[\\s\\S]*?>(.*?)<\\s*/\\s*a\\s*>";
+            = "<a[\\s\\S]*?href=\"(.*?)\"[\\s\\S]*?>(.*?)</a>";
 }

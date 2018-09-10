@@ -223,29 +223,29 @@ class NovelInfoParser extends HtmlDataPipeline<NovelInfoParser.NovelInfoData>
 
 
     private final static String UrlToken
-            = "<\\s*a[\\s\\S]*?href\\s*=\\s*\"(.*?)\"[\\s\\S]*?>(.*?)<\\s*/\\s*a\\s*>";
+            = "<a[\\s\\S]*?href=\"(.*?)\"[\\s\\S]*?>(.*?)</a>";
 
     private final static String ContentMainToken
-            = "<\\s*div\\s+id\\s*=\\s*\"\\s*contents_main\\s*\"\\s*>";
+            = "<div\\s+id=\"contents_main\"\\s*>";
     private final static String NovelCodeToken
-            = "<\\s*p\\s+title\\s*=\\s*\"\\s*Nコード\\s*\"\\s+id\\s*=\\s*\"\\s*ncode\\s*\"\\s*>(.*?)<\\s*/\\s*p\\s*>";
+            = "<p\\s+title=\"Nコード\"\\s+id=\"ncode\"\\s*>(.*?)</p>";
     private final static String NovelTitleToken
-            = "<\\s*h1\\s*><\\s*a[\\s\\S]*?href\\s*=\\s*\"(.*?)\"[\\s\\S]*?>(.*?)<\\s*/\\s*a\\s*><\\s*/\\s*h1\\s*>";
+            = "<h1><a[\\s\\S]*?href=\"(.*?)\"[\\s\\S]*?>(.*?)</a></h1>";
 
     private final static String PreInfoToken
-            = "<\\s*div\\s+id\\s*=\\s*\"\\s*pre_info\\s*\"\\s*>";
+            = "<div\\s+id=\"pre_info\"\\s*>";
     private final static String NovelTypeToken
-            = "<\\s*span\\s+id=\\s*\"\\s*noveltype[\\s\\S]*?>(.*?)<\\s*/\\s*span\\s*>";
+            = "<span\\s+id=\"noveltype[\\s\\S]*?>(.*?)</span>";
 
     private final static String NovelTable1Token
-            = "<\\s*table\\s+id\\s*=\\s*\"\\s*noveltable1\\s*\"\\s*>";
+            = "<table\\s+id=\"noveltable1\"\\s*>";
     private final static String AuthorUrlToken
-            = "<\\s*a[\\s\\S]*?href\\s*=\\s*\"(http://[x]*?mypage\\.syosetu\\.com[\\s\\S]*?)\"\\s*>(.*?)<\\s*/\\s*a\\s*>";
+            = "<a[\\s\\S]*?href=\"(http://[x]*?mypage\\.syosetu\\.com[\\s\\S]*?)\"\\s*>(.*?)</a>";
     private final static String GenreToken
             = "ジャンル";
     private final static String KeywordsToken
             = "キーワード";
 
     private final static String NovelTable2Token
-            = "<\\s*table\\s+id\\s*=\\s*\"\\s*noveltable2\\s*\"\\s*>";
+            = "<table\\s+id=\"noveltable2\"\\s*>";
 }

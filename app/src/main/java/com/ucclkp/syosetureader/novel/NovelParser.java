@@ -55,14 +55,14 @@ public class NovelParser extends HtmlDataPipeline<NovelParser.NovelData>
 
 
     @Override
-    public NovelData onStartParse(RetrieveHtmlData htmldata)
+    public NovelData onStartParse(RetrieveHtmlData htmlData)
     {
         NovelData data = new NovelData();
-        String source = htmldata.htmlCode;
+        String source = htmlData.htmlCode;
 
         SyosetuUtility.SyosetuSite site;
-        if (htmldata.redirection)
-            site = SyosetuUtility.getSiteFromNovelUrl(htmldata.location);
+        if (htmlData.redirection)
+            site = SyosetuUtility.getSiteFromNovelUrl(htmlData.location);
         else
             site = UApplication.syosetuSite;
 
@@ -208,41 +208,41 @@ public class NovelParser extends HtmlDataPipeline<NovelParser.NovelData>
 
 
     private final static String NovelHeadAttentionToken
-            = "<\\s*div\\s+class\\s*=\\s*\"\\s*contents1\\s*\"\\s*>";
+            = "<div\\s+class=\"contents1\"\\s*>";
     private final static String NovelHeadTitleToken
-            = "<\\s*p\\s+class\\s*=\\s*\"\\s*novel_title\\s*\"\\s*>";
+            = "<p\\s+class=\"novel_title\"\\s*>";
     private final static String NovelHeadAuthorToken
-            = "<\\s*div\\s+class=\\s*\"\\s*novel_writername\\s*\"\\s*>";
+            = "<div\\s+class=\"novel_writername\"\\s*>";
     private final static String NovelHeadSummaryToken
-            = "<\\s*div\\s+id=\\s*\"\\s*novel_ex\\s*\"\\s*>";
+            = "<div\\s+id=\"novel_ex\"\\s*>";
     private final static String NovelHeadSeriesToken
-            = "<\\s*p\\s+class\\s*=\\s*\"\\s*series_title\\s*\"\\s*>";
+            = "<p\\s+class=\"series_title\"\\s*>";
 
     private final static String NovelContentsToken
-            = "<\\s*div\\s+class=\\s*\"\\s*index_box\\s*\"\\s*>";
+            = "<div\\s+class=\"index_box\">";
     private final static String NovelChOrSeToken
-            = "<\\s*div\\s+class=\\s*\"\\s*chapter_title\\s*\"\\s*>|<\\s*dl\\s+class\\s*=\\s*\"\\s*novel_sublist2\\s*\"\\s*>";
+            = "<div\\s+class=\"chapter_title\"\\s*>|<dl\\s+class=\"novel_sublist2\"\\s*>";
     private final static String NovelSectionTitleToken
-            = "<\\s*dd\\s+class\\s*=\\s*\"\\s*subtitle\\s*\"\\s*>";
+            = "<dd\\s+class=\"subtitle\"\\s*>";
     private final static String NovelSectionTimeToken
-            = "<\\s*dt\\s+class=\\s*\"\\s*long_update\\s*\"\\s*>";
+            = "<dt\\s+class=\"long_update\"\\s*>";
 
     private final static String NovelHeadTextToken
-            = "<\\s*div\\s+id\\s*=\\s*\"\\s*novel_p\\s*\"\\s+class\\s*=\\s*\"\\s*novel_view\\s*\"\\s*>";
+            = "<div\\s+id=\"novel_p\"\\s+class=\"novel_view\"\\s*>";
     private final static String NovelTextToken
-            = "<\\s*div\\s+id\\s*=\\s*\"\\s*novel_honbun\"\\s+class\\s*=\\s*\"\\s*novel_view\\s*\"\\s*>";
+            = "<div\\s+id=\"novel_honbun\"\\s+class=\"novel_view\"\\s*>";
     private final static String NovelFootTextToken
-            = "<\\s*div\\s+id\\s*=\\s*\"\\s*novel_a\\s*\"\\s+class=\\s*\"\\s*novel_view\\s*\"\\s*>";
+            = "<div\\s+id=\"novel_a\"\\s+class=\"novel_view\"\\s*>";
 
     private final static String UrlToken
-            = "<\\s*a[\\s\\S]*?href\\s*=\\s*\"(.*?)\"[\\s\\S]*?>(.*?)<\\s*/\\s*a\\s*>";
+            = "<a[\\s\\S]*?href=\"(.*?)\"[\\s\\S]*?>(.*?)</a>";
     private final static String NovelSectionEditTime
-            = "<\\s*span\\s+title\\s*=\\s*\"(.*?)改稿\\s*\"\\s*>";
+            = "<span\\s+title=\"(.*?)改稿\"\\s*>";
 
     private final static String NovelInfoUrlToken
-            = "<\\s*li\\s*><\\s*a\\s+href\\s*=\\s*\"(.*?)\"\\s*>小説情報<\\s*/\\s*a\\s*><\\s*/\\s*li\\s*>";
+            = "<li><a\\s+href=\"(.*?)\"\\s*>小説情報</a></li>";
     private final static String FeelUrlToken
-            = "<\\s*li\\s*><\\s*a\\s+href\\s*=\\s*\"(.*?)\"\\s*>感想<\\s*/\\s*a\\s*><\\s*/\\s*li\\s*>";
+            = "<li><a\\s+href=\"(.*?)\"\\s*>感想</a></li>";
     private final static String ReviewUrlToken
-            = "<\\s*li\\s*><\\s*a\\s+href\\s*=\\s*\"(.*?)\"\\s*>レビュー<\\s*/\\s*a\\s*><\\s*/\\s*li\\s*>";
+            = "<li><a\\s+href=\"(.*?)\"\\s*>レビュー</a></li>";
 }
