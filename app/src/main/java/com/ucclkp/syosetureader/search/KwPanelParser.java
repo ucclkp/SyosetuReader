@@ -73,6 +73,7 @@ public class KwPanelParser extends HtmlDataPipeline<KwPanelParser.KeywordData> {
             KwAtom atom = new KwAtom();
             atom.type = KT_TITLE;
             atom.title = HtmlUtility.getTagContent(typeContent, "th", false);
+            atom.title = atom.title.replaceAll("<br />", "");
             dataList.add(atom);
 
             ListParser word_lp = new ListParser();

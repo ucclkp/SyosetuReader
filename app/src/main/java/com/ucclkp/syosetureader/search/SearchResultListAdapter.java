@@ -361,8 +361,7 @@ class SearchResultListAdapter extends RecyclerView.Adapter
                 + item.readingTime + "\n"
                 + mContext.getString(R.string.prefix_weekuu)
                 + item.weekUniqueUser + "\n"
-                + mContext.getString(R.string.prefix_review)
-                + item.review + "\n"
+                + (item.review.isEmpty() ? "" : (mContext.getString(R.string.prefix_review) + item.review + "\n"))
                 + mContext.getString(R.string.prefix_overall)
                 + item.overallPoint + "\n"
                 + mContext.getString(R.string.prefix_rankuc)

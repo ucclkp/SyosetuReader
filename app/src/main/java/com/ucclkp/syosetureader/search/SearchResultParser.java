@@ -155,7 +155,7 @@ class SearchResultParser extends HtmlDataPipeline<SearchResultParser.SearchData>
         if (!type.isEmpty())
         {
             lastIndex = position[1];
-            item.type = type.trim().replaceAll("<\\s*br\\s*/\\s*>", "");
+            item.type = type.trim().replaceAll("<br />", "").trim();
         }
 
         //summary
@@ -236,6 +236,14 @@ class SearchResultParser extends HtmlDataPipeline<SearchResultParser.SearchData>
             item.overallPoint = matcher.group(1).trim();
         }
 
+        matcher = Pattern.compile(ItemBookmarkToken).matcher(itemSource);
+        matcher.region(lastIndex, itemSource.length());
+        if (matcher.find())
+        {
+            lastIndex = matcher.end();
+            item.bookmarkCount = matcher.group(1).trim();
+        }
+
         matcher = Pattern.compile(ItemRankUserCountToken).matcher(itemSource);
         matcher.region(lastIndex, itemSource.length());
         if (matcher.find())
@@ -250,14 +258,6 @@ class SearchResultParser extends HtmlDataPipeline<SearchResultParser.SearchData>
         {
             lastIndex = matcher.end();
             item.rankPoint = matcher.group(1).trim();
-        }
-
-        matcher = Pattern.compile(ItemBookmarkToken).matcher(itemSource);
-        matcher.region(lastIndex, itemSource.length());
-        if (matcher.find())
-        {
-            lastIndex = matcher.end();
-            item.bookmarkCount = matcher.group(1).trim();
         }
 
         return true;
@@ -364,13 +364,12 @@ class SearchResultParser extends HtmlDataPipeline<SearchResultParser.SearchData>
             item.hasIllustration = true;
 
         //unique user, review
-        matcher = Pattern.compile(ItemUUAndRVToken).matcher(itemSource);
+        matcher = Pattern.compile(ItemUUAndRV18Token).matcher(itemSource);
         matcher.region(lastIndex, itemSource.length());
         if (matcher.find())
         {
             lastIndex = matcher.end();
             item.weekUniqueUser = matcher.group(1).trim();
-            item.review = matcher.group(2).trim();
         }
 
         //overall
@@ -383,7 +382,7 @@ class SearchResultParser extends HtmlDataPipeline<SearchResultParser.SearchData>
         }
 
         //rank user count
-        matcher = Pattern.compile(ItemRankUserCountToken).matcher(itemSource);
+        matcher = Pattern.compile(ItemRankUserCount18Token).matcher(itemSource);
         matcher.region(lastIndex, itemSource.length());
         if (matcher.find())
         {
@@ -401,7 +400,7 @@ class SearchResultParser extends HtmlDataPipeline<SearchResultParser.SearchData>
         }
 
         //bookmark
-        matcher = Pattern.compile(ItemBookmarkToken).matcher(itemSource);
+        matcher = Pattern.compile(ItemBookmark18Token).matcher(itemSource);
         matcher.region(lastIndex, itemSource.length());
         if (matcher.find())
         {
@@ -450,12 +449,19 @@ class SearchResultParser extends HtmlDataPipeline<SearchResultParser.SearchData>
     private final static String ItemUUAndRVToken
             = "週別ユニークユーザ：\\s*?(.*?人)[\\S\\s]*?レビュー数：\\s*?(.*?件)";
     private final static String ItemOverallToken
-            = "総合評価ポイント：\\s*(.*?)\\s*</span>";
+            = "総合ポイント：\\s*(.*?)\\s*</span>";
     private final static String ItemRankUserCountToken
-            = "評価人数：\\s*(.*?)\\s*<span";
+            = "評価人数：\\s*(.*?)\\s*</span>";
     private final static String ItemRankPointToken
             = "評価点：\\s*(.*?)\\s*</span>";
     private final static String ItemBookmarkToken
+            = "ブックマーク：\\s*(.*?)\\s*<span";
+
+    private final static String ItemUUAndRV18Token
+            = "週別ユニークユーザ：\\s*?(.*?)\\s*?<span";
+    private final static String ItemRankUserCount18Token
+            = "評価人数：\\s*(.*?)\\s*<span";
+    private final static String ItemBookmark18Token
             = "ブックマーク：\\s*(.*?)\\s*</span>";
 
     private final static String ItemPCContriImageUrl
