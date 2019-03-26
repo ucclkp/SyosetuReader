@@ -197,7 +197,7 @@ public class NovelParser extends HtmlDataPipeline<NovelParser.NovelData>
                 footSpan.append(Html.fromHtml(footText, mImageGetter, null));
             }
 
-            data.length = normalSpan.toString().length();
+            data.length = SyosetuUtility.getCharCount(normalSpan.toString());
             data.headSummary = headSpan
                     .append(normalSpan)
                     .append(footSpan);

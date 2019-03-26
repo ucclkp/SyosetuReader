@@ -841,8 +841,7 @@ public class NovelFragment extends Fragment
 
         JSONObject jsonObject = new JSONObject();
 
-        try
-        {
+        try {
             jsonObject.put("cache_length", mSavedNovelData.length);
             jsonObject.put("cache_attention", mSavedNovelData.headAttention);
             jsonObject.put("cache_author", mSavedNovelData.headAuthor);
@@ -858,8 +857,7 @@ public class NovelFragment extends Fragment
 
             ((UApplication) getActivity().getApplication())
                     .getCacheManager().putText(mNovelUrl, jsonObject.toString());
-        } catch (JSONException e)
-        {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }

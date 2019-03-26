@@ -96,7 +96,7 @@ public class NovelSectionParser extends HtmlDataPipeline<NovelSectionParser.Sect
 
             headSpan.append(normalSpan).append(footSpan);
 
-            data.length = normalSpan.toString().length();
+            data.length = SyosetuUtility.getCharCount(normalSpan.toString());
             data.title = Html.fromHtml(subtitle).toString();
             data.sectionContent = headSpan;
         }

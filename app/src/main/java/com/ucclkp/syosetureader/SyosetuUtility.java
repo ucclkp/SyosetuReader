@@ -13,7 +13,9 @@ import com.ucclkp.syosetureader.author.AuthorActivity;
 import com.ucclkp.syosetureader.novel.NovelActivity;
 import com.ucclkp.syosetureader.novelinfo.NovelInfoActivity;
 
+import java.text.CharacterIterator;
 import java.text.DecimalFormat;
+import java.text.StringCharacterIterator;
 
 public class SyosetuUtility {
     public final static String HOME_URL = "https://syosetu.com";
@@ -314,7 +316,8 @@ public class SyosetuUtility {
     }
 
     public static String constructSubtitle(
-            Context context, String index, int length, SyosetuSource source) {
+            Context context, String index, int length, SyosetuSource source)
+    {
         String result = "";
         String lengthStr;
 
@@ -326,11 +329,11 @@ public class SyosetuUtility {
                 lengthStr = String.valueOf(length);
 
             if (index == null || index.isEmpty())
-                result = lengthStr + "字";
+                result = lengthStr;
             else
-                result = index + "  " + lengthStr + "字";
+                result = index + "  " + lengthStr;
 
-            result += "  ";
+            result += "字  ";
         }
 
         switch (source) {
@@ -348,11 +351,18 @@ public class SyosetuUtility {
         return result;
     }
 
-    public static String constructSectionId(
-            String ncode, String sectionUrl) {
+    public static String constructSectionId(String ncode, String sectionUrl) {
         return ncode + ":" + HtmlUtility.getUrlRear(sectionUrl);
     }
 
+    public static int getCharCount(String str) {
+        int count = 0;
+        CharacterIterator iter = new StringCharacterIterator(str);
+        for(char c = iter.first(); c != CharacterIterator.DONE; c = iter.next()) {
+            ++count;
+        }
+        return count;
+    }
 
     public static class SyosetuUrlSpan extends URLSpan {
         private UrlCallback mCallback;
@@ -386,7 +396,6 @@ public class SyosetuUtility {
             }
         }
     }
-
 
     public interface UrlCallback {
         void onClick(String url, View widget);

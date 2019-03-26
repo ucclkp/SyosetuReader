@@ -14,22 +14,22 @@
         android:layout_marginStart="10dp">
 
         <ImageButton
-            android:id="@+id/ib_keyword_search"
+            android:id="@+id/ib_close_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:padding="2dp"
-            android:src="@drawable/ic_subject"/>
+            android:src="@drawable/ic_close"
+            android:visibility="gone"/>
 
         <ImageButton
-            android:id="@+id/ib_close_search"
+            android:id="@+id/ib_keyword_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:padding="2dp"
-            android:src="@drawable/ic_close"
-            android:visibility="gone"/>
+            android:src="@drawable/ic_subject"/>
 
     </LinearLayout>
 

@@ -225,9 +225,9 @@ public class NovelSectionFragment extends Fragment
             String number = savedInstanceState.getString(SAVED_SUBTITLE);
             String prevUrl = savedInstanceState.getString(SAVED_PREV_URL);
             String nextUrl = savedInstanceState.getString(SAVED_NEXT_URL);
-            String content = savedInstanceState.getString(SAVED_CONTENT);
-            SpannableStringBuilder contentSpanned =
-                    new SpannableStringBuilder(Html.fromHtml(content, mImageGetter, null));
+            //String content = savedInstanceState.getString(SAVED_CONTENT);
+            SpannableStringBuilder contentSpanned = getCachedContent();
+                    //new SpannableStringBuilder(Html.fromHtml(content, mImageGetter, null));
 
             mNovelSource = SyosetuUtility.SyosetuSource
                     .valueOf(savedInstanceState.getString(SAVED_NOVEL_SOURCE));
@@ -394,7 +394,7 @@ public class NovelSectionFragment extends Fragment
             outState.putString(SAVED_SUBTITLE, mSavedSectionData.number);
             outState.putString(SAVED_PREV_URL, mSavedSectionData.prevUrl);
             outState.putString(SAVED_NEXT_URL, mSavedSectionData.nextUrl);
-            outState.putString(SAVED_CONTENT, Html.toHtml(mSavedSectionData.sectionContent));
+            //outState.putString(SAVED_CONTENT, Html.toHtml(mSavedSectionData.sectionContent));
             outState.putInt(SAVED_CONTENT_LENGTH, mSavedSectionData.length);
             outState.putInt(SAVED_TEXT_OFFSET, textOffset);
             outState.putInt(SAVED_OFFSET, offset);
@@ -563,6 +563,26 @@ public class NovelSectionFragment extends Fragment
         }
 
         return false;
+    }
+
+    private SpannableStringBuilder getCachedContent() {
+        String cached = ((UApplication) getActivity().getApplication())
+                .getCacheManager().getText(
+                        SyosetuUtility.constructSectionId(
+                                mNovelCode, mNovelSectionUrl));
+        if (cached == null) {
+            return null;
+        }
+
+        try {
+            JSONObject jsonObject = new JSONObject(cached);
+            return new SpannableStringBuilder(
+                    Html.fromHtml(jsonObject.getString("cache_content"), mImageGetter, null));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     private boolean restoreFromDownload()
