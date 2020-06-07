@@ -14,6 +14,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.IBinder;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.google.android.material.appbar.AppBarLayout;
 import androidx.fragment.app.Fragment;
@@ -278,14 +280,14 @@ public class NovelFragment extends Fragment
 
         mShortNovelSTV = parent.findViewById(R.id.stv_novel_short);
         mShortNovelSTV.setTextSize(mTextSize);
-        mShortNovelSTV.setLineSpacing(Float.valueOf(mLineSpacingMult), Float.valueOf(mLineSpacingAdd));
+        mShortNovelSTV.setLineSpacing(Float.parseFloat(mLineSpacingMult), Float.parseFloat(mLineSpacingAdd));
         mShortNovelSTV.setBackground(FormatDialogFragment.getBackgroundById(getContext(), mBackgroundId));
 
         return parent;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
 
@@ -412,14 +414,14 @@ public class NovelFragment extends Fragment
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater)
     {
         inflater.inflate(R.menu.menu_novel_content_fragment, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
-    public void onPrepareOptionsMenu(Menu menu)
+    public void onPrepareOptionsMenu(@NonNull Menu menu)
     {
         super.onPrepareOptionsMenu(menu);
 
@@ -535,6 +537,17 @@ public class NovelFragment extends Fragment
                 return true;
             }
 
+            case R.id.menu_novel_content_fragment_action_scroll_to_bottom:
+            {
+                if (mIsShortNovel) {
+                    mShortNovelSTV.scrollToBottom(false);
+                } else {
+                    int count = mSectionListAdapter.getItemCount();
+                    mSectionListView.scrollToPosition(Math.max(count - 1, 0));
+                }
+                return true;
+            }
+
             case R.id.menu_novel_content_fragment_action_copy_ncode:
             {
                 ((ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE))
@@ -561,7 +574,7 @@ public class NovelFragment extends Fragment
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState)
+    public void onSaveInstanceState(@NonNull Bundle outState)
     {
         super.onSaveInstanceState(outState);
 
@@ -638,11 +651,11 @@ public class NovelFragment extends Fragment
         String type = SyosetuUtility.getTypeStr(
                 getActivity(), mIsShortNovel);
 
-        String viewed = "";
+        StringBuilder viewed = new StringBuilder();
         if (!mIsShortNovel)
         {
             for (int i = 0; i < mViewedSection.size(); ++i)
-                viewed += mViewedSection.get(i) + ",";
+                viewed.append(mViewedSection.get(i)).append(",");
         }
 
         String curTime = DateFormat
@@ -651,7 +664,7 @@ public class NovelFragment extends Fragment
         ((UApplication) getActivity().getApplication())
                 .getSyosetuLibrary().insertHisLast(
                 mNovelCode, mNovelUrl, mNovelTitle, curTime, mNovelSite.name(),
-                type, viewed, mCurrentSection, mSectionOffset);
+                type, viewed.toString(), mCurrentSection, mSectionOffset);
     }
 
     private void loadHistory()
@@ -673,10 +686,9 @@ public class NovelFragment extends Fragment
             if (!viewed.isEmpty())
             {
                 String[] viewedSections = viewed.split(",");
-                for (int i = 0; i < viewedSections.length; ++i)
-                {
-                    if (!viewedSections[i].isEmpty())
-                        mViewedSection.add(viewedSections[i]);
+                for (String viewedSection : viewedSections) {
+                    if (!viewedSection.isEmpty())
+                        mViewedSection.add(viewedSection);
                 }
             }
 
@@ -768,7 +780,7 @@ public class NovelFragment extends Fragment
     {
         mLineSpacingAdd = add;
         mLineSpacingMult = mult;
-        mShortNovelSTV.setLineSpacing(Float.valueOf(mult), Float.valueOf(add));
+        mShortNovelSTV.setLineSpacing(Float.parseFloat(mult), Float.parseFloat(add));
     }
 
     public void notifyBackgroundChanged(Drawable drawable, String name)
@@ -1114,6 +1126,9 @@ public class NovelFragment extends Fragment
                     || viewType == NovelListAdapter.TYPE_PREV_TIP)
             {
                 int position = holder.getAdapterPosition();
+                if (viewType == NovelListAdapter.TYPE_PREV_TIP) {
+                    mSectionListView.scrollToPosition(position);
+                }
 
                 NovelListAdapter.BindData data
                         = mSectionListAdapter.getItem(position);

@@ -4,6 +4,8 @@ package com.ucclkp.syosetureader.novel;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.Spanned;
@@ -19,7 +21,7 @@ import com.ucclkp.syosetureader.SyosetuUtility;
 
 import java.util.ArrayList;
 
-class NovelListAdapter extends RecyclerView.Adapter {
+class NovelListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
 
     private boolean mHasFooter;
@@ -89,8 +91,9 @@ class NovelListAdapter extends RecyclerView.Adapter {
     }
 
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
             case TYPE_HEAD: {
                 View convertView = LayoutInflater.from(
@@ -128,6 +131,7 @@ class NovelListAdapter extends RecyclerView.Adapter {
                 return new ChapterViewHolder(convertView);
             }
 
+            default:
             case TYPE_PROGRESSBAR: {
                 View convertView = LayoutInflater.from(
                         parent.getContext()).inflate(R.layout.list_item_progressbar, parent, false);
@@ -137,12 +141,10 @@ class NovelListAdapter extends RecyclerView.Adapter {
                 return new ProgressViewHolder(convertView);
             }
         }
-
-        return null;
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         int viewType = getItemViewType(position);
         switch (viewType) {
             case TYPE_HEAD: {
@@ -262,7 +264,6 @@ class NovelListAdapter extends RecyclerView.Adapter {
     public BindData getItem(int position) {
         return mDataList.get(position);
     }
-
 
     public void addHeader(
             String attention, String title,

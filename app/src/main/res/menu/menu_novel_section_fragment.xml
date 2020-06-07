@@ -20,6 +20,11 @@
         app:showAsAction="never"/>
 
     <item
+        android:id="@+id/menu_novel_section_fragment_action_scroll_to_bottom"
+        android:title="滚动到底部"
+        app:showAsAction="never"/>
+
+    <item
         android:id="@+id/menu_novel_section_fragment_action_copy"
         android:title="复制NCODE"
         app:showAsAction="never"/>

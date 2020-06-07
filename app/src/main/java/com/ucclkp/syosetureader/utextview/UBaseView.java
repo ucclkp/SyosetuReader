@@ -170,9 +170,7 @@ public abstract class UBaseView extends View implements NestedScrollingChild
         {
             if (deltaY > 0)
             {
-                if (getScrollY() == 0)
-                    realDeltaY = 0;
-                else if (getScrollY() > 0)
+                if (getScrollY() > 0)
                 {
                     if (getScrollY() >= deltaY)
                         realDeltaY = (int) deltaY;
@@ -181,9 +179,7 @@ public abstract class UBaseView extends View implements NestedScrollingChild
                 }
             } else if (deltaY < 0)
             {
-                if (textManagerHeight - getScrollY() == displayHeight)
-                    realDeltaY = 0;
-                else
+                if (textManagerHeight - getScrollY() != displayHeight)
                 {
                     if (displayHeight - (textManagerHeight - getScrollY()) <= deltaY)
                         realDeltaY = (int) deltaY;

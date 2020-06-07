@@ -5,7 +5,7 @@ android {
     buildToolsVersion '29.0.3'
     defaultConfig {
         applicationId "com.ucclkp.syosetureader"
-        minSdkVersion 21
+        minSdkVersion 24
         targetSdkVersion 28
         versionCode 1
         versionName "0.1"

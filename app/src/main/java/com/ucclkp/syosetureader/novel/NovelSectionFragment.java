@@ -9,6 +9,8 @@ import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.google.android.material.appbar.AppBarLayout;
 import androidx.fragment.app.Fragment;
@@ -26,6 +28,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ucclkp.syosetureader.HtmlDataPipeline;
@@ -112,7 +115,7 @@ public class NovelSectionFragment extends Fragment
     }
 
     @Override
-    public void onAttach(Context context)
+    public void onAttach(@NonNull Context context)
     {
         super.onAttach(context);
         UApplication.imageDownloader.addOnDownloadListener(mImgDLListener);
@@ -193,14 +196,14 @@ public class NovelSectionFragment extends Fragment
 
         mSectionContentTV = (StaticTextView) parent.findViewById(R.id.tv_fragment_novel_section_content);
         mSectionContentTV.setTextSize(mTextSize);
-        mSectionContentTV.setLineSpacing(Float.valueOf(mLineSpacingMult), Float.valueOf(mLineSpacingAdd));
+        mSectionContentTV.setLineSpacing(Float.parseFloat(mLineSpacingMult), Float.parseFloat(mLineSpacingAdd));
         mSectionContentTV.setBackground(FormatDialogFragment.getBackgroundById(getContext(), mBackgroundId));
 
         return parent;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
 
@@ -295,14 +298,14 @@ public class NovelSectionFragment extends Fragment
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater)
     {
         inflater.inflate(R.menu.menu_novel_section_fragment, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
-    public void onPrepareOptionsMenu(Menu menu)
+    public void onPrepareOptionsMenu(@NonNull Menu menu)
     {
         super.onPrepareOptionsMenu(menu);
 
@@ -349,6 +352,12 @@ public class NovelSectionFragment extends Fragment
                 return true;
             }
 
+            case R.id.menu_novel_section_fragment_action_scroll_to_bottom:
+            {
+                mSectionContentTV.scrollToBottom(false);
+                return true;
+            }
+
             case R.id.menu_novel_section_fragment_action_copy:
             {
                 ((ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE))
@@ -379,7 +388,7 @@ public class NovelSectionFragment extends Fragment
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState)
+    public void onSaveInstanceState(@NonNull Bundle outState)
     {
         super.onSaveInstanceState(outState);
 
@@ -481,7 +490,7 @@ public class NovelSectionFragment extends Fragment
     {
         mLineSpacingAdd = add;
         mLineSpacingMult = mult;
-        mSectionContentTV.setLineSpacing(Float.valueOf(mult), Float.valueOf(add));
+        mSectionContentTV.setLineSpacing(Float.parseFloat(mult), Float.parseFloat(add));
     }
 
     public void notifyBackgroundChanged(Drawable drawable, String name)

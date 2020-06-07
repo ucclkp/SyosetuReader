@@ -42,6 +42,11 @@
         app:showAsAction="never"/>
 
     <item
+        android:id="@+id/menu_novel_content_fragment_action_scroll_to_bottom"
+        android:title="滚动到底部"
+        app:showAsAction="never"/>
+
+    <item
         android:id="@+id/menu_novel_content_fragment_action_copy_ncode"
         android:title="复制NCODE"
         app:showAsAction="never"/>
