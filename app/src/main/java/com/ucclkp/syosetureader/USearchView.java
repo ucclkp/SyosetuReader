@@ -1,7 +1,7 @@
 package com.ucclkp.syosetureader;
 
 import android.content.Context;
-import android.support.v7.view.CollapsibleActionView;
+import androidx.appcompat.view.CollapsibleActionView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;

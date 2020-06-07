@@ -12,9 +12,9 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
-import android.support.annotation.StyleRes;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatDelegate;
+import androidx.annotation.StyleRes;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatDelegate;
 import android.view.MenuItem;
 
 import com.ucclkp.syosetureader.about.AboutActivity;

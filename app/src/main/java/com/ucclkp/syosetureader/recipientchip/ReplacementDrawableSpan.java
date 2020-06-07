@@ -6,7 +6,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.style.ReplacementSpan;
 
 /**

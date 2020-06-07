@@ -2,7 +2,7 @@ package com.ucclkp.syosetureader;
 
 import android.app.Application;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatDelegate;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.ucclkp.syosetureader.chromecustomtabs.ChromeCustomTabsManager;
 

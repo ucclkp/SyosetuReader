@@ -4,12 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.StyleRes;
-import android.support.design.widget.BottomSheetDialog;
+import androidx.annotation.NonNull;
+import androidx.annotation.StyleRes;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup;
-import android.view.Window;
 
 
 public class FormatDialog extends BottomSheetDialog {

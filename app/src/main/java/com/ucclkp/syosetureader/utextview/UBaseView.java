@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.support.v4.view.NestedScrollingChild;
-import android.support.v4.view.NestedScrollingChildHelper;
+import androidx.core.view.NestedScrollingChild;
+import androidx.core.view.NestedScrollingChildHelper;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.MotionEvent;
@@ -15,7 +15,6 @@ import android.view.ViewConfiguration;
 import android.view.ViewTreeObserver;
 import android.widget.EdgeEffect;
 import android.widget.OverScroller;
-import android.widget.Scroller;
 
 
 public abstract class UBaseView extends View implements NestedScrollingChild
