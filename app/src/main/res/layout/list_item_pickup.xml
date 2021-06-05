@@ -64,7 +64,8 @@
             android:minWidth="0dp"
             android:padding="8dp"
             android:textColor="?attr/colorAccent"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -82,5 +83,16 @@
         android:lineSpacingMultiplier="@dimen/novel_summary_lsm"
         android:maxLines="3"
         android:textColor="?android:textColorPrimary" />
+
+    <TextView
+        android:id="@+id/tv_list_item_pickup_others"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:lineSpacingMultiplier="@dimen/novel_summary_lsm"
+        android:textColor="?android:attr/textColorSecondary" />
 
 </LinearLayout>

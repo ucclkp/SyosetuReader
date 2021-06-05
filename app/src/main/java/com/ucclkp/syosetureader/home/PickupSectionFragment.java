@@ -17,6 +17,7 @@ import com.ucclkp.syosetureader.DivideDecoration;
 import com.ucclkp.syosetureader.HtmlDataPipeline;
 import com.ucclkp.syosetureader.R;
 import com.ucclkp.syosetureader.SyosetuUtility;
+import com.ucclkp.syosetureader.UApplication;
 
 public class PickupSectionFragment extends Fragment implements HomePagerAdapter.OnPageRefreshListener {
     private RecyclerView mPickupListView;
@@ -89,6 +90,7 @@ public class PickupSectionFragment extends Fragment implements HomePagerAdapter.
         mPickupListView.setMotionEventSplittingEnabled(false);
 
         mPickupParser = new PickupParser();
+        mPickupParser.setPageType(UApplication.syosetuSite);
         mPickupParser.setPipelineListener(mPickupParserListener);
         mPickupParser.enter(SyosetuUtility.getPickupUrl());
 

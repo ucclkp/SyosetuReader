@@ -216,7 +216,7 @@ public class SyosetuUtility {
     public static String getPickupPageNumberRegex(SyosetuSite site) {
         switch (site) {
             case NORMAL:
-                return "<\\s*a\\s+href\\s*=\\s*\"(.*?)\\d*?\"\\s+title\\s*=\\s*\"page\\s+\\d*?\"\\s*>(\\d*?)<\\s*/\\s*a\\s*>";
+                return "<\\s*a\\s+href\\s*=\\s*\"(.*?)\\d*?\"[\\s\\S]*?\\s+title\\s*=\\s*\"\\d*?ページ\"\\s*>(\\d*?)<\\s*/\\s*a\\s*>";
             case NOCTURNE:
                 return "<\\s*a\\s+href\\s*=\\s*\"(.*?)\\d*?\"\\s+title\\s*=\\s*\"\\d*?\\s+ページ\"\\s*>(\\d*?)<\\s*/\\s*a\\s*>";
         }
@@ -304,7 +304,7 @@ public class SyosetuUtility {
             int urlFlags = content.getSpanFlags(span);
 
             String originUrl = span.getURL();
-            if (!originUrl.startsWith("http://"))
+            if (!originUrl.startsWith("http://") && !originUrl.startsWith("https://"))
                 originUrl = scheme + originUrl;
 
             SyosetuUrlSpan syosetuUrlSpan = new SyosetuUrlSpan(originUrl);

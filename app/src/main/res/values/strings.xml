@@ -46,6 +46,10 @@
     <string name="search_settings_range_summary">あらすじ</string>
     <string name="search_settings_range_keyword">キーワード</string>
     <string name="search_settings_range_author">作者名</string>
+    <string name="search_settings_genre">ジャンル選択：</string>
+    <string name="search_settings_genre_hf">ハイファンタジー</string>
+    <string name="search_settings_genre_real">現実世界</string>
+    <string name="search_settings_genre_vrsf">VRゲーム</string>
     <string name="search_settings_ex_cond">抽出/除外条件：</string>
     <string name="search_settings_cond_r15">R15</string>
     <string name="search_settings_cond_cruel">残酷な描写あり</string>
@@ -71,8 +75,7 @@
     <string name="contribute_mb">ケータイ投稿</string>
     <string name="contribute_illust">挿絵あり</string>
 
-    <string name="sort_notorder">おまかせ順</string>
-    <string name="sort_new">新着順</string>
+    <string name="sort_new">新着更新順</string>
     <string name="sort_weekly">週間ユニークアクセスが多い順</string>
     <string name="sort_favnovelcnt">ブックマーク登録の多い順</string>
     <string name="sort_reviewcnt">レビューの多い順</string>
@@ -84,9 +87,8 @@
     <string name="sort_yearlypoint">年間ポイントの高い順</string>
     <string name="sort_hyokacnt">評価者数の多い順</string>
     <string name="sort_lengthdesc">文字数の多い順</string>
-    <string name="sort_lengthasc">文字数の少ない順</string>
-    <string name="sort_ncodedesc">Nコードが新しい順</string>
-    <string name="sort_old">古い順</string>
+    <string name="sort_ncodedesc">新着投稿順</string>
+    <string name="sort_old">更新古い順</string>
 
     <string name="type_all">すべての種別</string>
     <string name="type_short_only">短編のみ</string>

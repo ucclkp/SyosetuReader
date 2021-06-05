@@ -39,6 +39,9 @@ import java.net.URLEncoder;
 import java.util.List;
 
 
+/**
+ * 搜索页面。
+ */
 public class SearchFragment extends Fragment
 {
     private USearchView mSearchView;
@@ -57,6 +60,10 @@ public class SearchFragment extends Fragment
     private CheckBox mSearchFromSummaryCB;
     private CheckBox mSearchFromKwCB;
     private CheckBox mSearchFromAuthorCB;
+
+    private CheckBox mGenreHF;
+    private CheckBox mGenreReal;
+    private CheckBox mGenreVRSF;
 
     private CheckBox mIsR15CB;
     private CheckBox mIsCruelCB;
@@ -153,6 +160,10 @@ public class SearchFragment extends Fragment
         mSearchFromKwCB = parent.findViewById(R.id.cb_adv_searchfrom_kw);
         mSearchFromAuthorCB = parent.findViewById(R.id.cb_adv_searchfrom_author);
 
+        mGenreHF = parent.findViewById(R.id.cb_adv_genre_hf);
+        mGenreReal = parent.findViewById(R.id.cb_adv_genre_real);
+        mGenreVRSF = parent.findViewById(R.id.cb_adv_genre_vrsf);
+
         mIsR15CB = parent.findViewById(R.id.cb_adv_isr15);
         mIsCruelCB = parent.findViewById(R.id.cb_adv_iscruel);
         mIsBLCB = parent.findViewById(R.id.cb_adv_isbl);
@@ -168,6 +179,7 @@ public class SearchFragment extends Fragment
         mIsNotTransferCB = parent.findViewById(R.id.cb_adv_nottrans);
 
         mAdvCardView = parent.findViewById(R.id.cv_adv_settings);
+        mAdvCardView.setElevation(1);
         mExpConConditionLL = parent.findViewById(R.id.ll_adv_exp_con_condition);
 
         mAdvSwitch = parent.findViewById(R.id.sc_switch_adv);
@@ -334,7 +346,7 @@ public class SearchFragment extends Fragment
                         + "&nottenni=" + parseIsNotTransfer()
                         + "&order=" + parseOrderOption()
                         + "&type=" + parseTypeOption()
-                        + "&genre="
+                        + "&genre=" + parseGenre()
                         + "&word=" + keyEncoded
                         + "&notword=" + exceptKeyEncoded
                         + "&title=" + parseIsSearchFromTitle()
@@ -569,9 +581,7 @@ public class SearchFragment extends Fragment
     {
         String orderOption = (String) mOrderSpinner.getSelectedItem();
 
-        if (orderOption.equals(getString(R.string.sort_notorder)))
-            return "notorder";
-        else if (orderOption.equals(getString(R.string.sort_new)))
+        if (orderOption.equals(getString(R.string.sort_new)))
             return "new";
         else if (orderOption.equals(getString(R.string.sort_weekly)))
             return "weekly";
@@ -595,8 +605,6 @@ public class SearchFragment extends Fragment
             return "hyokacnt";
         else if (orderOption.equals(getString(R.string.sort_lengthdesc)))
             return "lengthdesc";
-        else if (orderOption.equals(getString(R.string.sort_lengthasc)))
-            return "lengthasc";
         else if (orderOption.equals(getString(R.string.sort_ncodedesc)))
             return "ncodedesc";
         else if (orderOption.equals(getString(R.string.sort_old)))
@@ -683,6 +691,27 @@ public class SearchFragment extends Fragment
             return "";
     }
 
+    private String parseGenre() {
+        String result = "";
+        if (mGenreReal.isChecked()) {
+            result = "102";
+        }
+        if (mGenreHF.isChecked()) {
+            if (result.isEmpty()) {
+                result = "201";
+            } else {
+                result += "-201";
+            }
+        }
+        if (mGenreVRSF.isChecked()) {
+            if (result.isEmpty()) {
+                result = "401";
+            } else {
+                result += "-401";
+            }
+        }
+        return result;
+    }
 
     private String parseIsR15()
     {

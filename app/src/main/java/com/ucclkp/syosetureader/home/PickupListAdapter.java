@@ -42,6 +42,7 @@ class PickupListAdapter extends RecyclerView.Adapter {
 
         String type = "";
         String summary = "";
+        String last_update = "";
 
         String novelInfoUrl = "";
         String novelInfoTitle = "";
@@ -118,6 +119,12 @@ class PickupListAdapter extends RecyclerView.Adapter {
                 }
 
                 iHolder.summaryTextView.setText(data.summary);
+                if (data.last_update.isEmpty()) {
+                    iHolder.otherTextView.setVisibility(View.GONE);
+                } else {
+                    iHolder.otherTextView.setVisibility(View.VISIBLE);
+                    iHolder.otherTextView.setText(data.last_update);
+                }
                 break;
             }
 
@@ -212,6 +219,7 @@ class PickupListAdapter extends RecyclerView.Adapter {
         data.novelInfoUrl = item.novelInfoUrl;
         data.novelInfoTitle = item.novelInfoTitle;
         data.extraMsg = item.extraMsg;
+        data.last_update = item.last_update;
 
         data.titleListener = SyosetuUtility
                 .clickOfTitle(item.novelUrl);
@@ -243,6 +251,7 @@ class PickupListAdapter extends RecyclerView.Adapter {
         Button authorButton;
         Button novelInfoButton;
         TextView summaryTextView;
+        TextView otherTextView;
 
 
         ItemViewHolder(View itemView) {
@@ -268,6 +277,8 @@ class PickupListAdapter extends RecyclerView.Adapter {
                     }
                 }
             });
+
+            otherTextView = itemView.findViewById(R.id.tv_list_item_pickup_others);
         }
     }
 

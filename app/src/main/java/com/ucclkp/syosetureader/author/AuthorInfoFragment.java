@@ -108,7 +108,7 @@ public class AuthorInfoFragment extends Fragment {
                              ViewGroup container,
                              Bundle savedInstanceState) {
         switch (mPortion) {
-            case AuthorPagerAdapter.FRAGMENT_BASE: {
+            case AuthorPagerAdapter.FRAGMENT_PROFILE: {
                 View parent = inflater.inflate(
                         R.layout.fragment_author_base, container, false);
 
@@ -183,7 +183,7 @@ public class AuthorInfoFragment extends Fragment {
         @Override
         public void onRefresh() {
             switch (mPortion) {
-                case AuthorPagerAdapter.FRAGMENT_BASE:
+                case AuthorPagerAdapter.FRAGMENT_PROFILE:
                     mAuthorBaseTV.setText("");
                     break;
 
@@ -219,7 +219,7 @@ public class AuthorInfoFragment extends Fragment {
             }
 
             switch (mPortion) {
-                case AuthorPagerAdapter.FRAGMENT_BASE: {
+                case AuthorPagerAdapter.FRAGMENT_PROFILE: {
                     AuthorParser.BaseData baseData
                             = (AuthorParser.BaseData) data;
                     mAuthorBaseTV.setText(baseData.data);
@@ -291,7 +291,7 @@ public class AuthorInfoFragment extends Fragment {
         @Override
         public void onDownloadComplete(String pageId, ImageDownloader.ImageResult result) {
             if (mPageUUID.equals(pageId)
-                    && mPortion == AuthorPagerAdapter.FRAGMENT_BASE) {
+                    && mPortion == AuthorPagerAdapter.FRAGMENT_PROFILE) {
                 Spanned spannedText = (Spanned) mAuthorBaseTV.getText();
                 ImageSpan[] imgSpans = spannedText.getSpans(0, spannedText.length(), ImageSpan.class);
                 for (ImageSpan span : imgSpans) {
@@ -319,10 +319,10 @@ public class AuthorInfoFragment extends Fragment {
 
     public String getSectionUrl() {
         switch (mPortion) {
-            case AuthorPagerAdapter.FRAGMENT_BASE: {
+            case AuthorPagerAdapter.FRAGMENT_PROFILE: {
                 switch (mAuthorSite) {
                     case NORMAL:
-                        return "http://mypage.syosetu.com/";
+                        return "http://mypage.syosetu.com/mypage/profile/userid/";
                     case NOCTURNE:
                         return "http://xmypage.syosetu.com/";
                 }

@@ -2,15 +2,11 @@ package com.ucclkp.syosetureader.author;
 
 import android.content.Context;
 import android.text.Html;
-import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.TextAppearanceSpan;
 
 import com.ucclkp.syosetureader.HtmlDataPipeline;
 import com.ucclkp.syosetureader.HtmlUtility;
-import com.ucclkp.syosetureader.R;
 import com.ucclkp.syosetureader.SyosetuImageGetter;
 import com.ucclkp.syosetureader.SyosetuUtility;
 
@@ -45,6 +41,7 @@ class AuthorParser extends HtmlDataPipeline<Object> {
 
         String genre = "";
         String type = "";
+        String last_update = "";
 
         String novelInfoUrl = "";
         String novelInfoTitle = "";
@@ -83,7 +80,7 @@ class AuthorParser extends HtmlDataPipeline<Object> {
     @Override
     public Object onStartParse(RetrieveHtmlData htmldata) {
         switch (mPortion) {
-            case AuthorPagerAdapter.FRAGMENT_BASE: {
+            case AuthorPagerAdapter.FRAGMENT_PROFILE: {
                 switch (mAuthorSite) {
                     case NORMAL:
                         return parseBasePage(htmldata.htmlCode);
@@ -93,8 +90,14 @@ class AuthorParser extends HtmlDataPipeline<Object> {
 
             }
 
-            case AuthorPagerAdapter.FRAGMENT_WORKS:
-                return parseWorkPage(htmldata.htmlCode);
+            case AuthorPagerAdapter.FRAGMENT_WORKS: {
+                switch (mAuthorSite) {
+                    case NORMAL:
+                        return parseWorkPage(htmldata.htmlCode);
+                    case NOCTURNE:
+                        return parseWork18Page(htmldata.htmlCode);
+                }
+            }
         }
 
         return null;
@@ -103,42 +106,37 @@ class AuthorParser extends HtmlDataPipeline<Object> {
     private BaseData parseBasePage(String source) {
         BaseData data = new BaseData();
 
-        String mainSource = HtmlUtility.getTagContent(
-                source, BaseMainToken, "div", false);
-        if (!mainSource.isEmpty()) {
-            String profileSource = HtmlUtility.getTagContent(
-                    mainSource, BaseProfileToken, "dl", false);
-            if (!profileSource.isEmpty()) {
-                data.data = new SpannableStringBuilder();
-
-                Matcher matcher = Pattern.compile(
-                        BaseProfileTitle + "|" + BaseProfileContent).matcher(profileSource);
-                while (matcher.find()) {
-                    if (matcher.group().matches("^<\\s*dt[\\s\\S]*?")) {
-                        String title = matcher.group(1).trim();
-                        SpannableString titleSpaned = new SpannableString(
-                                Html.fromHtml(title).toString());
-                        titleSpaned.setSpan(
-                                new TextAppearanceSpan(mContext, R.style.NovelInfoTitleAppearance),
-                                0, titleSpaned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-                        data.data.append(titleSpaned).append("\n");
-                    } else if (matcher.group().matches("^<\\s*dd[\\s\\S]*?")) {
-                        int end = HtmlUtility.getTagEndIndex(
-                                profileSource, "dd", matcher.end(), false);
-                        if (end != -1) {
-                            String content = profileSource.substring(matcher.end(), end);
-                            data.data.append(Html.fromHtml(
-                                    content, mImageGetter, null)).append("\n\n");
-                        }
-                    }
-                }
-
-                HtmlUtility.removeLB(data.data);
-                String scheme = SyosetuUtility.getAuthorHomeUrl(mAuthorSite);
-                SyosetuUtility.setUrlMovement(scheme, data.data, mUrlCallback);
-            }
+        String ctr_src = HtmlUtility.getTagContent(
+                source, "<div\\s+class=\"l-container\"\\s*>", "div", false);
+        if (ctr_src.isEmpty()) {
+            return data;
         }
+
+        String main_src = HtmlUtility.getTagContent(
+                ctr_src, "<div\\s+class=\"l-main\"\\s*>", "div", false);
+        if (main_src.isEmpty()) {
+            return data;
+        }
+
+        String profile_src = HtmlUtility.getTagContent(
+                main_src, "<div\\s+class=\"c-panel__body\"\\s*>", "div", false);
+        if (profile_src.isEmpty()) {
+            return data;
+        }
+
+        profile_src = HtmlUtility.getTagContent(
+                profile_src, "<div\\s+class=\"c-panel__item\"\\s*>", "div", false);
+        if (profile_src.isEmpty()) {
+            return data;
+        }
+
+        data.data = new SpannableStringBuilder();
+        data.data.append(Html.fromHtml(
+                profile_src, mImageGetter, null));
+
+        HtmlUtility.removeLB(data.data);
+        String scheme = SyosetuUtility.getAuthorHomeUrl(mAuthorSite);
+        SyosetuUtility.setUrlMovement(scheme, data.data, mUrlCallback);
 
         return data;
     }
@@ -146,31 +144,106 @@ class AuthorParser extends HtmlDataPipeline<Object> {
     private BaseData parseBase18Page(String source) {
         BaseData data = new BaseData();
 
-        String subSource = HtmlUtility.getTagContent(
-                source, Base18SubToken, "div", false);
-        if (!subSource.isEmpty()) {
-            String profileSource = HtmlUtility.getTagContent(
-                    subSource, Base18ProfileToken, "ul", false);
-            if (!profileSource.isEmpty()) {
-                data.data = new SpannableStringBuilder();
+        String ctr_src = HtmlUtility.getTagContent(
+                source, "<div\\s+id=\"container\"\\s*>", "div", false);
+        if (ctr_src.isEmpty()) {
+            return data;
+        }
 
-                ListParser listParser = new ListParser();
-                listParser.set(profileSource, Base18ProfileTitle, "li");
-                while (listParser.find()) {
-                    String title = listParser.getContent(false);
-                    data.data.append(Html.fromHtml(title)).append("\n");
+        String contents_src = HtmlUtility.getTagContent(
+                ctr_src, "<div\\s+id=\"contents\"\\s*>", "div", false);
+        if (contents_src.isEmpty()) {
+            return data;
+        }
+
+        String main_src = HtmlUtility.getTagContent(
+                contents_src, "<div\\s+id=\"main\"\\s*>", "div", false);
+        if (main_src.isEmpty()) {
+            return data;
+        }
+
+        String profile_src = HtmlUtility.getTagContent(
+                main_src, "<div\\s+class=\"box_profile\"\\s*>", "div", false);
+        if (profile_src.isEmpty()) {
+            return data;
+        }
+
+        profile_src = HtmlUtility.getTagContent(
+                profile_src, "<table\\s+class=\"profile\"\\s*>", "table", false);
+        if (profile_src.isEmpty()) {
+            return data;
+        }
+
+        data.data = new SpannableStringBuilder();
+
+        ListParser listParser = new ListParser();
+        listParser.set(profile_src, "<tr[\\s\\S]*?>", "tr");
+        while (listParser.find()) {
+            String title_src = listParser.getContent(false);
+            String title = HtmlUtility.getTagContent(
+                    title_src, "<th\\s+class=\"profile_title\"\\s*>", "th", false);
+            String item = HtmlUtility.getTagContent(
+                    title_src, "<td\\s+class=\"profile_item\"\\s*>", "td", false);
+            data.data.append(Html.fromHtml(title)).append(" | ");
+            data.data.append(Html.fromHtml(item)).append("\n");
+        }
+
+        HtmlUtility.removeLB(data.data);
+        String scheme = SyosetuUtility.getAuthorHomeUrl(mAuthorSite);
+        SyosetuUtility.setUrlMovement(scheme, data.data, mUrlCallback);
+
+        return data;
+    }
+
+    private WorkData parseWorkPage(String source) {
+        WorkData data = new WorkData();
+
+        String ctr_src = HtmlUtility.getTagContent(
+                source, "<div\\s+class=\"l-container\"\\s*>", "div", false);
+        if (ctr_src.isEmpty()) {
+            return data;
+        }
+
+        String main_src = HtmlUtility.getTagContent(
+                ctr_src, "<div\\s+class=\"l-main\"\\s*>", "div", false);
+        if (main_src.isEmpty()) {
+            return data;
+        }
+
+        String pageInfo = HtmlUtility.getTagContent(
+                main_src, "<div\\s+class=\"c-pager\"\\s*>", "div", false);
+        if (!pageInfo.isEmpty()) {
+            Pattern pattern = Pattern.compile(WorkPageNumber);
+            Matcher matcher = pattern.matcher(pageInfo);
+            while (matcher.find()) {
+                String max_page = matcher.group(1);
+                if (max_page != null) {
+                    int curPage = HtmlUtility.intValue(max_page.trim(), 0);
+                    if (curPage > mCurMaxPageNumber)
+                        mCurMaxPageNumber = curPage;
                 }
+            }
+        }
 
-                HtmlUtility.removeLB(data.data);
-                String scheme = SyosetuUtility.getAuthorHomeUrl(mAuthorSite);
-                SyosetuUtility.setUrlMovement(scheme, data.data, mUrlCallback);
+        String listSource = HtmlUtility.getTagContent(
+                main_src, "<div\\s+class=\"c-novel-list\"\\s*>", "div", false);
+        if (!listSource.isEmpty()) {
+            ListParser listParser = new ListParser();
+            listParser.set(listSource, "<div\\s+class=\"c-novel-list__item\"\\s*>","div");
+            while (listParser.find()) {
+                String listItemSource = listParser.getContent(false);
+                if (!listItemSource.isEmpty()) {
+                    WorkItem workItem = new WorkItem();
+                    parseWorkListItem(listItemSource, workItem);
+                    data.itemList.add(workItem);
+                }
             }
         }
 
         return data;
     }
 
-    private WorkData parseWorkPage(String source) {
+    private WorkData parseWork18Page(String source) {
         WorkData data = new WorkData();
 
         String mainSource = HtmlUtility.getTagContent(
@@ -181,7 +254,7 @@ class AuthorParser extends HtmlDataPipeline<Object> {
         String pageInfo = HtmlUtility.getTagContent(
                 mainSource, WorkPageNumberToken, "div", false);
         if (!pageInfo.isEmpty()) {
-            Pattern pattern = Pattern.compile(WorkPageNumber);
+            Pattern pattern = Pattern.compile(Work18PageNumber);
             Matcher matcher = pattern.matcher(pageInfo);
             while (matcher.find()) {
                 int curPage = HtmlUtility.intValue(matcher.group(1).trim(), 0);
@@ -199,7 +272,7 @@ class AuthorParser extends HtmlDataPipeline<Object> {
                 String listItemSource = listParser.getContent(false);
                 if (!listItemSource.isEmpty()) {
                     WorkItem workItem = new WorkItem();
-                    parseWorkListItem(listItemSource, workItem);
+                    parseWork18ListItem(listItemSource, workItem);
                     data.itemList.add(workItem);
                 }
             }
@@ -209,6 +282,104 @@ class AuthorParser extends HtmlDataPipeline<Object> {
     }
 
     private void parseWorkListItem(String source, WorkItem item) {
+        //title
+        String title = HtmlUtility.getTagContent(
+                source, "<div\\s+class=\"c-novel-list__head\"\\s*>", "div", false);
+        if (!title.isEmpty()) {
+            Matcher matcher = Pattern.compile(UrlToken).matcher(title);
+            if (matcher.find()) {
+                item.novelUrl = matcher.group(1).trim();
+                item.novelTitle = Html.fromHtml(
+                        matcher.group(2).trim()).toString();
+            }
+        }
+
+        //summary
+        String summary = HtmlUtility.getTagContent(
+                source, "<div\\s+class=\"c-novel-list__summary\"\\s*>", "div", false);
+        if (!summary.isEmpty()) {
+            summary = HtmlUtility.getTagContent(
+                    source, "<div\\s+class=\"c-readmore__mask[\\s\\S]*?>", "div", false);
+            if (!summary.isEmpty()) {
+                item.summary = Html.fromHtml(
+                        summary.trim()).toString();
+            }
+        }
+
+        //status
+        String status = HtmlUtility.getTagContent(
+                source, "<div\\s+class=\"c-novel-list__status\"\\s*>", "div", false);
+        if (!status.isEmpty()) {
+            int[] position = new int[2];
+            String extra = HtmlUtility.getTagContent(
+                    status, 0, "<span\\s+class=\"c-label[\\s\\S]*?>", "span", false, position);
+            item.type = Html.fromHtml(extra.trim()).toString();
+
+            String number = HtmlUtility.getTagContent(
+                    status, position[1], "<span\\s+class=\"c-novel-list__number\"\\s*>", "span", false, position);
+            if (!number.isEmpty()) {
+                item.type += "：";
+                item.type += Html.fromHtml(number.trim()).toString();
+            }
+        }
+
+        //detail
+        String detail = HtmlUtility.getTagContent(
+                source, "<div\\s+class=\"c-novel-list__detail\"\\s*>", "div", false);
+        if (!detail.isEmpty()) {
+            Matcher matcher = Pattern.compile(UrlToken).matcher(detail);
+            if (matcher.find()) {
+                item.novelInfoUrl = matcher.group(1).trim();
+                item.novelInfoTitle = matcher.group(2).trim();
+            }
+
+            String genre = HtmlUtility.getTagContent(
+                    detail, "<span\\s+class=\"c-novel-list__genre\"\\s*>", "span", false);
+            item.genre = Html.fromHtml(genre.trim()).toString();
+
+            String keikoku = HtmlUtility.getTagContent(
+                    detail, "<span\\s+class=\"c-novel-list__keikoku\"\\s*>", "span", false);
+            if (!keikoku.isEmpty()) {
+                ListParser listParser = new ListParser();
+                listParser.set(keikoku, "span");
+                while (listParser.find()) {
+                    String text = listParser.getContent(false);
+                    if (!text.isEmpty()) {
+                        item.keywordList.add(text);
+                    }
+                }
+            }
+
+            String last_update = HtmlUtility.getTagContent(
+                    detail, "<div\\s+class=\"c-novel-list__lastup\"\\s*>", "div", false);
+            item.last_update = Html.fromHtml(last_update.trim()).toString();
+        }
+
+        //additional
+        String additional = HtmlUtility.getTagContent(
+                source, "<div\\s+class=\"c-novel-list__additional\"\\s*>", "div", false);
+        if (!additional.isEmpty()) {
+            //keyword
+            String keyword = HtmlUtility.getTagContent(
+                    additional, "<span\\s+class=\"c-novel-list__keyword\"\\s*>", "span", false);
+            if (!keyword.isEmpty()) {
+                String[] keywordArray = keyword.split(SyosetuUtility.KeywordSplit);
+                for (String s : keywordArray) {
+                    if (!TextUtils.isEmpty(s))
+                        item.keywordList.add(s);
+                }
+            }
+
+            //reading time
+            String readingTime = HtmlUtility.getTagContent(
+                    additional, "<span\\s*>", "span", false);
+            if (!readingTime.isEmpty()) {
+                item.readingTime = readingTime;
+            }
+        }
+    }
+
+    private void parseWork18ListItem(String source, WorkItem item) {
         int lastIndex = 0;
         int position[] = new int[2];
 
@@ -308,24 +479,13 @@ class AuthorParser extends HtmlDataPipeline<Object> {
 
     private final static String BaseMainToken
             = "<div\\s+id=\"main\"\\s*>";
-    private final static String BaseProfileToken
-            = "<dl\\s+class=\"profile\"\\s*>";
-    private final static String BaseProfileTitle
-            = "<dt[\\s\\S]*?>(.*?)</dt>";
-    private final static String BaseProfileContent
-            = "<dd[\\s\\S]*?>";
-
-    private final static String Base18SubToken
-            = "<div\\s+id=\"sub\"\\s*>";
-    private final static String Base18ProfileToken
-            = "<ul\\s+id=\"profile\"\\s*>";
-    private final static String Base18ProfileTitle
-            = "<li[\\s\\S]*?>";
 
     private final static String WorkMainToken = BaseMainToken;
     private final static String WorkPageNumberToken
             = "<div class=\"pager_idou\">";
     private final static String WorkPageNumber
+            = "<a\\s+href=[\\s\\S]*?title=\"\\d*?ページ\"\\s*>(\\d*?)</a>";
+    private final static String Work18PageNumber
             = "<a\\s+href=[\\s\\S]*?title=\"page\\s+\\d*?\"\\s*>(\\d*?)</a>";
     private final static String WorkListToken
             = "<div\\s+id=\"novellist\">";

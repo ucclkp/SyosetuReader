@@ -2,7 +2,6 @@
 <resources>
 
     <string-array name="search_sort_name">
-        <item>@string/sort_notorder</item>
         <item>@string/sort_new</item>
         <item>@string/sort_weekly</item>
         <item>@string/sort_favnovelcnt</item>
@@ -15,7 +14,6 @@
         <item>@string/sort_yearlypoint</item>
         <item>@string/sort_hyokacnt</item>
         <item>@string/sort_lengthdesc</item>
-        <item>@string/sort_lengthasc</item>
         <item>@string/sort_ncodedesc</item>
         <item>@string/sort_old</item>
     </string-array>

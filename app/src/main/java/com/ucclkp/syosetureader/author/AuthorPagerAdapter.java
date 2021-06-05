@@ -9,8 +9,8 @@ class AuthorPagerAdapter extends FragmentPagerAdapter
     private String mAuthorUrl;
 
 
-    public final static int FRAGMENT_BASE = 0;
-    public final static int FRAGMENT_WORKS = 1;
+    public final static int FRAGMENT_WORKS = 0;
+    public final static int FRAGMENT_PROFILE = 1;
     public final static int FRAGMENT_ACTIVITIES = 2;
     public final static int FRAGMENT_BOOKMARKS = 3;
     public final static int FRAGMENT_FAV_USER = 4;
@@ -49,10 +49,10 @@ class AuthorPagerAdapter extends FragmentPagerAdapter
     {
         switch (position)
         {
-            case FRAGMENT_BASE:
-                return "マイページ";
             case FRAGMENT_WORKS:
                 return "作品";
+            case FRAGMENT_PROFILE:
+                return "プロフィール";
             case FRAGMENT_ACTIVITIES:
                 return "活動報告";
             case FRAGMENT_BOOKMARKS:

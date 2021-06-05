@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
             };
 
     private final static String BACK_STACK_SEARCH = "back_stack_search";
+    private final static String BACK_STACK_SEARCH_RESULT = "back_stack_search_result";
     private final static String BACK_STACK_BORING = "back_stack_boring";
 
     public final static int REQ_NOVEL_FROM_HIS = 0x1;
@@ -212,20 +213,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_main_action_search: {
-                Fragment searchFragment = getSupportFragmentManager()
-                        .findFragmentByTag(FRAGMENT_TAGS[FRAGMENT_SEARCH]);
+        int id = item.getItemId();
+        if (id == R.id.menu_main_action_search) {
+            Fragment searchFragment = getSupportFragmentManager()
+                    .findFragmentByTag(FRAGMENT_TAGS[FRAGMENT_SEARCH]);
 
-                if (!searchFragment.isVisible()) {
-                    getSupportFragmentManager().beginTransaction()
-                            .hide(getCurFragment())
-                            .show(searchFragment)
-                            .addToBackStack(BACK_STACK_SEARCH)
-                            .commit();
-                }
-                return true;
+            if (!searchFragment.isVisible()) {
+                getSupportFragmentManager().beginTransaction()
+                        .hide(getCurFragment())
+                        .show(searchFragment)
+                        .addToBackStack(BACK_STACK_SEARCH)
+                        .commit();
             }
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -459,7 +459,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private AgeCertificationDialogFragment.OnAgeCertListener mAgeCertListener
+    private final AgeCertificationDialogFragment.OnAgeCertListener mAgeCertListener
             = new AgeCertificationDialogFragment.OnAgeCertListener() {
         @Override
         public void onGranted(int reqCode, boolean nomoreHint) {
@@ -475,7 +475,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private NavigationView.OnNavigationItemSelectedListener mNavigationItemSelectedListener
+    private final NavigationView.OnNavigationItemSelectedListener mNavigationItemSelectedListener
             = new NavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -509,7 +509,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private MenuItem.OnActionExpandListener mSearchViewExpandListener
+    private final MenuItem.OnActionExpandListener mSearchViewExpandListener
             = new MenuItem.OnActionExpandListener() {
         @Override
         public boolean onMenuItemActionExpand(MenuItem item) {
@@ -526,7 +526,7 @@ public class MainActivity extends AppCompatActivity {
     };
 
 
-    private USearchView.OnQueryTextListener mQueryTextListener
+    private final USearchView.OnQueryTextListener mQueryTextListener
             = new USearchView.OnQueryTextListener() {
         @Override
         public void onQueryTextSubmit(String query) {
@@ -549,7 +549,7 @@ public class MainActivity extends AppCompatActivity {
                     .add(R.id.fl_main_replace_content,
                             SearchResultFragment.newInstance(query, url),
                             FRAGMENT_TAGS[FRAGMENT_SEARCH_RESULT])
-                    .addToBackStack(null)
+                    .addToBackStack(BACK_STACK_SEARCH_RESULT)
                     .commit();
 
             mIsSubmitCollapsed = true;
@@ -561,7 +561,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private UNormalSearchView.OnQueryTextListener mAssistQueryTextListener
+    private final UNormalSearchView.OnQueryTextListener mAssistQueryTextListener
             = new UNormalSearchView.OnQueryTextListener() {
         @Override
         public void onQueryTextSubmit(String query) {
@@ -573,7 +573,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private View.OnClickListener mSearchFABClickListener = new View.OnClickListener() {
+    private final View.OnClickListener mSearchFABClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             mSearchView.submitQueryText();

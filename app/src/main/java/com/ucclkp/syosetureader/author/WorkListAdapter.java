@@ -49,8 +49,7 @@ public class WorkListAdapter extends RecyclerView.Adapter
         String novelInfoUrl = "";
         String novelInfoTitle = "";
 
-        String attention = "";
-        String readingTime = "";
+        String extra = "";
 
         SpannableStringBuilder chips = null;
 
@@ -114,12 +113,6 @@ public class WorkListAdapter extends RecyclerView.Adapter
                 BindData data = mDataList.get(position);
                 ItemViewHolder iHolder = (ItemViewHolder) holder;
 
-                String extra;
-                if (!data.attention.isEmpty())
-                    extra = data.attention + "\n" + data.readingTime;
-                else
-                    extra = data.readingTime;
-
                 iHolder.titleTextView.setText(data.novelTitle);
                 iHolder.typeTextView.setText(data.type);
                 iHolder.titleLayoutView.setOnClickListener(data.titleListener);
@@ -129,7 +122,7 @@ public class WorkListAdapter extends RecyclerView.Adapter
 
                 iHolder.summaryTextView.setText(data.summary);
                 iHolder.chipsTextView.setText(data.chips);
-                iHolder.extraTextView.setText(extra);
+                iHolder.extraTextView.setText(data.extra);
                 break;
             }
 
@@ -236,8 +229,11 @@ public class WorkListAdapter extends RecyclerView.Adapter
         data.novelInfoUrl = item.novelInfoUrl;
         data.novelInfoTitle = item.novelInfoTitle;
         data.genre = item.genre;
-        data.attention = item.attention;
-        data.readingTime = item.readingTime;
+        data.extra = "";
+        if (!item.attention.isEmpty())
+            data.extra = item.attention + "\n";
+        data.extra += item.last_update + "\n";
+        data.extra += item.readingTime;
 
         data.titleListener = SyosetuUtility
                 .clickOfTitle(item.novelUrl);
