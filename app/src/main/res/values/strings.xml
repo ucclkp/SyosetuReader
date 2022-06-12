@@ -115,6 +115,8 @@
     <string name="settings_title_theme">テーマ</string>
     <string name="settings_nightmode_title">夜間モード</string>
     <string name="settings_nightmode_summary">可开启夜间模式。一些页面可能会重新加载</string>
+    <string name="settings_nightmode_fs_title">夜間モード（FOLLOW SYSTEM）</string>
+    <string name="settings_nightmode_fs_summary">可跟随系统开启夜间模式。一些页面可能会重新加载</string>
 
     <string name="settings_title_view">ビュー</string>
     <string name="settings_netsearch_title">网页搜索</string>

@@ -1,7 +1,10 @@
 package com.ucclkp.syosetureader;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.ucclkp.syosetureader.chromecustomtabs.ChromeCustomTabsManager;
@@ -33,6 +36,7 @@ public class UApplication extends Application {
 
     public final static String PREF_SYSTEM = "pref_system";
     public final static String NIGHT_MODE = "night_mode";
+    public final static String NIGHT_MODE_FS = "night_mode_fs";
 
 
     @Override
@@ -56,10 +60,32 @@ public class UApplication extends Application {
 
         SharedPreferences prefs = getSharedPreferences(PREF_SYSTEM, MODE_PRIVATE);
         boolean nightMode = prefs.getBoolean(NIGHT_MODE, false);
-        AppCompatDelegate.setDefaultNightMode(
-                nightMode ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+        boolean nightMode_fs = prefs.getBoolean(NIGHT_MODE_FS, true);
+        if (nightMode_fs) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        } else {
+            if (nightMode) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            }
+        }
     }
 
+    public static boolean isNightMode(Context c) {
+        boolean isNightMode;
+        int night_mode = AppCompatDelegate.getDefaultNightMode();
+        if (night_mode == AppCompatDelegate.MODE_NIGHT_YES) {
+            isNightMode = true;
+        } else if (night_mode == AppCompatDelegate.MODE_NIGHT_NO) {
+            isNightMode = false;
+        } else {
+            int ui_mode = c.getResources().getConfiguration().uiMode &
+                    Configuration.UI_MODE_NIGHT_MASK;
+            isNightMode = ui_mode == Configuration.UI_MODE_NIGHT_YES;
+        }
+        return isNightMode;
+    }
 
     public SyosetuBooks getSyosetuBooks() {
         return mSyosetuBooks;

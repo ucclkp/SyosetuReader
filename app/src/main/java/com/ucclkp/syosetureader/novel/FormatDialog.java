@@ -29,10 +29,12 @@ public class FormatDialog extends BottomSheetDialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int screenHeight = getScreenHeight(getOwnerActivity());
+        /*int screenHeight = getScreenHeight(getOwnerActivity());
         int statusBarHeight = getStatusBarHeight(getContext());
         int dialogHeight = screenHeight - statusBarHeight;
-        getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, dialogHeight == 0 ? ViewGroup.LayoutParams.MATCH_PARENT : dialogHeight);
+        getWindow().setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                dialogHeight == 0 ? ViewGroup.LayoutParams.MATCH_PARENT : dialogHeight);*/
     }
 
     private static int getScreenHeight(Activity activity) {

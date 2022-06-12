@@ -22,6 +22,7 @@ import com.ucclkp.syosetureader.HtmlDataPipeline;
 import com.ucclkp.syosetureader.HtmlUtility;
 import com.ucclkp.syosetureader.R;
 import com.ucclkp.syosetureader.SyosetuUtility;
+import com.ucclkp.syosetureader.UApplication;
 
 public class NovelInfoFragment extends Fragment {
     private String mNovelInfoUrl;
@@ -76,7 +77,7 @@ public class NovelInfoFragment extends Fragment {
                 R.color.color_red,
                 R.color.color_green,
                 R.color.color_yellow);
-        boolean isNightMode = (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES);
+        boolean isNightMode = UApplication.isNightMode(getContext());
         if (isNightMode)
             mRefreshSRL.setProgressBackgroundColorSchemeResource(R.color.color_swipe_background);
 

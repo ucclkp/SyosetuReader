@@ -287,7 +287,7 @@ class AuthorParser extends HtmlDataPipeline<Object> {
                 source, "<div\\s+class=\"c-novel-list__head\"\\s*>", "div", false);
         if (!title.isEmpty()) {
             Matcher matcher = Pattern.compile(UrlToken).matcher(title);
-            if (matcher.find()) {
+            while (matcher.find()) {
                 item.novelUrl = matcher.group(1).trim();
                 item.novelTitle = Html.fromHtml(
                         matcher.group(2).trim()).toString();

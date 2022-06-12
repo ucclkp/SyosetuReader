@@ -57,7 +57,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         fragment.setOnPrefChangeListener(mPrefChangeListener);
 
         getFragmentManager().beginTransaction().replace(android.R.id.content,
-                fragment).commit();
+                fragment, "pref_fragment").commit();
 
         setResult(MainActivity.RC_NONE);
     }
@@ -142,11 +142,23 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             pref = findPreference("other_about");
             pref.setOnPreferenceClickListener(mPrefClickListener);
 
-            boolean isNightMode = (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES);
+            SwitchPreference night_mode_pref = (SwitchPreference) findPreference("sp_night_mode");
+            SwitchPreference night_mode_fs_pref = (SwitchPreference) findPreference("sp_night_mode_fs");
+            night_mode_pref.setOnPreferenceChangeListener(mPrefChangeListener);
+            night_mode_fs_pref.setOnPreferenceChangeListener(mPrefChangeListener);
 
-            SwitchPreference switchPref = (SwitchPreference) findPreference("sp_night_mode");
-            switchPref.setChecked(isNightMode);
-            switchPref.setOnPreferenceChangeListener(mPrefChangeListener);
+            int night_mode = AppCompatDelegate.getDefaultNightMode();
+            if (night_mode == AppCompatDelegate.MODE_NIGHT_YES) {
+                night_mode_pref.setChecked(true);
+                night_mode_fs_pref.setChecked(false);
+            } else if (night_mode == AppCompatDelegate.MODE_NIGHT_NO) {
+                night_mode_pref.setChecked(false);
+                night_mode_fs_pref.setChecked(false);
+            } else {
+                night_mode_pref.setChecked(false);
+                night_mode_pref.setEnabled(false);
+                night_mode_fs_pref.setChecked(true);
+            }
         }
 
         public void setOnPrefClickListener(Preference.OnPreferenceClickListener l) {
@@ -203,6 +215,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             String key = preference.getKey();
             switch (key) {
                 case "sp_night_mode": {
+                    boolean prev_is_night_mode = UApplication.isNightMode(getApplicationContext());
                     if ((boolean) newValue) {
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     }
@@ -211,9 +224,47 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                     }
 
                     SharedPreferences prefs = getSharedPreferences(UApplication.PREF_SYSTEM, MODE_PRIVATE);
-                    prefs.edit().putBoolean(UApplication.NIGHT_MODE, (boolean) newValue).apply();
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putBoolean(UApplication.NIGHT_MODE, (boolean) newValue);
+                    editor.putBoolean(UApplication.NIGHT_MODE_FS, false);
+                    editor.apply();
 
-                    recreate();
+                    PreferenceFragment fragment = (PreferenceFragment)
+                            SettingsActivity.super.getFragmentManager().findFragmentByTag("pref_fragment");
+                    SwitchPreference night_mode_fs_pref = (SwitchPreference) fragment.findPreference("sp_night_mode_fs");
+                    night_mode_fs_pref.setChecked(false);
+
+                    if ((boolean) newValue != prev_is_night_mode) {
+                        recreate();
+                    }
+                    return true;
+                }
+
+                case "sp_night_mode_fs": {
+                    boolean prev_is_night_mode = UApplication.isNightMode(getApplicationContext());
+
+                    PreferenceFragment fragment = (PreferenceFragment)
+                            SettingsActivity.super.getFragmentManager().findFragmentByTag("pref_fragment");
+                    SwitchPreference night_mode_pref = (SwitchPreference) fragment.findPreference("sp_night_mode");
+
+                    if ((boolean) newValue) {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                        night_mode_pref.setEnabled(false);
+                    } else {
+                        night_mode_pref.setEnabled(true);
+                        if (night_mode_pref.isChecked()) {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                        } else {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        }
+                    }
+
+                    SharedPreferences prefs = getSharedPreferences(UApplication.PREF_SYSTEM, MODE_PRIVATE);
+                    prefs.edit().putBoolean(UApplication.NIGHT_MODE_FS, (boolean) newValue).apply();
+
+                    if (prev_is_night_mode != UApplication.isNightMode(getApplicationContext())) {
+                        recreate();
+                    }
                     return true;
                 }
             }

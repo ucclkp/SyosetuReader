@@ -1,9 +1,9 @@
 package com.ucclkp.syosetureader.novel;
 
 import android.app.Dialog;
-import android.app.UiModeManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -11,6 +11,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatSpinner;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,6 +22,7 @@ import android.widget.TextView;
 import com.ucclkp.syosetureader.PrFloat;
 import com.ucclkp.syosetureader.R;
 import com.ucclkp.syosetureader.UApplication;
+
 
 public class FormatDialogFragment extends BottomSheetDialogFragment
 {
@@ -133,8 +136,7 @@ public class FormatDialogFragment extends BottomSheetDialogFragment
         mBackgroundBar = (BackgroundBar) dialog.findViewById(R.id.bb_format_background);
         mBackgroundBar.setOnSelectedItemChangedListener(mSelectedBgChangedListener);
 
-        UiModeManager uiManager = (UiModeManager) getActivity().getSystemService(Context.UI_MODE_SERVICE);
-        boolean isNightMode = uiManager.getNightMode() == UiModeManager.MODE_NIGHT_YES;
+        boolean isNightMode = UApplication.isNightMode(getContext());
         if (isNightMode)
         {
             mBackgroundBar.addThumb(BACKGROUND_ID_NIGHT_DEFAULT, true);

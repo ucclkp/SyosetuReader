@@ -9,6 +9,12 @@
             android:summary="@string/settings_nightmode_summary"
             android:title="@string/settings_nightmode_title" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="sp_night_mode_fs"
+            android:summary="@string/settings_nightmode_fs_summary"
+            android:title="@string/settings_nightmode_fs_title" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

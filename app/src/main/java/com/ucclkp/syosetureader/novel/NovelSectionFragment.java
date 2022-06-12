@@ -165,7 +165,7 @@ public class NovelSectionFragment extends Fragment
                 R.color.color_red,
                 R.color.color_green,
                 R.color.color_yellow);
-        boolean isNightMode = (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES);
+        boolean isNightMode = UApplication.isNightMode(getContext());
         if (isNightMode)
             mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.color_swipe_background);
 
