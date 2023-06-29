@@ -3,7 +3,6 @@ package com.ucclkp.syosetureader.novel;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -12,7 +11,6 @@ import androidx.annotation.NonNull;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatSpinner;
 import android.view.View;
 import android.widget.AdapterView;
@@ -111,7 +109,7 @@ public class FormatDialogFragment extends BottomSheetDialogFragment
         dialog.setContentView(R.layout.dialog_format_bottom_sheet);
 
         TypedArray a = getContext().obtainStyledAttributes(
-                new int[]{R.attr.colorAccent});
+                new int[]{androidx.appcompat.R.attr.colorAccent});
         mAccentColor = a.getColor(a.getIndex(0), Color.GRAY);
         a.recycle();
 

@@ -580,7 +580,7 @@ public class NovelFragment extends Fragment
 
         Log.d("RetainDBG", "NovelFragment.onSaveInstanceState() invoked.");
 
-        if (mSavedNovelData != null)
+        if (mSavedNovelData != null && !mIsShortNovel)
         {
             outState.putString(SAVED_CURRENT_SECTION, mCurrentSection);
             outState.putInt(SAVED_SECTION_OFFSET, mSectionOffset);

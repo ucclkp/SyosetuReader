@@ -131,7 +131,7 @@ public class UTextManager
         mTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
 
         TypedArray a = mTargetView.getContext().obtainStyledAttributes(
-                new int[]{android.R.attr.textColorPrimary, R.attr.colorAccent});
+                new int[]{android.R.attr.textColorPrimary, androidx.appcompat.R.attr.colorAccent});
         mTextDefColor = a.getColor(a.getIndex(0), 0);
         mTextLinkColor = a.getColor(a.getIndex(1), 0);
         a.recycle();

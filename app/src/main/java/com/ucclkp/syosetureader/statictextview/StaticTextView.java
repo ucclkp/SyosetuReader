@@ -107,7 +107,7 @@ public class StaticTextView extends View implements NestedScrollingChild {
 
         int textColor, textLinkColor;
         TypedArray a = context.obtainStyledAttributes(
-                new int[]{android.R.attr.textColorPrimary, R.attr.colorAccent});
+                new int[]{android.R.attr.textColorPrimary, androidx.appcompat.R.attr.colorAccent});
         textColor = a.getColor(a.getIndex(0), Color.BLACK);
         textLinkColor = a.getColor(a.getIndex(1), Color.BLUE);
         a.recycle();
