@@ -91,7 +91,7 @@ public class StaticTextView extends View implements NestedScrollingChild {
     private final static int MENU_ITEM_ORDER_COPY = 1;
     private final static int MENU_ITEM_ORDER_SELECT_ALL = 4;
     private final static int MENU_ITEM_ORDER_WEB_SEARCH = 5;
-    private final static int MENU_ITEM_ORDER_TEXT_PROCESS = 6;
+    private final static int MENU_ITEM_ORDER_TEXT_PROCESS = 0;
 
 
     public StaticTextView(Context context) {
@@ -1243,12 +1243,15 @@ public class StaticTextView extends View implements NestedScrollingChild {
             intent.putExtra(Intent.EXTRA_PROCESS_TEXT_READONLY, true);
             intent.putExtra(Intent.EXTRA_PROCESS_TEXT, getSelectedText());
             intent.setClassName(resolveInfo.activityInfo.packageName, resolveInfo.activityInfo.name);
-
+            // 从 Android 7 引入的 bug 导致不加该标志也能正常工作；从 Android 9 开始强制要求该标志
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
             return intent;
         }
 
         private List<ResolveInfo> getSupportedActivities() {
-            return mPackageManager.queryIntentActivities(createProcessTextIntent(), 0);
+            return mPackageManager.queryIntentActivities(
+                    createProcessTextIntent(),
+                    PackageManager.MATCH_DEFAULT_ONLY);
         }
 
         private CharSequence getLabel(ResolveInfo resolveInfo) {
@@ -1257,9 +1260,17 @@ public class StaticTextView extends View implements NestedScrollingChild {
 
         void fetchTextProcessMenu(Menu menu) {
             for (ResolveInfo resolveInfo : getSupportedActivities()) {
+                if (resolveInfo.activityInfo.packageName.equals("com.baidu.BaiduMap") ||
+                        resolveInfo.activityInfo.packageName.equals("com.microsoft.office.officehub") ||
+                        resolveInfo.activityInfo.packageName.equals("com.microsoft.office.outlook") ||
+                        resolveInfo.activityInfo.packageName.equals("com.microsoft.todos"))
+                {
+                    continue;
+                }
+
                 menu.add(Menu.NONE, Menu.NONE, MENU_ITEM_ORDER_TEXT_PROCESS, getLabel(resolveInfo))
                         .setIntent(createProcessTextIntentForResolveInfo(resolveInfo))
-                        .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+                        .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
             }
         }
     }
@@ -1762,7 +1773,6 @@ public class StaticTextView extends View implements NestedScrollingChild {
                 }
 
                 mTextIntentProcessor.fetchTextProcessMenu(menu);
-
                 return canCreate;
             }
 
