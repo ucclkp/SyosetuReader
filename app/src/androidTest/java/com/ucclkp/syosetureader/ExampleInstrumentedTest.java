@@ -21,7 +21,7 @@ public class ExampleInstrumentedTest
     public void useAppContext() throws Exception
     {
         // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getTargetContext();
+        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
         assertEquals("com.ucclkp.syosetureader", appContext.getPackageName());
     }
