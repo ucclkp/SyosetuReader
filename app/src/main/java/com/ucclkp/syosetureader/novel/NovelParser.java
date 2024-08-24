@@ -13,6 +13,11 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 public class NovelParser extends HtmlDataPipeline<NovelParser.NovelData>
 {
     private SyosetuImageGetter mImageGetter;
@@ -66,29 +71,35 @@ public class NovelParser extends HtmlDataPipeline<NovelParser.NovelData>
         else
             site = UApplication.syosetuSite;
 
-        int topBarIndex = 0;
-        Matcher novelInfoMatcher = Pattern
-                .compile(NovelInfoUrlToken).matcher(source);
-        if (novelInfoMatcher.find())
-        {
-            data.novelInfoUrl = novelInfoMatcher.group(1).trim();
-            topBarIndex = novelInfoMatcher.end();
-        }
+        try {
+            Document doc = Jsoup.parse(source);
+            Elements top_bar_elements = doc.select("div[id=novel_header] > ul[id=head_nav] > li");
+            // 作品情報
+            if (top_bar_elements.size() > 1) {
+                Element el = top_bar_elements.get(1).selectFirst("a");
+                if (el != null) {
+                    data.novelInfoUrl = el.attr("href").trim();
+                }
+            }
 
-        Matcher feelMatcher = Pattern
-                .compile(FeelUrlToken).matcher(source);
-        feelMatcher.region(topBarIndex, source.length());
-        if (feelMatcher.find())
-        {
-            data.novelFeelUrl = feelMatcher.group(1).trim();
-            topBarIndex = feelMatcher.end();
-        }
+            // 感想
+            if (top_bar_elements.size() > 2) {
+                Element el = top_bar_elements.get(2).selectFirst("a");
+                if (el != null) {
+                    data.novelFeelUrl = el.attr("href").trim();
+                }
+            }
 
-        Matcher reviewMatcher = Pattern
-                .compile(ReviewUrlToken).matcher(source);
-        reviewMatcher.region(topBarIndex, source.length());
-        if (reviewMatcher.find())
-            data.novelReviewUrl = reviewMatcher.group(1).trim();
+            // レビュー
+            if (top_bar_elements.size() > 3) {
+                Element el = top_bar_elements.get(3).selectFirst("a");
+                if (el != null) {
+                    data.novelReviewUrl = el.attr("href").trim();
+                }
+            }
+        } catch (Exception e) {
+            return null;
+        }
 
         data.headAttention = HtmlUtility.getTagContent(
                 source, NovelHeadAttentionToken, "div", false);
@@ -238,11 +249,4 @@ public class NovelParser extends HtmlDataPipeline<NovelParser.NovelData>
             = "<a[\\s\\S]*?href=\"(.*?)\"[\\s\\S]*?>(.*?)</a>";
     private final static String NovelSectionEditTime
             = "<span\\s+title=\"(.*?)改稿\"\\s*>";
-
-    private final static String NovelInfoUrlToken
-            = "<li><a\\s+href=\"(.*?)\"\\s*>小説情報</a></li>";
-    private final static String FeelUrlToken
-            = "<li><a\\s+href=\"(.*?)\"\\s*>感想</a></li>";
-    private final static String ReviewUrlToken
-            = "<li><a\\s+href=\"(.*?)\"\\s*>レビュー</a></li>";
 }

@@ -17,6 +17,10 @@
     <color name="color_except">#E65100</color>
     <color name="color_cardview">@color/color_white</color>
     <color name="color_popup_background">#44000000</color>
+    <color name="color_swipe_background">@color/color_cardview</color>
+
+    <color name="textColorPrimaryDark">#9E9E9E</color>
+    <color name="textColorSecondaryDark">#757575</color>
 
     <color name="text_color_viewed">#44000000</color>
     <color name="border_color_thumb">#424242</color>

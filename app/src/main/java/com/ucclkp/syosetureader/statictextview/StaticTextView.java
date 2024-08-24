@@ -692,7 +692,8 @@ public class StaticTextView extends View implements NestedScrollingChild {
         canvas.save();
         canvas.translate(getPaddingLeft(), getPaddingTop());
         mTextLayout.draw(canvas,
-                mSelectionMgr.mSelectionPath, mSelectionMgr.mSelectionPathPaint, 0);
+                mSelectionMgr.mSelectionPath,
+                mSelectionMgr.mSelectionPathPaint, 0);
         canvas.restore();
 
         drawVerticalEdgeEffect(canvas);
@@ -1300,10 +1301,11 @@ public class StaticTextView extends View implements NestedScrollingChild {
 
             TypedArray a = getContext().obtainStyledAttributes(
                     new int[]{android.R.attr.textColorHighlight});
-            int highlightColor = a.getColor(a.getIndex(0), Color.parseColor("#1e88e5"));
+            int highlightColor = a.getColor(a.getIndex(0), Color.parseColor("#661e88e5"));
             a.recycle();
 
             mSelectionPathPaint.setColor(highlightColor);
+            mSelectionPathPaint.setStyle(Paint.Style.FILL);
         }
 
         void setSelection(int selection) {
@@ -1404,7 +1406,7 @@ public class StaticTextView extends View implements NestedScrollingChild {
             mSelectionBounds = new RectF();
         }
 
-        private int getLineBottomWithNoSpaceing(int selStart, int selEnd) {
+        private int getLineBottomWithNoSpacing(int selStart, int selEnd) {
             mTextLayout.getSelectionPath(selStart, selEnd, mSelectionPath);
             mSelectionPath.computeBounds(mSelectionBounds, true);
             mSelectionPath.reset();
@@ -1419,9 +1421,9 @@ public class StaticTextView extends View implements NestedScrollingChild {
             float startOffsetX = mTextLayout.getPrimaryHorizontal(selectionStart);
             float startOffsetLineBottom;
             if (selectionStart == 0) {
-                startOffsetLineBottom = getLineBottomWithNoSpaceing(selectionStart, selectionStart + 1);
+                startOffsetLineBottom = getLineBottomWithNoSpacing(selectionStart, selectionStart + 1);
             } else {
-                startOffsetLineBottom = getLineBottomWithNoSpaceing(selectionStart - 1, selectionStart);
+                startOffsetLineBottom = getLineBottomWithNoSpacing(selectionStart - 1, selectionStart);
             }
 
             int x = (int) (mViewLocationOnScreen[0] + getPaddingLeft()
@@ -1442,7 +1444,7 @@ public class StaticTextView extends View implements NestedScrollingChild {
             getLocationOnScreen(mViewLocationOnScreen);
 
             float endOffsetX = mTextLayout.getPrimaryHorizontal(selectionEnd);
-            float endOffsetLineBottom = getLineBottomWithNoSpaceing(selectionEnd - 1, selectionEnd);
+            float endOffsetLineBottom = getLineBottomWithNoSpacing(selectionEnd - 1, selectionEnd);
 
             int x = (int) (mViewLocationOnScreen[0] + getPaddingLeft()
                     + endOffsetX - getScrollX()

@@ -322,18 +322,18 @@ public class AuthorInfoFragment extends Fragment {
             case AuthorPagerAdapter.FRAGMENT_PROFILE: {
                 switch (mAuthorSite) {
                     case NORMAL:
-                        return "http://mypage.syosetu.com/mypage/profile/userid/";
+                        return "https://mypage.syosetu.com/mypage/profile/userid/";
                     case NOCTURNE:
-                        return "http://xmypage.syosetu.com/";
+                        return "https://xmypage.syosetu.com/mypage/profile/xid/";
                 }
             }
 
             case AuthorPagerAdapter.FRAGMENT_WORKS: {
                 switch (mAuthorSite) {
                     case NORMAL:
-                        return "http://mypage.syosetu.com/mypage/novellist/userid/";
+                        return "https://mypage.syosetu.com/mypage/novellist/userid/";
                     case NOCTURNE:
-                        return "http://xmypage.syosetu.com/mypage/novellist/xid/";
+                        return "https://xmypage.syosetu.com/mypage/novellist/xid/";
                 }
             }
         }

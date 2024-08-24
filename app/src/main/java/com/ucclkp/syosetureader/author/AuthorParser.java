@@ -15,6 +15,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 
 class AuthorParser extends HtmlDataPipeline<Object> {
     private int mPortion;
@@ -81,13 +86,7 @@ class AuthorParser extends HtmlDataPipeline<Object> {
     public Object onStartParse(RetrieveHtmlData htmldata) {
         switch (mPortion) {
             case AuthorPagerAdapter.FRAGMENT_PROFILE: {
-                switch (mAuthorSite) {
-                    case NORMAL:
-                        return parseBasePage(htmldata.htmlCode);
-                    case NOCTURNE:
-                        return parseBase18Page(htmldata.htmlCode);
-                }
-
+                return parseBasePage(htmldata.htmlCode);
             }
 
             case AuthorPagerAdapter.FRAGMENT_WORKS: {
@@ -133,60 +132,6 @@ class AuthorParser extends HtmlDataPipeline<Object> {
         data.data = new SpannableStringBuilder();
         data.data.append(Html.fromHtml(
                 profile_src, mImageGetter, null));
-
-        HtmlUtility.removeLB(data.data);
-        String scheme = SyosetuUtility.getAuthorHomeUrl(mAuthorSite);
-        SyosetuUtility.setUrlMovement(scheme, data.data, mUrlCallback);
-
-        return data;
-    }
-
-    private BaseData parseBase18Page(String source) {
-        BaseData data = new BaseData();
-
-        String ctr_src = HtmlUtility.getTagContent(
-                source, "<div\\s+id=\"container\"\\s*>", "div", false);
-        if (ctr_src.isEmpty()) {
-            return data;
-        }
-
-        String contents_src = HtmlUtility.getTagContent(
-                ctr_src, "<div\\s+id=\"contents\"\\s*>", "div", false);
-        if (contents_src.isEmpty()) {
-            return data;
-        }
-
-        String main_src = HtmlUtility.getTagContent(
-                contents_src, "<div\\s+id=\"main\"\\s*>", "div", false);
-        if (main_src.isEmpty()) {
-            return data;
-        }
-
-        String profile_src = HtmlUtility.getTagContent(
-                main_src, "<div\\s+class=\"box_profile\"\\s*>", "div", false);
-        if (profile_src.isEmpty()) {
-            return data;
-        }
-
-        profile_src = HtmlUtility.getTagContent(
-                profile_src, "<table\\s+class=\"profile\"\\s*>", "table", false);
-        if (profile_src.isEmpty()) {
-            return data;
-        }
-
-        data.data = new SpannableStringBuilder();
-
-        ListParser listParser = new ListParser();
-        listParser.set(profile_src, "<tr[\\s\\S]*?>", "tr");
-        while (listParser.find()) {
-            String title_src = listParser.getContent(false);
-            String title = HtmlUtility.getTagContent(
-                    title_src, "<th\\s+class=\"profile_title\"\\s*>", "th", false);
-            String item = HtmlUtility.getTagContent(
-                    title_src, "<td\\s+class=\"profile_item\"\\s*>", "td", false);
-            data.data.append(Html.fromHtml(title)).append(" | ");
-            data.data.append(Html.fromHtml(item)).append("\n");
-        }
 
         HtmlUtility.removeLB(data.data);
         String scheme = SyosetuUtility.getAuthorHomeUrl(mAuthorSite);
@@ -246,36 +191,34 @@ class AuthorParser extends HtmlDataPipeline<Object> {
     private WorkData parseWork18Page(String source) {
         WorkData data = new WorkData();
 
-        String mainSource = HtmlUtility.getTagContent(
-                source, WorkMainToken, "div", false);
-        if (mainSource.isEmpty())
-            return null;
+        try {
+            Document doc = Jsoup.parse(source);
+            Elements pager_elements = doc.select(
+                    "div[class=l-container] > div[class=l-main] > div[class=c-panel] > div[class=c-pager] > a");
+            for (Element pager : pager_elements) {
+                if (!pager.attr("class").equals("c-pager__item")) {
+                    continue;
+                }
 
-        String pageInfo = HtmlUtility.getTagContent(
-                mainSource, WorkPageNumberToken, "div", false);
-        if (!pageInfo.isEmpty()) {
-            Pattern pattern = Pattern.compile(Work18PageNumber);
-            Matcher matcher = pattern.matcher(pageInfo);
-            while (matcher.find()) {
-                int curPage = HtmlUtility.intValue(matcher.group(1).trim(), 0);
-                if (curPage > mCurMaxPageNumber)
-                    mCurMaxPageNumber = curPage;
-            }
-        }
+                String url = pager.attr("href").trim();
 
-        String listSource = HtmlUtility.getTagContent(
-                mainSource, WorkListToken, "div", false);
-        if (!listSource.isEmpty()) {
-            ListParser listParser = new ListParser();
-            listParser.set(listSource, "ul");
-            while (listParser.find()) {
-                String listItemSource = listParser.getContent(false);
-                if (!listItemSource.isEmpty()) {
-                    WorkItem workItem = new WorkItem();
-                    parseWork18ListItem(listItemSource, workItem);
-                    data.itemList.add(workItem);
+                Matcher matcher = Pattern.compile("p=(\\d*)").matcher(url);
+                if (matcher.find()) {
+                    int curPage = HtmlUtility.intValue(matcher.group(1), 0);
+                    if (curPage > mCurMaxPageNumber)
+                        mCurMaxPageNumber = curPage;
                 }
             }
+
+            Elements work_elements = doc.select(
+                    "div[class=l-container] > div[class=l-main] > div[class=c-panel] > div[class=c-panel__body] > div[class=c-novel-list] > div");
+            for (Element work : work_elements) {
+                WorkItem workItem = new WorkItem();
+                parseWorkListItem(work.toString(), workItem);
+                data.itemList.add(workItem);
+            }
+        } catch (Exception e) {
+            return null;
         }
 
         return data;
@@ -379,135 +322,9 @@ class AuthorParser extends HtmlDataPipeline<Object> {
         }
     }
 
-    private void parseWork18ListItem(String source, WorkItem item) {
-        int lastIndex = 0;
-        int position[] = new int[2];
 
-        //title
-        String title = HtmlUtility.getTagContent(
-                source, WorkTitleToken, "li", false);
-        if (!title.isEmpty()) {
-            Matcher matcher = Pattern.compile(UrlToken).matcher(title);
-            if (matcher.find()) {
-                item.novelUrl = matcher.group(1).trim();
-                item.novelTitle = Html.fromHtml(
-                        matcher.group(2).trim()).toString();
-                lastIndex = matcher.end();
-            }
-        }
-
-        //summary
-        String summary = HtmlUtility.getTagContent(
-                source, lastIndex, WorkSummaryToken, "li", false, position);
-        if (!summary.isEmpty()) {
-            item.summary = Html.fromHtml(
-                    summary.trim()).toString();
-            lastIndex = position[1];
-        }
-
-        //extra
-        String extra = HtmlUtility.getTagContent(
-                source, lastIndex, WorkExtraToken, "li", false, position);
-        if (!extra.isEmpty()) {
-            int extraLastIndex = 0;
-            int extraPosition[] = new int[2];
-
-            Matcher matcher = Pattern.compile(WorkGenreToken).matcher(extra);
-            if (matcher.find()) {
-                item.genre = Html.fromHtml(
-                        matcher.group(1).trim()).toString();
-                extraLastIndex = matcher.end();
-            }
-
-            matcher = Pattern.compile(WorkTypeToken).matcher(extra);
-            matcher.region(extraLastIndex, extra.length());
-            if (matcher.find()) {
-                item.type = Html.fromHtml(
-                        matcher.group(1).trim()).toString();
-                extraLastIndex = matcher.end();
-            }
-
-            String info = HtmlUtility.getTagContent(
-                    extra, extraLastIndex, WorkInfoToken, "p", true, extraPosition);
-            if (!info.isEmpty()) {
-                item.type += extra.substring(
-                        extraLastIndex, extraPosition[0]).trim();
-
-                matcher = Pattern.compile(UrlToken).matcher(info);
-                if (matcher.find()) {
-                    item.novelInfoUrl = matcher.group(1).trim();
-                    item.novelInfoTitle = matcher.group(2).trim();
-                }
-            }
-
-            lastIndex = position[1];
-        }
-
-        //keyword
-        String keyword = HtmlUtility.getTagContent(
-                source, lastIndex, WorkKeywordToken, "li", false, position);
-        if (!keyword.isEmpty()) {
-            String[] keywordArray = keyword.split(SyosetuUtility.KeywordSplit);
-            for (int i = 0; i < keywordArray.length; ++i) {
-                if (!TextUtils.isEmpty(keywordArray[i]))
-                    item.keywordList.add(keywordArray[i]);
-            }
-
-            lastIndex = position[1];
-        }
-
-        //attention
-        String attention = HtmlUtility.getTagContent(
-                source, lastIndex, WorkKeywordToken, "li", false, position);
-        if (!attention.isEmpty()) {
-            Matcher matcher = Pattern.compile(WorkAttentionToken).matcher(attention);
-            while (matcher.find())
-                item.attention += matcher.group(1).trim() + "  ";
-            item.attention = item.attention.trim();
-            lastIndex = position[1];
-        }
-
-        //reading time
-        String readingTime = HtmlUtility.getTagContent(
-                source, lastIndex, WorkReadingTimeToken, "li", false, position);
-        if (!readingTime.isEmpty()) {
-            item.readingTime = readingTime;
-            lastIndex = position[1];
-        }
-    }
-
-
-    private final static String BaseMainToken
-            = "<div\\s+id=\"main\"\\s*>";
-
-    private final static String WorkMainToken = BaseMainToken;
-    private final static String WorkPageNumberToken
-            = "<div class=\"pager_idou\">";
     private final static String WorkPageNumber
             = "<a\\s+href=[\\s\\S]*?title=\"\\d*?ページ\"\\s*>(\\d*?)</a>";
-    private final static String Work18PageNumber
-            = "<a\\s+href=[\\s\\S]*?title=\"page\\s+\\d*?\"\\s*>(\\d*?)</a>";
-    private final static String WorkListToken
-            = "<div\\s+id=\"novellist\">";
-
-    private final static String WorkTitleToken
-            = "<li\\s+class=\"title\"\\s*>";
-    private final static String WorkSummaryToken
-            = "<li\\s+class=\"ex\"\\s*>";
-    private final static String WorkExtraToken
-            = "<li\\s+class=\"date1\"\\s*>";
-    private final static String WorkGenreToken
-            = "<span\\s+class=\"genre\"\\s*>(.*?)</span>";
-    private final static String WorkTypeToken
-            = "<span\\s+class=\"type\">(.*?)</span>";
-    private final static String WorkInfoToken
-            = "<p\\s+class=\"info\">";
-    private final static String WorkKeywordToken
-            = "<li\\s+class=\"keyword\"\\s*>";
-    private final static String WorkReadingTimeToken
-            = "<li\\s+class=\"date\">";
-    private final static String WorkAttentionToken
-            = "<span>(.*?)</span>";
 
     private final static String UrlToken
             = "<a[\\s\\S]*?href=\"(.*?)\"[\\s\\S]*?>(.*?)</a>";
