@@ -4,20 +4,20 @@ import android.text.Html;
 import android.text.SpannableStringBuilder;
 
 import com.ucclkp.syosetureader.HtmlDataPipeline;
-import com.ucclkp.syosetureader.HtmlUtility;
 import com.ucclkp.syosetureader.SyosetuImageGetter;
 import com.ucclkp.syosetureader.SyosetuUtility;
-import com.ucclkp.syosetureader.UApplication;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 /**
- * 小说每章页面解析。
+ * 连载小说每节页面解析。
  */
 public class NovelSectionParser extends HtmlDataPipeline<NovelSectionParser.SectionData>
 {
-    private SyosetuImageGetter mImageGetter;
+    private final SyosetuImageGetter mImageGetter;
 
 
     public static class SectionData
@@ -41,91 +41,67 @@ public class NovelSectionParser extends HtmlDataPipeline<NovelSectionParser.Sect
     public SectionData onStartParse(RetrieveHtmlData htmldata)
     {
         SectionData data = new SectionData();
+        data.sectionContent = new SpannableStringBuilder();
+
         String source = htmldata.htmlCode;
+        try {
+            Document doc = Jsoup.parse(source);
+            Elements content_elements = doc.select("div[class=l-container] > main[class=l-main] > article[class=p-novel] > div");
+            for (Element content_ele : content_elements) {
+                // 前进/后退
+                if (content_ele.attr("class").equals("c-pager c-pager--center")) {
+                    for (Element pager_ele : content_ele.children()) {
+                        if (pager_ele.attr("class").equals("c-pager__item c-pager__item--before")) {
+                            data.prevUrl = getFullURL(htmldata, pager_ele.attr("href"));
+                        } else if (pager_ele.attr("class").equals("c-pager__item c-pager__item--next")) {
+                            data.nextUrl = getFullURL(htmldata, pager_ele.attr("href"));
+                        }
+                    }
+                }
 
-        SyosetuUtility.SyosetuSite site;
-        if (htmldata.redirection)
-            site = SyosetuUtility.getSiteFromNovelUrl(htmldata.location);
-        else
-            site = UApplication.syosetuSite;
+                // 页码
+                if (content_ele.attr("class").equals("p-novel__number js-siori")) {
+                    data.number = content_ele.text().trim();
+                }
 
-        String contents = HtmlUtility.getTagContent(
-                source, NovelSectionToken, "div", false);
-        if (!contents.isEmpty())
-        {
-            String navContent = HtmlUtility.getTagContent(
-                    contents, NovelSectionNavToken, "div", false);
-            if (!navContent.isEmpty())
-            {
-                Pattern prevPattern = Pattern.compile(NovelSectionNavPrev);
-                Matcher prevMatcher = prevPattern.matcher(navContent);
-                if (prevMatcher.find())
-                    data.prevUrl = SyosetuUtility.getNovelUrl(site) + prevMatcher.group(1).trim();
+                // 正文
+                if (content_ele.attr("class").equals("p-novel__body")) {
+                    SpannableStringBuilder headSpan = new SpannableStringBuilder();
+                    SpannableStringBuilder normalSpan = new SpannableStringBuilder();
+                    SpannableStringBuilder footSpan = new SpannableStringBuilder();
 
-                Pattern nextPattern = Pattern.compile(NovelSectionNavNext);
-                Matcher nextMatcher = nextPattern.matcher(navContent);
-                if (nextMatcher.find())
-                    data.nextUrl = SyosetuUtility.getNovelUrl(site) + nextMatcher.group(1).trim();
+                    for (Element e : content_ele.children()) {
+                        if (e.attr("class").equals("js-novel-text p-novel__text p-novel__text--preface")) {
+                            // 前言
+                            headSpan.append(Html.fromHtml(e.toString(), Html.FROM_HTML_MODE_LEGACY, mImageGetter, null));
+                            headSpan.append("\n\n").append("==========").append("\n\n");
+                        } else if (e.attr("class").equals("js-novel-text p-novel__text p-novel__text--afterword")) {
+                            // 后记
+                            footSpan.append("\n\n").append("==========").append("\n\n");
+                            footSpan.append(Html.fromHtml(e.toString(), Html.FROM_HTML_MODE_LEGACY, mImageGetter, null));
+                        } else {
+                            // 正文
+                            normalSpan.append(Html.fromHtml(e.toString(), Html.FROM_HTML_MODE_LEGACY, mImageGetter, null));
+                        }
+                    }
+
+                    headSpan.append(normalSpan).append(footSpan);
+
+                    data.sectionContent = headSpan;
+                    data.length = SyosetuUtility.getCharCount(normalSpan.toString());
+                }
             }
 
-            data.number = HtmlUtility.getTagContent(
-                    contents, NovelSectionNumberToken, "div", false).trim();
-            String subtitle = HtmlUtility.getTagContent(
-                    contents, NovelSectionSubtitleToken, "p", false).trim();
-
-            SpannableStringBuilder headSpan = new SpannableStringBuilder("");
-            String headText = HtmlUtility.getTagContent(
-                    contents, NovelHeadTextToken, "div", false);
-            if (!headText.isEmpty())
-            {
-                headSpan.append(Html.fromHtml(headText, mImageGetter, null));
-                headSpan.append("\n\n").append("==========").append("\n\n");
+            // 标题
+            Element title_element = doc.selectFirst("div[class=l-container] > main[class=l-main] > article[class=p-novel] > h1");
+            if (title_element != null) {
+                data.title = Html.fromHtml(title_element.text(), Html.FROM_HTML_MODE_LEGACY).toString();
             }
-
-            SpannableStringBuilder normalSpan = new SpannableStringBuilder("");
-            String normalText = HtmlUtility.getTagContent(
-                    contents, NovelTextToken, "div", false);
-            if (!normalText.isEmpty())
-                normalSpan.append(Html.fromHtml(normalText, mImageGetter, null));
-
-            SpannableStringBuilder footSpan = new SpannableStringBuilder("");
-            String footText = HtmlUtility.getTagContent(
-                    contents, NovelFootTextToken, "div", false);
-            if (!footText.isEmpty())
-            {
-                footSpan.append("\n\n").append("==========").append("\n\n");
-                footSpan.append(Html.fromHtml(footText, mImageGetter, null));
-            }
-
-            headSpan.append(normalSpan).append(footSpan);
-
-            data.length = SyosetuUtility.getCharCount(normalSpan.toString());
-            data.title = Html.fromHtml(subtitle).toString();
-            data.sectionContent = headSpan;
+        } catch (Exception e) {
+            return null;
         }
 
         return data;
     }
 
-
-    private final static String NovelSectionToken
-            = "<div id=\"novel_color\">";
-    private final static String NovelSectionNavToken
-            = "<div class=\"novel_bn\">";
-    private final static String NovelSectionNumberToken
-            = "<div id=\"novel_no\">";
-    private final static String NovelSectionSubtitleToken
-            = "<p\\s+class=\"novel_subtitle\"\\s*>";
-
-    private final static String NovelSectionNavPrev
-            = "<a href=\"(.*?)\">[\\s\\S]*?前へ[\\s\\S]*?</a>";
-    private final static String NovelSectionNavNext
-            = "[\\s\\S]*<a href=\"(.*?)\">[\\s\\S]*?次へ[\\s\\S]*?</a>";
-
-    private final static String NovelHeadTextToken
-            = "<div\\s+id=\"novel_p\"\\s+class=\"novel_view\"\\s*>";
-    private final static String NovelTextToken
-            = "<div\\s+id=\"novel_honbun\"\\s+class=\"novel_view\"\\s*>";
-    private final static String NovelFootTextToken
-            = "<div\\s+id=\"novel_a\"\\s+class=\"novel_view\"\\s*>";
 }

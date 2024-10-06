@@ -352,6 +352,13 @@ public abstract class HtmlDataPipeline<Parsed> {
     }
 
     public static String getFullURL(RetrieveHtmlData data, String rel_url) {
+        if (rel_url.isEmpty()) {
+            return "";
+        }
+        if (rel_url.charAt(0) != '/') {
+            return rel_url;
+        }
+
         String actual_url = data.redirection ? data.location : data.url;
         try {
             URL url = new URL(actual_url);

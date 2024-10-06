@@ -4,15 +4,10 @@ import android.text.Html;
 import android.text.SpannableStringBuilder;
 
 import com.ucclkp.syosetureader.HtmlDataPipeline;
-import com.ucclkp.syosetureader.HtmlUtility;
 import com.ucclkp.syosetureader.SyosetuImageGetter;
 import com.ucclkp.syosetureader.SyosetuUtility;
-import com.ucclkp.syosetureader.UApplication;
 
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -20,11 +15,11 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 /**
- * 小说章节列表页面/短篇页面解析
+ * 小说章节列表页面/短篇页面解析。
  */
 public class NovelParser extends HtmlDataPipeline<NovelParser.NovelData>
 {
-    private SyosetuImageGetter mImageGetter;
+    private final SyosetuImageGetter mImageGetter;
 
 
     public final static int NT_CHAPTER = 0;

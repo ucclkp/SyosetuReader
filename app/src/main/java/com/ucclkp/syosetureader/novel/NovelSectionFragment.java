@@ -47,7 +47,9 @@ import org.json.JSONObject;
 
 import java.util.UUID;
 
-
+/**
+ * 连载小说每节页面。
+ */
 public class NovelSectionFragment extends Fragment
 {
     private String mNumber;

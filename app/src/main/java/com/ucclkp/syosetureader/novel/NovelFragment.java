@@ -67,6 +67,9 @@ import java.util.UUID;
 
 import static android.content.Context.MODE_PRIVATE;
 
+/**
+ * 小说章节列表页面/短篇页面。
+ */
 public class NovelFragment extends Fragment
 {
     //最近阅读的章节。
