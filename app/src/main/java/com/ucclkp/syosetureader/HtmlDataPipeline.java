@@ -150,6 +150,7 @@ public abstract class HtmlDataPipeline<Parsed> {
 
         try {
             contentUrl = new URL(data.url);
+
             connection = (HttpsURLConnection) contentUrl.openConnection();
             connection.setConnectTimeout(10 * 1000);
             connection.setReadTimeout(10 * 1000);
@@ -344,12 +345,21 @@ public abstract class HtmlDataPipeline<Parsed> {
         return resultData;
     }
 
-    private String toHttps(String url) {
+    private static String toHttps(String url) {
         if (url.startsWith("http://"))
             url = url.replace("http://", "https://");
         return url;
     }
 
+    public static String getFullURL(RetrieveHtmlData data, String rel_url) {
+        String actual_url = data.redirection ? data.location : data.url;
+        try {
+            URL url = new URL(actual_url);
+            return url.getProtocol() + "://" + url.getAuthority() + rel_url;
+        } catch (Exception e) {
+            return "";
+        }
+    }
 
     public static class ListParser {
         private String mSource;

@@ -245,4 +245,5 @@ public class HtmlUtility {
         if (index < content.length() - 1)
             content.delete(index + 1, content.length());
     }
+
 }

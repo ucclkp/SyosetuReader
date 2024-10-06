@@ -12,6 +12,9 @@ import com.ucclkp.syosetureader.UApplication;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * 小说每章页面解析。
+ */
 public class NovelSectionParser extends HtmlDataPipeline<NovelSectionParser.SectionData>
 {
     private SyosetuImageGetter mImageGetter;
