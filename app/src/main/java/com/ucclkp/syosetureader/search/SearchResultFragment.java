@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -134,7 +135,10 @@ public class SearchResultFragment extends Fragment
 
         if (!hidden)
         {
-            getActivity().setTitle("検索：" + mSearchKey);
+            FragmentActivity a = getActivity();
+            if (a != null) {
+                a.setTitle("検索：" + mSearchKey);
+            }
         }
     }
 
@@ -190,7 +194,8 @@ public class SearchResultFragment extends Fragment
     };
 
 
-    private SwipeRefreshLayout.OnRefreshListener mRefreshListener = new SwipeRefreshLayout.OnRefreshListener()
+    private final SwipeRefreshLayout.OnRefreshListener mRefreshListener
+            = new SwipeRefreshLayout.OnRefreshListener()
     {
         @Override
         public void onRefresh()

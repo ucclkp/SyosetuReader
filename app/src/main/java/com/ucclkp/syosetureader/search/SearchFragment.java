@@ -295,7 +295,6 @@ public class SearchFragment extends Fragment
         mSearchView.setOnButtonClickListener(mButtonClickListener);
     }
 
-
     public String getSearchUrl(String key)
     {
         String keyEncoded = "";
@@ -376,7 +375,7 @@ public class SearchFragment extends Fragment
     }
 
 
-    private USearchView.OnButtonClickListener mButtonClickListener
+    private final USearchView.OnButtonClickListener mButtonClickListener
             = new USearchView.OnButtonClickListener()
     {
         @Override
@@ -404,7 +403,7 @@ public class SearchFragment extends Fragment
         }
     };
 
-    private KwPanelParser.OnPipelineListener<KwPanelParser.KeywordData> mKwPanelParseListener
+    private final KwPanelParser.OnPipelineListener<KwPanelParser.KeywordData> mKwPanelParseListener
             = new HtmlDataPipeline.OnPipelineListener<KwPanelParser.KeywordData>()
     {
         @Override
@@ -433,7 +432,7 @@ public class SearchFragment extends Fragment
         }
     };
 
-    private KeywordBar.OnItemSelectListener mKwBarItemSelectListener
+    private final KeywordBar.OnItemSelectListener mKwBarItemSelectListener
             = new KeywordBar.OnItemSelectListener()
     {
         @Override
@@ -457,7 +456,7 @@ public class SearchFragment extends Fragment
         }
     };
 
-    private KwPanelListAdapter.OnItemSelectListener mKeywordSelectListener
+    private final KwPanelListAdapter.OnItemSelectListener mKeywordSelectListener
             = new KwPanelListAdapter.OnItemSelectListener()
     {
         @Override

@@ -3,6 +3,8 @@ package com.ucclkp.syosetureader;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.google.android.material.appbar.AppBarLayout;
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private MenuItem mSearchBarMenuItem;
 
     private TextView mHeaderTitleTV;
-    private USearchView mSearchView;
+    private USearchView mSearchView = null;
     private UNormalSearchView mAssistSearchView;
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
@@ -165,6 +167,8 @@ public class MainActivity extends AppCompatActivity {
                 mNavigationView.setCheckedItem(R.id.drawer_read_novel18);
                 break;
         }
+
+        getOnBackPressedDispatcher().addCallback(this, mBackPressedCallback);
     }
 
     @Nullable
@@ -201,12 +205,33 @@ public class MainActivity extends AppCompatActivity {
         mSearchBarMenuItem = menu.findItem(R.id.menu_main_action_search);
         mSearchBarMenuItem.setOnActionExpandListener(mSearchViewExpandListener);
 
+        // 恢复上一次的搜索字符串
+        CharSequence search_str;
+        if (mSearchView != null) {
+            search_str = mSearchView.getText();
+        } else {
+            search_str = "";
+        }
+
         mSearchView = (USearchView) mSearchBarMenuItem.getActionView();
         mSearchView.setOnQueryTextListener(mQueryTextListener);
+        mSearchView.setText(search_str);
 
         SearchFragment searchFragment = (SearchFragment) getSupportFragmentManager()
                 .findFragmentByTag(FRAGMENT_TAGS[FRAGMENT_SEARCH]);
-        searchFragment.setSearchView(mSearchView);
+        if (searchFragment != null) {
+            searchFragment.setSearchView(mSearchView);
+        }
+
+        /*
+         * 从搜索结果后退到搜索界面时，展开搜索框。但这样做有个问题，
+         * 会导致从搜索界面后退到主页面时，搜索按钮变成“三个点”按钮，点击无反应，看起来像是安卓的 bug。
+         * 为了绕过这个问题，修改创建搜索按钮的 xml 文件 menu_main_activity.xml，将 showAsAction 中的
+         * ifRoom 改为 always。这样可能会导致其他问题，但目前没有其他办法。
+         */
+        if (isFragmentVisible(FRAGMENT_TAGS[FRAGMENT_SEARCH])) {
+            mSearchBarMenuItem.expandActionView();
+        }
 
         return true;
     }
@@ -229,59 +254,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        //关闭抽屉
-        if (mDrawerLayout.isDrawerOpen(mNavigationView)) {
-            mDrawerLayout.closeDrawers();
-            return;
-        }
-
-        if (isFragmentVisible(FRAGMENT_TAGS[FRAGMENT_HISTORY])
-                || isFragmentVisible(FRAGMENT_TAGS[FRAGMENT_FAVORITE])
-                || isFragmentVisible(FRAGMENT_TAGS[FRAGMENT_DOWNLOAD])) {
-            while (true) {
-                int count = getSupportFragmentManager()
-                        .getBackStackEntryCount();
-
-                if (count > 0) {
-                    FragmentManager.BackStackEntry entry =
-                            getSupportFragmentManager().getBackStackEntryAt(count - 1);
-                    if (entry.getName() != null
-                            && entry.getName().equals(BACK_STACK_BORING)) {
-                        getSupportFragmentManager().popBackStackImmediate();
-                    } else
-                        break;
-                } else
-                    break;
-            }
-
-            switch (UApplication.syosetuSite) {
-                case NORMAL:
-                    mNavigationView.setCheckedItem(R.id.drawer_read_novel);
-                    break;
-                case NOCTURNE:
-                    mNavigationView.setCheckedItem(R.id.drawer_read_novel18);
-                    break;
-            }
-
-            return;
-        }
-
-        super.onBackPressed();
-
-        int count = getSupportFragmentManager()
-                .getBackStackEntryCount();
-        if (count > 0) {
-            FragmentManager.BackStackEntry entry =
-                    getSupportFragmentManager().getBackStackEntryAt(count - 1);
-            if (entry.getName() != null
-                    && entry.getName().equals(BACK_STACK_SEARCH)) {
-                getSupportFragmentManager().popBackStackImmediate();
-            }
-        }
     }
 
     @Override
@@ -389,54 +361,39 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void processNavSelect() {
-        switch (mNavSelectedId) {
-            case R.id.drawer_read_novel: {
-                selectReadNovel();
-                break;
-            }
-
-            case R.id.drawer_read_novel18: {
-                selectReadNovel18();
-                break;
-            }
-
-            case R.id.drawer_history:
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fl_main_replace_content,
-                                HistoryFragment.newInstance(),
-                                FRAGMENT_TAGS[FRAGMENT_HISTORY])
-                        .hide(getCurFragment())
-                        .addToBackStack(BACK_STACK_BORING)
-                        .commit();
-                break;
-
-            case R.id.drawer_favorite:
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fl_main_replace_content,
-                                FavoriteFragment.newInstance(),
-                                FRAGMENT_TAGS[FRAGMENT_FAVORITE])
-                        .hide(getCurFragment())
-                        .addToBackStack(BACK_STACK_BORING)
-                        .commit();
-                break;
-
-            case R.id.drawer_download:
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fl_main_replace_content,
-                                DownloadFragment.newInstance(),
-                                FRAGMENT_TAGS[FRAGMENT_DOWNLOAD])
-                        .hide(getCurFragment())
-                        .addToBackStack(BACK_STACK_BORING)
-                        .commit();
-                break;
-
-            case R.id.drawer_settings: {
-                Intent intent = new Intent(
-                        MainActivity.this,
-                        SettingsActivity.class);
-                startActivityForResult(intent, REQ_SETTINGS);
-                break;
-            }
+        if (mNavSelectedId == R.id.drawer_read_novel) {
+            selectReadNovel();
+        } else if (mNavSelectedId == R.id.drawer_read_novel18) {
+            selectReadNovel18();
+        } else if (mNavSelectedId == R.id.drawer_history) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fl_main_replace_content,
+                            HistoryFragment.newInstance(),
+                            FRAGMENT_TAGS[FRAGMENT_HISTORY])
+                    .hide(getCurFragment())
+                    .addToBackStack(BACK_STACK_BORING)
+                    .commit();
+        } else if (mNavSelectedId == R.id.drawer_favorite) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fl_main_replace_content,
+                            FavoriteFragment.newInstance(),
+                            FRAGMENT_TAGS[FRAGMENT_FAVORITE])
+                    .hide(getCurFragment())
+                    .addToBackStack(BACK_STACK_BORING)
+                    .commit();
+        } else if (mNavSelectedId == R.id.drawer_download) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fl_main_replace_content,
+                            DownloadFragment.newInstance(),
+                            FRAGMENT_TAGS[FRAGMENT_DOWNLOAD])
+                    .hide(getCurFragment())
+                    .addToBackStack(BACK_STACK_BORING)
+                    .commit();
+        } else if (mNavSelectedId == R.id.drawer_settings) {
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    SettingsActivity.class);
+            startActivityForResult(intent, REQ_SETTINGS);
         }
     }
 
@@ -454,10 +411,82 @@ public class MainActivity extends AppCompatActivity {
             if (fragment != null && fragment.isVisible())
                 return fragment;
         }
-
         return null;
     }
 
+
+    private final OnBackPressedCallback mBackPressedCallback
+             = new OnBackPressedCallback(true)
+    {
+        @Override
+        public void handleOnBackPressed() {
+            // 关闭抽屉
+            if (mDrawerLayout.isDrawerOpen(mNavigationView)) {
+                mDrawerLayout.closeDrawers();
+                return;
+            }
+
+            // 折叠历史记录、收藏以及下载页面
+            if (isFragmentVisible(FRAGMENT_TAGS[FRAGMENT_HISTORY])
+                    || isFragmentVisible(FRAGMENT_TAGS[FRAGMENT_FAVORITE])
+                    || isFragmentVisible(FRAGMENT_TAGS[FRAGMENT_DOWNLOAD])) {
+                while (true) {
+                    int count = getSupportFragmentManager()
+                            .getBackStackEntryCount();
+                    if (count > 0) {
+                        FragmentManager.BackStackEntry entry =
+                                getSupportFragmentManager().getBackStackEntryAt(count - 1);
+                        if (entry.getName() != null
+                                && entry.getName().equals(BACK_STACK_BORING)) {
+                            getSupportFragmentManager().popBackStackImmediate();
+                        } else
+                            break;
+                    } else
+                        break;
+                }
+
+                switch (UApplication.syosetuSite) {
+                    case NORMAL:
+                        mNavigationView.setCheckedItem(R.id.drawer_read_novel);
+                        break;
+                    case NOCTURNE:
+                        mNavigationView.setCheckedItem(R.id.drawer_read_novel18);
+                        break;
+                }
+
+                return;
+            }
+
+            if (isFragmentVisible(FRAGMENT_TAGS[FRAGMENT_SEARCH_RESULT])) {
+                int i;
+                int count = getSupportFragmentManager()
+                        .getBackStackEntryCount();
+                for (i = 0; i < count; ++i) {
+                    FragmentManager.BackStackEntry entry =
+                            getSupportFragmentManager().getBackStackEntryAt(i);
+                    if (entry.getName() != null &&
+                            entry.getName().equals(BACK_STACK_SEARCH))
+                    {
+                        break;
+                    }
+                }
+
+                for (++i; i < count; ++i) {
+                    getSupportFragmentManager().popBackStackImmediate();
+                }
+
+                return;
+            }
+
+            int count = getSupportFragmentManager()
+                    .getBackStackEntryCount();
+            if (count > 0) {
+                getSupportFragmentManager().popBackStack();
+            } else {
+                finish();
+            }
+        }
+    };
 
     private final AgeCertificationDialogFragment.OnAgeCertListener mAgeCertListener
             = new AgeCertificationDialogFragment.OnAgeCertListener() {

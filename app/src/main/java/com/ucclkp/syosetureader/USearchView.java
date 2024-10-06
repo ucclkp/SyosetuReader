@@ -93,7 +93,7 @@ public class USearchView extends LinearLayout implements CollapsibleActionView
 
     public void setText(CharSequence text)
     {
-        if (text == null || text.toString().trim().length() == 0)
+        if (text == null || text.toString().trim().isEmpty())
             return;
 
         mQueryEditText.setText(text);
